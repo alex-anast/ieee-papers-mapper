@@ -6,9 +6,9 @@
 
 ## TODO
 
-[ ] Skeleton and Setup
+[X] Skeleton and Setup
 [ ] Retrieve a research paper from IEEE API, make sure it's still compatible and all
-[ ] Create the idea of the end-goal. Is it a webapp or not?
+[X] Create the idea of the end-goal. Is it a webapp or not?
 [ ] Convert .ipynb files into .py files - Search what is a proper DS pipeline
 
 ## Features
@@ -19,18 +19,24 @@
 - Store data in a PostgreSQL (or SQLite) database
 - Visualize research output using dynamic charts and graphs
 
-## Project Structure
+## Project Structure / Steps
 
+1. Data Collection
+    - IEEE API Integration (`requests`, pagination)
+    - Data Storage (JSON, CSV, SQLite, Data Version Control (DVC))
+    - Data Cleaning (removal, normalization, tokenization)
+    - Preprocessing (matadata)
+2. Text Classification (Keyword classification, LLMs, Embedding (Semantic) Search)
+3. Trend Analysis & Visualization
+4. Deployment & Documentation
+    - Web deployment
+    - `docs/` folder, and `notebooks/` folder for tutorial
 
 ## Getting Started
 
 ### Prerequisites
 
-... requirements.txt file
-
 ### Installation
-
-...
 
 ### Usage
 
@@ -43,4 +49,3 @@
 ## License
 
 ## Contact
-
