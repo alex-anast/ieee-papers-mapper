@@ -4,6 +4,10 @@
 
 **IEEE Papers Mapper** is a tool that sources papers through the IEEE API and visualizes the results. The goal is to quantify and map research trends across various fields using intuitive visualizations.
 
+Use the catch-phrase: Context-Aware-Embeddings !!!
+RAG: have a premade text that will return based on similarity of context-aware embedding (prompt).
+Plus, sentiment analysis with a softfax nn and yes/no result.
+
 ## TODO
 
 [X] Skeleton and Setup
