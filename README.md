@@ -2,11 +2,7 @@
 
 ## Overview
 
-**IEEE Papers Mapper** is a tool that sources papers through the IEEE API and visualizes the results. The goal is to quantify and map research trends across various fields using intuitive visualizations.
-
-Use the catch-phrase: Context-Aware-Embeddings !!!
-RAG: have a premade text that will return based on similarity of context-aware embedding (prompt).
-Plus, sentiment analysis with a softfax nn and yes/no result.
+**IEEE Papers Mapper** is a tool that sources papers through the IEEE API and visualizes the results in a dashboard. The goal is to quantify and map research trends across various fields using intuitive visualizations.
 
 ## TODO
 
@@ -14,16 +10,20 @@ Plus, sentiment analysis with a softfax nn and yes/no result.
 [ ] Retrieve a research paper from IEEE API, make sure it's still compatible and all
 [X] Create the idea of the end-goal. Is it a webapp or not?
 [ ] Convert .ipynb files into .py files - Search what is a proper DS pipeline
+[ ] Classify through context-aware embeddings (encoder-only transformers)
+[ ] Idea RAG: premade texdt that will return based on similarity outcome. Maybe with a softmax and yes/no
 
 ## Features
 
-- Download IEEE papers via API in CSV format
+- Automate data extraction from IEEE Xplore API.
 - Clean and preprocess research data
 - Classify research papers based on keywords or machine learning models
 - Store data in a PostgreSQL (or SQLite) database
 - Visualize research output using dynamic charts and graphs
 
 ## Project Structure / Steps
+
+Outline what this teaches you for future recruiters!
 
 1. Data Collection
     - IEEE API Integration (`requests`, pagination)
