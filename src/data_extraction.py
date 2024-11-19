@@ -107,7 +107,7 @@ def save_to_csv(
     print(f"Data saved to {file_path}")
 
 
-def main():
+def data_extraction():
     """
     Main function to extract data and save it to CSV files for each search query.
     """
@@ -125,4 +125,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    data_extraction()
