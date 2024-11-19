@@ -1,5 +1,6 @@
 import os
 import pytest
+import shutil
 from src.data_extraction import fetch_papers, save_to_csv, CATEGORY_MAP
 
 # Mock environment variables
@@ -23,10 +24,13 @@ mock_articles = [
 
 
 @pytest.fixture
-def setup_tmp_dir(tmp_path):
-    """Setup a temporary directory for testing file output."""
-    os.makedirs(tmp_path, exist_ok=True)
-    return tmp_path
+def setup_tmp_dir():
+    """Setup a temporary directory for testing."""
+    tmp_dir = os.path.join("./bin", "tmp")
+    os.makedirs(tmp_dir, exist_ok=True)
+    yield tmp_dir  # Provide the temporary directory to the test
+    # Teardown: Remove the directory after the test
+    shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
 def test_fetch_papers(monkeypatch):
@@ -53,13 +57,9 @@ def test_save_to_csv(setup_tmp_dir):
     """Test save_to_csv creates the correct file in the custom directory."""
     query = "dc-dc converter OR dc/dc converter"
     timestamp = "20231117_120000"
-    custom_dir = os.path.join(
-        "./bin", "tmp"
-    )  # Use project subdirectory for temporary files
-    os.makedirs(custom_dir, exist_ok=True)
 
-    save_to_csv(mock_articles, query, timestamp, data_dir_path=custom_dir)
+    save_to_csv(mock_articles, query, timestamp, data_dir_path=setup_tmp_dir)
 
     expected_category = CATEGORY_MAP[query]
-    expected_file = os.path.join(custom_dir, f"{expected_category}_{timestamp}.csv")
+    expected_file = os.path.join(setup_tmp_dir, f"{expected_category}_{timestamp}.csv")
     assert os.path.exists(expected_file)
