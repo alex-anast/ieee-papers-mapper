@@ -15,7 +15,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
-from typing import Any, List
+from typing import Any, List, Optional
 
 # Environment variables
 load_dotenv()
@@ -23,7 +23,7 @@ IEEE_API_KEY = os.getenv("IEEE_API_KEY")
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
-DATA_DIR = "./data/raw/"
+DATA_RAW_DIR = "./data/raw/"
 # TODO: Make the quering more intelligent, with placeholders etc. SQL in the background
 QUERIES = [
     "onboard charger OR on-board charger OR integrated charger",
@@ -79,7 +79,9 @@ def fetch_papers(query: str, start_year: str = "2020", max_records: int = 10) ->
     return []
 
 
-def save_to_csv(data: List, query: str, timestamp: Any) -> None:
+def save_to_csv(
+    data: List, query: str, timestamp: Any, data_dir_path: Optional[str] = None
+) -> None:
     """
     Saves the extracted data to a CSV file with a category-based filename.
 
@@ -90,14 +92,17 @@ def save_to_csv(data: List, query: str, timestamp: Any) -> None:
     """
     category = CATEGORY_MAP.get(query, "unknown")
     filename = f"{category}_{timestamp}.csv"
-    file_path = os.path.join(DATA_DIR, filename)
+    if data_dir_path:
+        file_path = os.path.join(data_dir_path, filename)
+    else:
+        file_path = os.path.join(DATA_RAW_DIR, filename)
 
     if not data:
         print(f"No data to save for query: {query}")
         return
 
     df = pd.json_normalize(data)
-    os.makedirs(DATA_DIR, exist_ok=True)
+    os.makedirs(DATA_RAW_DIR, exist_ok=True)
     df.to_csv(file_path, index=False)
     print(f"Data saved to {file_path}")
 
