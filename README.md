@@ -53,3 +53,7 @@ Outline what this teaches you for future recruiters!
 ## License
 
 ## Contact
+
+## Future Ideas
+
+1. Use SQLite instead of .CSV files for data storage.
