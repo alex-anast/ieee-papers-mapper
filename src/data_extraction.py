@@ -3,11 +3,8 @@
 """
 IEEE Papers Data Extraction Script
 ==================================
-This script fetches research papers from the IEEE Xplore API based on specific search queries.
-It saves the extracted data in a CSV format for further analysis.
-
-Make sure to set your IEEE API key in a `.env` file as follows:
-    IEEE_API_KEY=your_api_key_here
+This script fetches research papers from the IEEE Xplore API based on a specific search query.
+The query and optional file name are provided as command-line arguments.
 """
 
 import os
@@ -16,6 +13,7 @@ import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
 from typing import Any, List, Optional
+import argparse
 
 # Environment variables
 load_dotenv()
@@ -23,23 +21,7 @@ IEEE_API_KEY = os.getenv("IEEE_API_KEY")
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
-DATA_RAW_DIR = "./data/raw/"
-# TODO: Make the quering more intelligent, with placeholders etc. SQL in the background
-QUERIES = [
-    "onboard charger OR on-board charger OR integrated charger",
-    "dc-dc converter OR dc/dc converter",
-    "inverter OR dc/ac converter OR dc-ac converter",
-    "gallium nitride",
-    "silicon carbide",
-]
-# For finally naming the file
-CATEGORY_MAP = {
-    QUERIES[0]: "obc",
-    QUERIES[1]: "dcdc",
-    QUERIES[2]: "inverter",
-    QUERIES[3]: "gan",
-    QUERIES[4]: "sic",
-}
+DATA_RAW_DIR = "/home/alex-anast/workspace/ieee-papers-mapper/data/raw/"
 
 
 def fetch_papers(query: str, start_year: str = "2020", max_records: int = 10) -> List:
@@ -79,50 +61,59 @@ def fetch_papers(query: str, start_year: str = "2020", max_records: int = 10) ->
     return []
 
 
-def save_to_csv(
-    data: List, query: str, timestamp: Any, data_dir_path: Optional[str] = None
-) -> None:
+def save_to_csv(data: List, filename: str, data_dir_path: Optional[str] = None) -> None:
     """
-    Saves the extracted data to a CSV file with a category-based filename.
+    Saves the extracted data to a CSV file.
 
     Parameters:
         data (list): The list of articles to save.
-        query (str): The query used to fetch the data.
-        timestamp (str): Timestamp for unique file naming.
+        filename (str): The name of the output CSV file.
+        data_dir_path (str, optional): Directory path to save the file. Defaults to DATA_RAW_DIR.
     """
-    category = CATEGORY_MAP.get(query, "unknown")
-    filename = f"{category}_{timestamp}.csv"
-    if data_dir_path:
-        file_path = os.path.join(data_dir_path, filename)
-    else:
-        file_path = os.path.join(DATA_RAW_DIR, filename)
+    if data_dir_path is None:
+        data_dir_path = DATA_RAW_DIR
+
+    file_path = os.path.join(data_dir_path, filename)
 
     if not data:
-        print(f"No data to save for query: {query}")
+        print(f"No data to save for query. Filename: {filename}")
         return
 
     df = pd.json_normalize(data)
-    os.makedirs(DATA_RAW_DIR, exist_ok=True)
+    os.makedirs(data_dir_path, exist_ok=True)
     df.to_csv(file_path, index=False)
     print(f"Data saved to {file_path}")
 
 
-def data_extraction():
-    """
-    Main function to extract data and save it to CSV files for each search query.
-    """
-    if not IEEE_API_KEY:
-        print("Error: IEEE API key not found. Make sure it's set in the .env file.")
-        return 1
+def fetch_papers_and_store_csv(query: str, csv_filename: Optional[str]=None) -> None:
+    if not csv_filename:
+        csv_filename = query.replace(' ', '_').lower()
 
-    for query in QUERIES:
-        print(f"Fetching data for query: '{query}'")
-        articles = fetch_papers(query)
-        if articles:
-            save_to_csv(
-                articles, query, timestamp=datetime.now().strftime("%Y%m%d_%H%M%S")
-            )
+    papers = fetch_papers(query=query)
+    if papers:
+        save_to_csv(data=papers, filename=csv_filename)
+    else:
+        print(f"TERMINATE: No data fetched for query:\n    {query}")
 
 
 if __name__ == "__main__":
-    data_extraction()
+    parser = argparse.ArgumentParser(
+        description="Extract research papers from IEEE Xplore API."
+    )
+    parser.add_argument(
+        "-q",
+        "--query",
+        required=True,
+        type=str,
+        help="The search query for the data extraction (e.g., 'energy', 'machine learning').",
+    )
+    parser.add_argument(
+        "-f",
+        "--file",
+        type=str,
+        help="Optional: The name of the CSV file to save the results. Defaults to the query name.",
+    )
+    args = parser.parse_args()
+
+    csv_filename = args.file if args.file else None
+    fetch_papers_and_store_csv(args.query, csv_filename)
