@@ -11,7 +11,6 @@ import os
 import requests
 import pandas as pd
 from datetime import datetime
-from dotenv import load_dotenv
 from typing import Any, List, Optional
 import argparse
 import config
@@ -79,8 +78,19 @@ def save_to_csv(data: List, filename: str, data_dir_path: Optional[str] = None) 
 
 
 def fetch_papers_and_store_csv(query: str, csv_filename: Optional[str] = None) -> None:
+    """
+    Fetches papers based on a query and stores them in a CSV file with a timestamped name.
+
+    Parameters:
+        query (str): The search query.
+        csv_filename (str, optional): Custom file name. Defaults to a name based on the query.
+    """
     if not csv_filename:
         csv_filename = query.replace(" ", "_").lower()
+
+    # Put timestamp in filename
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    csv_filename = f"{csv_filename}_{timestamp}.csv"
 
     papers = fetch_papers(query=query)
     if papers:
