@@ -15,7 +15,7 @@ RAW_DATA_DIR = "./data/raw/"
 PROCESSED_DATA_DIR = "./data/processed/"
 
 
-def import_csv(file_path: str, column_selection: List=None) -> pd.DataFrame:
+def import_csv(file_path: str, column_selection: List = None) -> pd.DataFrame:
     df = pd.read_csv(file_path)
     return df[column_selection]
 
@@ -44,8 +44,16 @@ def preprocess_csv(file_path: str, output_dir: str) -> None:
     def create_text_input(row):
         abstract = row["abstract"] if not pd.isna(row["abstract"]) else ""
         title = row["title"] if not pd.isna(row["title"]) else ""
-        author_terms = ", ".join(eval(row["index_terms.author_terms.terms"])) if not pd.isna(row["index_terms.author_terms.terms"]) else ""
-        ieee_terms = ", ".join(eval(row["index_terms.ieee_terms.terms"])) if not pd.isna(row["index_terms.ieee_terms.terms"]) else ""
+        author_terms = (
+            ", ".join(eval(row["index_terms.author_terms.terms"]))
+            if not pd.isna(row["index_terms.author_terms.terms"])
+            else ""
+        )
+        ieee_terms = (
+            ", ".join(eval(row["index_terms.ieee_terms.terms"]))
+            if not pd.isna(row["index_terms.ieee_terms.terms"])
+            else ""
+        )
 
         text_input = f"Title: {title}. Abstract: {abstract}. Keywords: {author_terms}, {ieee_terms}."
         return text_input
@@ -65,15 +73,25 @@ def preprocess_csv(file_path: str, output_dir: str) -> None:
 
 if __name__ == "__main__":
     """
-    TODO: So far we manually preprocess each csv file.
-          All this needs to be scheduled for every new file arrival
+    If this file is specifically executed, it should be directed to a specific
+    `csv` file. To select it, argparse is used.
     """
+
+    import argparse as ag
+
+    parser = ag.ArgumentParser(description="Preprocess IEEE CSV files.")
+    parser.add_argument(
+        "-f", "--file",
+        type=str,
+        required=True,  # Ensure this argument is mandatory
+        help="The name of the raw CSV file to preprocess (e.g. <theme>_<timestamp>.csv)",
+    )
+    args = parser.parse_args()
+
+    if not os.path.exists(args.file):
+        raise FileNotFoundError(f"File '{args.file}' does not exist.")
+
     preprocess_csv(
-        file_path=os.path.join(RAW_DATA_DIR, "obc.csv"),
+        file_path=args.file,
         output_dir=PROCESSED_DATA_DIR,
     )
-
-    # for file_name in os.listdir(RAW_DATA_DIR):
-    #     if file_name.endswith(".csv"):
-    #         file_path = os.path.join(input_dir, file_name)
-    #         preprocess_csv(file_path, PROCESSED_DATA_DIR)

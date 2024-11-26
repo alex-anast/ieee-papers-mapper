@@ -1,1 +1,0 @@
-These are the files downloaded by API from IEEE, unedited
