@@ -14,14 +14,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from typing import Any, List, Optional
 import argparse
-
-# Environment variables
-load_dotenv()
-IEEE_API_KEY = os.getenv("IEEE_API_KEY")
-
-# Constants
-BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
-DATA_RAW_DIR = "/home/alex-anast/workspace/ieee-papers-mapper/data/raw/"
+import config
 
 
 def fetch_papers(query: str, start_year: str = "2020", max_records: int = 10) -> List:
@@ -37,7 +30,7 @@ def fetch_papers(query: str, start_year: str = "2020", max_records: int = 10) ->
         list: A list of articles retrieved from the API.
     """
     params = {
-        "apikey": IEEE_API_KEY,
+        "apikey": config.IEEE_API_KEY,
         "format": "json",
         "content_type": "Journals",
         "start_year": start_year,
@@ -49,13 +42,13 @@ def fetch_papers(query: str, start_year: str = "2020", max_records: int = 10) ->
     }
 
     try:
-        response = requests.get(BASE_URL, params=params)
+        response = requests.get(config.BASE_URL, params=params)
         response.raise_for_status()
         return response.json().get("articles", [])
     except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
     except requests.exceptions.RequestException as req_err:
-        print(f"Error during requests to {BASE_URL}: {req_err}")
+        print(f"Error during requests to {config.BASE_URL}: {req_err}")
     except KeyError:
         print("No articles found in the response.")
     return []
@@ -71,7 +64,7 @@ def save_to_csv(data: List, filename: str, data_dir_path: Optional[str] = None) 
         data_dir_path (str, optional): Directory path to save the file. Defaults to DATA_RAW_DIR.
     """
     if data_dir_path is None:
-        data_dir_path = DATA_RAW_DIR
+        data_dir_path = config.DATA_RAW_DIR
 
     file_path = os.path.join(data_dir_path, filename)
 
@@ -85,9 +78,9 @@ def save_to_csv(data: List, filename: str, data_dir_path: Optional[str] = None) 
     print(f"Data saved to {file_path}")
 
 
-def fetch_papers_and_store_csv(query: str, csv_filename: Optional[str]=None) -> None:
+def fetch_papers_and_store_csv(query: str, csv_filename: Optional[str] = None) -> None:
     if not csv_filename:
-        csv_filename = query.replace(' ', '_').lower()
+        csv_filename = query.replace(" ", "_").lower()
 
     papers = fetch_papers(query=query)
     if papers:

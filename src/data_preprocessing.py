@@ -90,5 +90,5 @@ if __name__ == "__main__":
 
     preprocess_csv(
         file_path=args.file,
-        output_dir=os.path.join(config.BASE_DIR, config.DATA_PROCESSED_DIR),
+        output_dir=os.path.join(config.ROOT_DIR, config.DATA_PROCESSED_DIR),
     )

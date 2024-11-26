@@ -36,22 +36,24 @@ def main():
     #     raise FileNotFoundError(f"File '{args.file}' does not exist.")
 
     # Store paths of directories
-    fn_path_raw = os.path.join(config.BASE_DIR, config.DATA_RAW_DIR)
-    fn_path_preprocessed = os.path.join(config.BASE_DIR, config.DATA_PROCESSED_DIR)
+    fn_path_raw = os.path.join(config.ROOT_DIR, config.DATA_RAW_DIR)
+    fn_path_preprocessed = os.path.join(config.ROOT_DIR, config.DATA_PROCESSED_DIR)
 
     # Get list of files in each directory
     ls_raw = os.listdir(fn_path_raw)
     ls_preprocessed = os.listdir(fn_path_preprocessed)
 
     print(ls_raw, type(ls_raw))  # List of files in raw directory
-    print(ls_preprocessed, type(ls_preprocessed))  # List of files in preprocessed directory
+    print(
+        ls_preprocessed, type(ls_preprocessed)
+    )  # List of files in preprocessed directory
 
     # If a file exists in raw but not in preprocessed, preprocess it
     for filename in ls_raw:
         if filename not in ls_preprocessed:
             preprocess_csv(
                 file_path=os.path.join(fn_path_raw, filename),
-                output_dir=fn_path_preprocessed
+                output_dir=fn_path_preprocessed,
             )
 
     # - Schedule preprocessing for new arrivals.
