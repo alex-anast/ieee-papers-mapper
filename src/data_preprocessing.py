@@ -7,12 +7,8 @@
 
 import os
 import pandas as pd
+import config
 from typing import List
-
-
-# Directory paths
-RAW_DATA_DIR = "./data/raw/"
-PROCESSED_DATA_DIR = "./data/processed/"
 
 
 def import_csv(file_path: str, column_selection: List = None) -> pd.DataFrame:
@@ -81,7 +77,8 @@ if __name__ == "__main__":
 
     parser = ag.ArgumentParser(description="Preprocess IEEE CSV files.")
     parser.add_argument(
-        "-f", "--file",
+        "-f",
+        "--file",
         type=str,
         required=True,  # Ensure this argument is mandatory
         help="The name of the raw CSV file to preprocess (e.g. <theme>_<timestamp>.csv)",
@@ -93,5 +90,5 @@ if __name__ == "__main__":
 
     preprocess_csv(
         file_path=args.file,
-        output_dir=PROCESSED_DATA_DIR,
+        output_dir=os.path.join(config.BASE_DIR, config.DATA_PROCESSED_DIR),
     )
