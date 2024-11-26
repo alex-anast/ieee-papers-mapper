@@ -5,11 +5,13 @@
 
 import os
 import pandas as pd
-from transformers import AutoTokenizer, AutoConfig, AutoModelForSequenceClassification, pipeline
-
-# Directory paths
-PROCESSED_DATA_DIR = "./data/processed/"
-CLASSIFIED_DATA_DIR = "./data/classified/"
+import config
+from transformers import (
+    AutoTokenizer,
+    AutoConfig,
+    AutoModelForSequenceClassification,
+    pipeline,
+)
 
 # Categories and labels
 # This goes into the query. For that reason, treat it like one.
@@ -17,18 +19,18 @@ CLASSIFIED_DATA_DIR = "./data/classified/"
 # TODO: Change the `None of the above` to an intelligent query,
 #           after experimentation it is shown that it is needed.
 CATEGORIES = [
-    "DC-DC converters",
-    "Inverters",
-    "On-board chargers",
-    "Gallium Nitride transistors",
-    "Silicon Carbide transistors",
-    "None of the above",  # Default category
+    "energy",
+    "computer science",
+    "other category",
+    # "DC-DC converters",
+    # "Inverters",
+    # "On-board chargers",
+    # "Gallium Nitride transistors",
+    # "Silicon Carbide transistors",
+    # "None of the above",  # Default category
 ]
 
-# deBERTa-v3 models
-MODEL_NAME = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"
-
-classifier = pipeline("zero-shot-classification", model=MODEL_NAME)
+classifier = pipeline("zero-shot-classification", model=config.DEBERTA_V3_MODEL_NAME)
 
 def classify_text(text):
     """
@@ -46,6 +48,7 @@ def classify_text(text):
     best_category = results["labels"][best_index]
     best_score = results["scores"][best_index]
     return best_category, best_score
+
 
 def classify_papers(input_file: str, output_dir: str) -> None:
     """
@@ -67,8 +70,30 @@ def classify_papers(input_file: str, output_dir: str) -> None:
     df.to_csv(output_file, index=False)
     print(f"Classified data saved to: {output_file}")
 
+
 if __name__ == "__main__":
+    """
+    Classifies preprocessed IEEE paper data and saves results in a specified directory.
+    """
+
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Classify IEEE preprocessed paper data.")
+    parser.add_argument(
+        "-i", "--input_file",
+        type=str,
+        required=True,
+        help="The full path to the preprocessed input CSV file.",
+    )
+    parser.add_argument(
+        "-o", "--output_dir",
+        type=str,
+        default=os.path.join(config.ROOT_DIR, config.DATA_CLASSIFIED_DIR),
+        help="The directory to save the classified output. Default is './data/classified/'.",
+    )
+    args = parser.parse_args()
+
     classify_papers(
-        input_file=os.path.join(PROCESSED_DATA_DIR, "obc.csv"),
-        output_dir=CLASSIFIED_DATA_DIR,
+        input_file=args.input_file,
+        output_dir=args.output_dir,
     )
