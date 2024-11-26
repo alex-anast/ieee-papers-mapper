@@ -11,21 +11,24 @@ Steps:
 """
 
 import os
-from data_extraction import fetch_papers_and_store_csv
+import pandas as pd
+from get_papers import get_papers
 from data_preprocessing import preprocess_csv
-import classification
-import database
+from classification import classify_papers
+from database import Database
 import webapp
 import config
 
 
 def main():
-    # Step 1: Extract Data
-    # - Use the `data_extraction` module to fetch raw papers from the IEEE API.
-    print("Step 1: Fetching data...")
-    # fetch_papers_and_store_csv(query="machine learning")
+    # Initialize database
+    db = Database(name="ieee_papers")
+    if not db.exists:
+        db.initialize()
 
-    # - Ensure API limits are respected using a scheduler.
+    print("Step 1: Fetching data...")
+    df_raw = pd.DataFrame()
+    df_raw = get_papers(query="machine learning")
 
     # Step 2: Preprocess Raw Data
     # - Convert raw CSVs into a structured format for classification.
@@ -43,12 +46,7 @@ def main():
     ls_raw = os.listdir(fn_path_raw)
     ls_preprocessed = os.listdir(fn_path_preprocessed)
 
-    print(ls_raw, type(ls_raw))  # List of files in raw directory
-    print(
-        ls_preprocessed, type(ls_preprocessed)
-    )  # List of files in preprocessed directory
-
-    # If a file exists in raw but not in preprocessed, preprocess it
+    # If a file exists in raw but not in processed, preprocess it
     for filename in ls_raw:
         if filename not in ls_preprocessed:
             preprocess_csv(
@@ -61,8 +59,17 @@ def main():
     # Step 3: Classify Papers
     # - Use a pre-trained zero-shot transformer to classify papers.
     print("Step 3: Classifying papers...")
-    print("Step 3: Not implemented yet.")
-    # classify_all_files(input_dir="./data/processed/", output_dir="./data/classified/")
+
+    fn_path_classified = os.path.join(config.ROOT_DIR, config.DATA_CLASSIFIED_DIR)
+    ls_classified = os.listdir(fn_path_classified)
+
+    # If a file exists in processed but not in classified, classify it
+    for filename in ls_preprocessed:
+        if filename not in ls_classified:
+            classify_papers(
+                file_path=os.path.join(fn_path_raw, filename),
+                output_dir=fn_path_preprocessed,
+            )
 
     # Step 4: Store Classified Data in SQLite
     # - Insert the classified data into an SQLite database for querying and visualization.
