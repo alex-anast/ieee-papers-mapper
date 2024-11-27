@@ -22,9 +22,12 @@ import config
 
 def main():
     # Initialize database
-    # db = Database(name="ieee_papers", filepath=os.path.join(ROOT_DIR, DATA_DIR))
-    # if not db.exists:
-    #     db.initialize()
+    db = Database(
+        name="ieee_papers",
+        filepath=os.path.join(config.ROOT_DIR, config.DATA_DIR),
+    )
+    if not db.exists:
+        db.initialize()
 
     print("Step 1: Fetching data...")
     # df_raw = pd.DataFrame()
@@ -37,10 +40,10 @@ def main():
     # For debugging
     df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
 
-    print("Step 2: Preprocessing data...")
-    # TODO: Needs debugging on "authors" for sure and in general to see the output of the dataframe
-    #       Maybe a jupyter notebook would help a lot here!
+    print("Step 2: Processing data...")
     df_processed = process_papers(df_raw)
+
+    print("Step 3: Storing data in SQLite database")
 
     # - Schedule preprocessing for new arrivals.
 
