@@ -51,8 +51,10 @@ def get_papers(query: str, start_year: str, max_records: int) -> Optional[pd.Dat
             logger.info(f"TERMINATE: No data fetched for query:\n    {query}")
             return None
 
-        # Papers have been successfully retrieved. Put them in a DF and return
-        # TODO
+        # Convert the list of articles to a DataFrame
+        df = pd.json_normalize(papers)
+        logger.info(f"Successfully fetched {len(df)} articles for query: {query}")
+        return df
 
     except requests.exceptions.HTTPError as http_err:
         logger.warning(f"HTTP error occurred: {http_err}")
