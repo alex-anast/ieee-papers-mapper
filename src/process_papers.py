@@ -51,9 +51,7 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
     df_processed = df_raw[keep_columns].copy()
 
     # Transform date columns
-    df_processed["insert_date"] = pd.to_datetime(
-        df_processed["insert_date"]
-    ).dt.strftime("%Y%m%d")
+    df_processed["insert_date"] = pd.to_datetime(df_processed["insert_date"].astype(str), format='%Y%m%d')
     df_processed["publication_year"] = df_processed["publication_year"].astype(str)
 
     # Transform index_terms columns
