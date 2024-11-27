@@ -41,9 +41,7 @@ def main():
     # )
 
     # For debugging
-    df_raw = pd.read_csv(
-        "/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv"
-    )
+    df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
 
     logger.info("Step 2: Processing data...")
     df_processed = process_papers(df_raw)
@@ -53,11 +51,11 @@ def main():
         try:
             db.insert_full_paper(row)
         except Exception as e:
-            logger.error(
-                f"Error inserting paper with is_number {row['is_number']}: {e}"
-            )
+            logger.error(f"Error inserting paper with is_number {row['is_number']}: {e}")
 
     logger.info("Step 3: Classifying papers...")
+
+
     logger.info("Step 4: Launching web app...")
 
 
