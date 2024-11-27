@@ -33,9 +33,13 @@ def main():
     #     start_year=2000,
     #     max_records=10,
     # )
+
+    # For debugging
     df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
 
     print("Step 2: Preprocessing data...")
+    # TODO: Needs debugging on "authors" for sure and in general to see the output of the dataframe
+    #       Maybe a jupyter notebook would help a lot here!
     df_processed = process_papers(df_raw)
 
     # - Schedule preprocessing for new arrivals.
