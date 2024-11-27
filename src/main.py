@@ -12,13 +12,12 @@ Steps:
 
 import os
 import pandas as pd
+import logging
+import config
 from get_papers import get_papers
 from process_papers import process_papers
-from classification import classify_papers
+from classify_papers import classify_all_papers
 from database import Database
-import webapp
-import config
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +40,9 @@ def main():
     # )
 
     # For debugging
-    df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
+    df_raw = pd.read_csv(
+        "/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv"
+    )
 
     logger.info("Step 2: Processing data...")
     df_processed = process_papers(df_raw)
@@ -51,12 +52,35 @@ def main():
         try:
             db.insert_full_paper(row)
         except Exception as e:
-            logger.error(f"Error inserting paper with is_number {row['is_number']}: {e}")
+            logger.error(
+                f"Error inserting paper with is_number {row['is_number']}: {e}"
+            )
 
     logger.info("Step 3: Classifying papers...")
+    df_unclassified = pd.read_sql_query(
+        sql="""
+            SELECT p.paper_id, pr.prompt_text
+            FROM papers p
+            JOIN prompts pr ON p.paper_id = pr.paper_id
+            WHERE NOT EXISTS (
+                SELECT 1 FROM classification c WHERE c.paper_id = p.paper_id
+            )
+        """
+    )
 
+    if df_unclassified.empty:
+        logger.info("No unclassified papers found")
+    else:
+        df_classified = classify_all_papers(df_unclassified)
+        del df_unclassified
+        df_classified.to_sql(
+            "classification", db.connection, if_exists="append", index=False
+        )
+        logger.info(f"Classified and stored {len(df_classified)} papers.")
 
     logger.info("Step 4: Launching web app...")
+
+    # db.close()
 
 
 if __name__ == "__main__":
