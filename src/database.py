@@ -37,39 +37,65 @@ class Database:
         """
         Initialize the database by creating required tables.
         """
-        if self.exists:
+        if self.exists():
             logger.error(f"Database '{self.db_name}' already exists.")
-            raise AssertionError
+            raise AssertionError(f"Database '{self.db_name}' already exists.")
 
         self.connection = sqlite3.connect(self.db_name)
         cursor = self.connection.cursor()
 
-        # Create tables
+        # Create the main Papers table
         cursor.execute(
             """
-            CREATE TABLE IF NOT EXISTS raw_papers (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT,
-                abstract TEXT,
+            CREATE TABLE IF NOT EXISTS papers (
+                paper_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                is_number TEXT,
+                insert_date DATE,
                 publication_year INTEGER,
-                raw_data TEXT,
-                processed BOOLEAN DEFAULT FALSE,
-                classified BOOLEAN DEFAULT FALSE
+                download_count INTEGER,
+                citing_patent_count INTEGER,
+                title TEXT,
+                abstract TEXT
             )
-        """
+            """
         )
 
+        # Create the Authors table
         cursor.execute(
             """
-            CREATE TABLE IF NOT EXISTS classified_papers (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                raw_paper_id INTEGER,
-                category TEXT,
-                confidence REAL,
-                processed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY(raw_paper_id) REFERENCES raw_papers(id)
+            CREATE TABLE IF NOT EXISTS authors (
+                author_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                paper_id INTEGER,
+                name TEXT,
+                affiliation TEXT,
+                FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
             )
-        """
+            """
+        )
+
+        # Create the Index Terms table
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS index_terms (
+                index_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                paper_id INTEGER,
+                term_type TEXT,
+                term TEXT,
+                FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
+            )
+            """
+        )
+
+        # Create the Prompts table
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS prompts (
+                prompt_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                paper_id INTEGER,
+                prompt_text TEXT,
+                FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
+            )
+            """
         )
 
         self.connection.commit()
@@ -97,9 +123,14 @@ class Database:
             df (pd.DataFrame): The DataFrame to insert.
             table_name (str): The target table name.
         """
-        self.connect() if self.is_connected is False else None
-        df.to_sql(table_name, self.connection, if_exists="append", index=False)
-        logger.info(f"Data pushed to table '{table_name}' successfully.")
+        self.connect()
+        try:
+            df.to_sql(table_name, self.connection, if_exists="append", index=False)
+            logger.info(f"Data successfully inserted into '{table_name}'.")
+        except Exception as e:
+            logger.error(f"Failed to insert data into '{table_name}': {e}")
+        finally:
+            self.close()
 
     def query(self, query: str) -> pd.DataFrame:
         """
