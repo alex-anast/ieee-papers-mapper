@@ -18,6 +18,9 @@ from classification import classify_papers
 from database import Database
 import webapp
 import config
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def main():
@@ -29,7 +32,7 @@ def main():
     if not db.exists:
         db.initialize()
 
-    print("Step 1: Fetching data...")
+    logger.info("Step 1: Fetching data...")
     # df_raw = pd.DataFrame()
     # df_raw = get_papers(  # TODO: Remove hardcoded constants
     #     query="machine learning",
@@ -38,18 +41,24 @@ def main():
     # )
 
     # For debugging
-    df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
+    df_raw = pd.read_csv(
+        "/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv"
+    )
 
-    print("Step 2: Processing data...")
+    logger.info("Step 2: Processing data...")
     df_processed = process_papers(df_raw)
 
-    print("Step 3: Storing data in SQLite database")
+    logger.info("Step 3: Storing data in SQLite database")
+    for _, row in df_processed.iterrows():
+        try:
+            db.insert_full_paper(row)
+        except Exception as e:
+            logger.error(
+                f"Error inserting paper with is_number {row['is_number']}: {e}"
+            )
 
-    # - Schedule preprocessing for new arrivals.
-
-    print("Step 3: Classifying papers...")
-    print("Step 4: Storing data in SQLite database...")
-    print("Step 5: Launching web app...")
+    logger.info("Step 3: Classifying papers...")
+    logger.info("Step 4: Launching web app...")
 
 
 if __name__ == "__main__":
