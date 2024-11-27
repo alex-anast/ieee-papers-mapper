@@ -8,15 +8,20 @@ import pandas as pd
 import os
 import config
 import logging
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
 
 class Database:
-    def __init__(self, name: str):
-        self.db_name = f"{name}.db"
+    def __init__(self, name: str, filepath: Optional[str]=None):
+        if filepath is None:
+            self.db_name = f"{name}.db"
+        else:
+            self.db_name = os.path.join(filepath, f"{name}.db")
         self.connection = None
 
+    @property
     def exists(self) -> bool:
         """
         Check if the database exists.
@@ -32,7 +37,7 @@ class Database:
         """
         Initialize the database by creating required tables.
         """
-        if self.check():
+        if self.exists:
             logger.error(f"Database '{self.db_name}' already exists.")
             raise AssertionError
 
