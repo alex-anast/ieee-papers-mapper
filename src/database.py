@@ -184,15 +184,18 @@ class Database:
                             citing_patent_count, title, abstract)
         VALUES (?, ?, ?, ?, ?, ?, ?)
         """
-        self.cursor.execute(query, (
-            paper_data['is_number'],
-            paper_data['insert_date'],
-            paper_data['publication_year'],
-            paper_data['download_count'],
-            paper_data['citing_patent_count'],
-            paper_data['title'],
-            paper_data['abstract'],
-        ))
+        self.cursor.execute(
+            query,
+            (
+                paper_data["is_number"],
+                paper_data["insert_date"],
+                paper_data["publication_year"],
+                paper_data["download_count"],
+                paper_data["citing_patent_count"],
+                paper_data["title"],
+                paper_data["abstract"],
+            ),
+        )
         self.connection.commit()
         return self.cursor.lastrowid
 
@@ -209,7 +212,10 @@ class Database:
         VALUES (?, ?, ?)
         """
         for author in authors:
-            self.cursor.execute(query, (paper_id, author['author_full_name'], author['author_affiliation']))
+            self.cursor.execute(
+                query,
+                (paper_id, author["author_full_name"], author["author_affiliation"]),
+            )
         self.connection.commit()
 
     def insert_index_terms(self, paper_id: int, term_type: str, terms: list):
@@ -248,25 +254,38 @@ class Database:
         Parameters:
             row (pd.Series): A row from the processed DataFrame.
         """
-        if self.paper_exists(row['is_number']):
+        if self.paper_exists(row["is_number"]):
             print(f"Paper with is_number {row['is_number']} already exists. Skipping.")
             return
 
         # Insert main paper metadata
-        paper_data = row[['is_number', 'insert_date', 'publication_year', 'download_count',
-                          'citing_patent_count', 'title', 'abstract']].to_dict()
+        paper_data = row[
+            [
+                "is_number",
+                "insert_date",
+                "publication_year",
+                "download_count",
+                "citing_patent_count",
+                "title",
+                "abstract",
+            ]
+        ].to_dict()
         paper_id = self.insert_paper(paper_data)
 
         # Insert authors
-        authors = row['authors']
+        authors = row["authors"]
         self.insert_authors(paper_id, authors)
 
         # Insert index terms
-        index_terms_types = ['author', 'ieee', 'dynamic']
-        index_terms_columns = ['index_terms_author', 'index_terms_ieee', 'index_terms_dynamic']
+        index_terms_types = ["author", "ieee", "dynamic"]
+        index_terms_columns = [
+            "index_terms_author",
+            "index_terms_ieee",
+            "index_terms_dynamic",
+        ]
         for term_type, terms_column in zip(index_terms_types, index_terms_columns):
             terms = row[terms_column]
             self.insert_index_terms(paper_id, term_type, terms)
 
         # Insert prompt
-        self.insert_prompt(paper_id, row['prompt'])
+        self.insert_prompt(paper_id, row["prompt"])
