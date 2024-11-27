@@ -13,7 +13,7 @@ Steps:
 import os
 import pandas as pd
 from get_papers import get_papers
-from data_preprocessing import preprocess_csv
+from process_papers import process_papers
 from classification import classify_papers
 from database import Database
 import webapp
@@ -27,48 +27,22 @@ def main():
     #     db.initialize()
 
     print("Step 1: Fetching data...")
-    df_raw = pd.DataFrame()
-    df_raw = get_papers(  # TODO: Remove hardcoded constants
-        query="machine learning",
-        start_year=2000,
-        max_records=10,
-    )
+    # df_raw = pd.DataFrame()
+    # df_raw = get_papers(  # TODO: Remove hardcoded constants
+    #     query="machine learning",
+    #     start_year=2000,
+    #     max_records=10,
+    # )
+    df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
 
     print("Step 2: Preprocessing data...")
-    preprocess_papers(
-        file_path=os.path.join(fn_path_raw, filename),
-        output_dir=fn_path_preprocessed,
-    )
-
+    df_processed = process_papers(df_raw)
 
     # - Schedule preprocessing for new arrivals.
 
-    # Step 3: Classify Papers
-    # - Use a pre-trained zero-shot transformer to classify papers.
     print("Step 3: Classifying papers...")
-
-    fn_path_classified = os.path.join(config.ROOT_DIR, config.DATA_CLASSIFIED_DIR)
-    ls_classified = os.listdir(fn_path_classified)
-
-    # If a file exists in processed but not in classified, classify it
-    for filename in ls_preprocessed:
-        if filename not in ls_classified:
-            classify_papers(
-                file_path=os.path.join(fn_path_raw, filename),
-                output_dir=fn_path_preprocessed,
-            )
-
-    # Step 4: Store Classified Data in SQLite
-    # - Insert the classified data into an SQLite database for querying and visualization.
     print("Step 4: Storing data in SQLite database...")
-    print("Step 4: Not implemented yet.")
-    # store_in_database(data_dir="./data/classified/")
-
-    # Step 5: Serve and Visualize Data (Optional)
-    # - Launch a web app to provide insights into the database.
     print("Step 5: Launching web app...")
-    print("Step 5: Not implemented yet.")
-    # launch_webapp()
 
 
 if __name__ == "__main__":
