@@ -26,6 +26,7 @@ IEEE_API_KEY = os.getenv("IEEE_API_KEY")
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
+CATEGORIES = ["energy", "computer science", "machine learning", "other category"]
 
 # Models
 DEBERTA_V3_MODEL_NAME = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"

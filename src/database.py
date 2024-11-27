@@ -54,7 +54,9 @@ class Database:
             # Database file exists, check for missing tables
             existing_tables = self.get_existing_tables()
             missing_tables = set(self.expected_tables) - set(existing_tables)
-            logger.info(f"Database file exists, creating missing tables: {missing_tables}")
+            logger.info(
+                f"Database file exists, creating missing tables: {missing_tables}"
+            )
             if missing_tables:
                 self.create_tables(missing_tables)
 
@@ -125,6 +127,18 @@ class Database:
                         FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
                     )
                 """
+                )
+            elif table == "classification":
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS classification (
+                        classification_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        paper_id INTEGER,
+                        category TEXT,
+                        confidence REAL,
+                        FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
+                    )
+                    """
                 )
 
         if conn:
