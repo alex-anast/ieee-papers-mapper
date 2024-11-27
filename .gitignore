@@ -2,7 +2,7 @@
 data
 bin/tmp
 .vscode
-
+src/demo.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
