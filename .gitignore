@@ -1,6 +1,7 @@
 # My Files
 data
 bin/tmp
+.vscode
 
 
 # Byte-compiled / optimized / DLL files
