@@ -23,44 +23,40 @@ conn.close()
 app = dash.Dash(__name__)
 
 # Layout for the dashboard
-app.layout = html.Div(children=[
-    html.H1(children="IEEE Papers Classification Dashboard"),
-    
-    html.Div(children="A dashboard to visualize classified papers."),
-
-    dcc.Graph(
-        id='classification-bar-chart',
-        figure=px.bar(
-            df,
-            x="category",
-            y="confidence",
-            color="category",
-            title="Confidence Scores by Category",
-            labels={"confidence": "Confidence Score", "category": "Category"},
-        )
-    ),
-
-    dcc.Graph(
-        id='paper-count-pie-chart',
-        figure=px.pie(
-            df,
-            names="category",
-            title="Distribution of Papers by Category"
-        )
-    ),
-
-    dcc.Graph(
-        id='confidence-histogram',
-        figure=px.histogram(
-            df,
-            x="confidence",
-            color="category",
-            title="Confidence Score Distribution",
-            nbins=20
-        )
-    )
-])
+app.layout = html.Div(
+    children=[
+        html.H1(children="IEEE Papers Classification Dashboard"),
+        html.Div(children="A dashboard to visualize classified papers."),
+        dcc.Graph(
+            id="classification-bar-chart",
+            figure=px.bar(
+                df,
+                x="category",
+                y="confidence",
+                color="category",
+                title="Confidence Scores by Category",
+                labels={"confidence": "Confidence Score", "category": "Category"},
+            ),
+        ),
+        dcc.Graph(
+            id="paper-count-pie-chart",
+            figure=px.pie(
+                df, names="category", title="Distribution of Papers by Category"
+            ),
+        ),
+        dcc.Graph(
+            id="confidence-histogram",
+            figure=px.histogram(
+                df,
+                x="confidence",
+                color="category",
+                title="Confidence Score Distribution",
+                nbins=20,
+            ),
+        ),
+    ]
+)
 
 # Run the Dash app
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run_server(debug=True)
