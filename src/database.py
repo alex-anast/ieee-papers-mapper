@@ -21,7 +21,7 @@ class Database:
             self.db_name = os.path.join(filepath, f"{name}.db")
         self.connection = sqlite3.connect(self.db_name)
         self.cursor = self.connection.cursor()
-        self.expected_tables = ["papers", "authors", "index_terms", "prompts"]
+        self.expected_tables = config.DB_TABLES
 
     @property
     def file_exists(self) -> bool:

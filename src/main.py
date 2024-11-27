@@ -28,8 +28,7 @@ def main():
         name="ieee_papers",
         filepath=os.path.join(config.ROOT_DIR, config.DATA_DIR),
     )
-    if not db.exists:
-        db.initialize()
+    db.initialize()
 
     logger.info("Step 1: Fetching data...")
     # df_raw = pd.DataFrame()
@@ -65,7 +64,8 @@ def main():
             WHERE NOT EXISTS (
                 SELECT 1 FROM classification c WHERE c.paper_id = p.paper_id
             )
-        """
+        """,
+        con=db.connection,
     )
 
     if df_unclassified.empty:
