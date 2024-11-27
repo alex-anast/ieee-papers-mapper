@@ -11,12 +11,7 @@ import config
 from typing import List
 
 
-def import_csv(file_path: str, column_selection: List = None) -> pd.DataFrame:
-    df = pd.read_csv(file_path)
-    return df[column_selection]
-
-
-def preprocess_csv(file_path: str, output_dir: str) -> None:
+def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
     """
     Preprocess a single CSV file to retain relevant information for classification.
 
@@ -28,13 +23,19 @@ def preprocess_csv(file_path: str, output_dir: str) -> None:
         output_dir (str): Directory where the processed file will be saved.
     """
     keep_columns = [
-        "abstract",
-        "title",
-        "publication_year",
+        "title",  # Shortest summary available
+        "is_number",
+        "abstract",  # Longest summary available
+        "insert_date",
+        "publication_date",
+        "download_count",  # For popularity measures
+        "citing_patent_count",
         "index_terms.author_terms.terms",
         "index_terms.ieee_terms.terms",
+        "index_terms.dynamic_index_terms.terms",
+        "authos.authors"
     ]
-    df = import_csv(file_path, keep_columns)
+    # TODO
 
     # Combine fields into a single text input for the classifier
     def create_text_input(row):
