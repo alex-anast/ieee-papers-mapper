@@ -21,9 +21,10 @@ class Database:
             self.db_name = os.path.join(filepath, f"{name}.db")
         self.connection = sqlite3.connect(self.db_name)
         self.cursor = self.connection.cursor()
+        self.expected_tables = ["papers", "authors", "index_terms", "prompts"]
 
     @property
-    def exists(self) -> bool:
+    def file_exists(self) -> bool:
         """
         Check if the database exists.
 
@@ -34,73 +35,102 @@ class Database:
             os.path.join(config.ROOT_DIR, config.DATA_DIR, self.db_name)
         )
 
-    def initialize(self) -> None:
-        """
-        Initialize the database by creating required tables.
-        """
-        if self.exists:
-            logger.error(f"Database '{self.db_name}' already exists.")
-            raise AssertionError(f"Database '{self.db_name}' already exists.")
+    def get_existing_tables(self):
+        if not self.file_exists:
+            return []
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        existing_tables = [row[0] for row in cursor.fetchall()]
+        conn.close()
+        return existing_tables
 
-        self.connection = sqlite3.connect(self.db_name)
-        cursor = self.connection.cursor()
+    def initialize(self):
+        if not self.file_exists:
+            # Create new database file and all tables
+            logger.info("Database file doesn't exist, creating from scratch...")
+            self.create_all_tables()
+        else:
+            # Database file exists, check for missing tables
+            existing_tables = self.get_existing_tables()
+            missing_tables = set(self.expected_tables) - set(existing_tables)
+            logger.info(f"Database file exists, creating missing tables: {missing_tables}")
+            if missing_tables:
+                self.create_tables(missing_tables)
 
-        # Create the main Papers table
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS papers (
-                paper_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                is_number TEXT,
-                insert_date DATE,
-                publication_year INTEGER,
-                download_count INTEGER,
-                citing_patent_count INTEGER,
-                title TEXT,
-                abstract TEXT
-            )
-            """
-        )
+    def create_all_tables(self):
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
 
-        # Create the Authors table
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS authors (
-                author_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                paper_id INTEGER,
-                name TEXT,
-                affiliation TEXT,
-                FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
-            )
-            """
-        )
+        # Create all tables
+        self.create_tables(self.expected_tables, cursor)
 
-        # Create the Index Terms table
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS index_terms (
-                index_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                paper_id INTEGER,
-                term_type TEXT,
-                term TEXT,
-                FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
-            )
-            """
-        )
+        conn.commit()
+        conn.close()
 
-        # Create the Prompts table
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS prompts (
-                prompt_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                paper_id INTEGER,
-                prompt_text TEXT,
-                FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
-            )
-            """
-        )
+    def create_tables(self, tables, cursor=None):
+        if cursor is None:
+            conn = sqlite3.connect(self.db_name)
+            cursor = conn.cursor()
+        else:
+            conn = None
 
-        self.connection.commit()
-        logger.info(f"Database '{self.db_name}' initialized successfully.")
+        for table in tables:
+            if table == "papers":
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS papers (
+                        paper_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        is_number TEXT,
+                        insert_date DATE,
+                        publication_year INTEGER,
+                        download_count INTEGER,
+                        citing_patent_count INTEGER,
+                        title TEXT,
+                        abstract TEXT
+                    )
+                """
+                )
+            elif table == "authors":
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS authors (
+                        author_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        paper_id INTEGER,
+                        name TEXT,
+                        affiliation TEXT,
+                        FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
+                    )
+                """
+                )
+            elif table == "index_terms":
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS index_terms (
+                        index_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        paper_id INTEGER,
+                        term_type TEXT,
+                        term TEXT,
+                        FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
+                    )
+                """
+                )
+            elif table == "prompts":
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS prompts (
+                        prompt_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        paper_id INTEGER,
+                        prompt_text TEXT,
+                        FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
+                    )
+                """
+                )
+
+        if conn:
+            conn.commit()
+            conn.close()
+            logger.info(f"Database '{self.db_name}' initialized successfully.")
 
     @property
     def is_connected(self) -> bool:
@@ -115,36 +145,6 @@ class Database:
         if not self.is_connected:
             self.connection = sqlite3.connect(self.db_name)
         return self.connection is not None
-
-    def push_df(self, df: pd.DataFrame, table_name: str) -> None:
-        """
-        Push a DataFrame to a specific table in the database.
-
-        Parameters:
-            df (pd.DataFrame): The DataFrame to insert.
-            table_name (str): The target table name.
-        """
-        self.connect()
-        try:
-            df.to_sql(table_name, self.connection, if_exists="append", index=False)
-            logger.info(f"Data successfully inserted into '{table_name}'.")
-        except Exception as e:
-            logger.error(f"Failed to insert data into '{table_name}': {e}")
-        finally:
-            self.close()
-
-    def query(self, query: str) -> pd.DataFrame:
-        """
-        Execute a query and return the results as a DataFrame.
-
-        Parameters:
-            query (str): The SQL query to execute.
-
-        Returns:
-            pd.DataFrame: The query results.
-        """
-        self.connect()
-        return pd.read_sql_query(query, self.connection)
 
     def close(self) -> None:
         """
@@ -255,7 +255,9 @@ class Database:
             row (pd.Series): A row from the processed DataFrame.
         """
         if self.paper_exists(row["is_number"]):
-            print(f"Paper with is_number {row['is_number']} already exists. Skipping.")
+            logger.warning(
+                f"Paper with is_number {row['is_number']} already exists. Skipping."
+            )
             return
 
         # Insert main paper metadata
