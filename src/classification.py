@@ -32,6 +32,7 @@ CATEGORIES = [
 
 classifier = pipeline("zero-shot-classification", model=config.DEBERTA_V3_MODEL_NAME)
 
+
 def classify_text(text):
     """
     Classifies a single text into one of the predefined categories.
@@ -78,15 +79,19 @@ if __name__ == "__main__":
 
     import argparse
 
-    parser = argparse.ArgumentParser(description="Classify IEEE preprocessed paper data.")
+    parser = argparse.ArgumentParser(
+        description="Classify IEEE preprocessed paper data."
+    )
     parser.add_argument(
-        "-i", "--input_file",
+        "-i",
+        "--input_file",
         type=str,
         required=True,
         help="The full path to the preprocessed input CSV file.",
     )
     parser.add_argument(
-        "-o", "--output_dir",
+        "-o",
+        "--output_dir",
         type=str,
         default=os.path.join(config.ROOT_DIR, config.DATA_CLASSIFIED_DIR),
         help="The directory to save the classified output. Default is './data/classified/'.",

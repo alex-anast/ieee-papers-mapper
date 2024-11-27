@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class Database:
-    def __init__(self, name: str, filepath: Optional[str]=None):
+    def __init__(self, name: str, filepath: Optional[str] = None):
         if filepath is None:
             self.db_name = f"{name}.db"
         else:
