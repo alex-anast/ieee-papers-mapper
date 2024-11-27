@@ -1,9 +1,27 @@
 #!/usr/bin/env python3
 
 """
+IEEE Paper Preprocessor
 
+This script processes raw CSV files containing IEEE paper data and prepares them
+for further analysis or classification tasks. It performs the following operations:
+
+1. Selects and renames relevant columns from the raw data.
+2. Transforms date columns to a consistent format.
+3. Processes index terms from various sources.
+4. Extracts and formats author information.
+5. Creates a 'prompt' column combining title, abstract, and index terms.
+6. Reorders columns for consistency.
+
+The script can be run from the command line, specifying an input CSV file
+and an optional output directory for the processed data.
+
+Usage:
+    python process_papers.py -f <input_file.csv> [-o <output_directory>]
+
+The processed data is saved as a new CSV file with a 'processed_' prefix
+in the specified output directory (or a default location if not specified).
 """
-
 
 import os
 import pandas as pd
@@ -62,9 +80,9 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
         return [
             {
                 # Only keeping the "order=1" author
-                'author_id': author['id'],
-                'author_full_name': author['full_name'],
-                'author_affiliation': author['affiliation'],
+                "author_id": author["id"],
+                "author_full_name": author["full_name"],
+                "author_affiliation": author["affiliation"],
                 # 'author_url': author['authorUrl'],
                 # 'author_order': author['author_order'],
                 # 'author_affiliations': author['authorAffiliations']['authorAffiliation']
@@ -72,17 +90,24 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
             for author in authors
         ]
 
-    df_processed['authors'] = df_processed['authors.authors'].apply(_extract_author_info)
-    df_processed.drop('authors.authors', axis=1, inplace=True)
+    df_processed["authors"] = df_processed["authors.authors"].apply(
+        _extract_author_info
+    )
+    df_processed.drop("authors.authors", axis=1, inplace=True)
 
     # Create prompt column
     # prompt: title - abstract - index_terms
     def _create_prompt(row):
-        title = row['title']
-        abstract = row['abstract']
-        all_terms = row['index_terms_author'] + row['index_terms_ieee'] + row['index_terms_dynamic']
-        index_terms = ', '.join(all_terms)
+        title = row["title"]
+        abstract = row["abstract"]
+        all_terms = (
+            row["index_terms_author"]
+            + row["index_terms_ieee"]
+            + row["index_terms_dynamic"]
+        )
+        index_terms = ", ".join(all_terms)
         return f"title: {title} - abstract: {abstract} - index_terms: {index_terms}"
+
     df_processed["prompt"] = df_processed.apply(_create_prompt, axis=1)
 
     # Reorder columns
