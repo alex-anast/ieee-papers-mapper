@@ -10,6 +10,7 @@
 - [ ] Automate, classify, store in the DB
 - [ ] For the dash webapp, create a prototype interactive interface
 - [ ] If webapp is running, if a change in the database has happened, let the user know through a push notification and update visuals
+- [ ] Try and connect everything together!
 
 ## Features
 
@@ -43,11 +44,11 @@ src/
 │   └── demo.ipynb              # Demo notebook for testing workflows
 │
 ├── main.py                     # Main script orchestrating the phases
-├── __init__.py                 # Initializes the src directory as a package
-└── tests/                      # Testing
-    ├── test_database.py        # Unit tests for database module
-    ├── test_classify_papers.py # Unit tests for classification
-    └── test_end_to_end.py      # End-to-end workflow tests
+└── __init__.py                 # Initializes the src directory as a package
+tests/                          # Testing
+├── test_database.py            # Unit tests for database module
+├── test_classify_papers.py     # Unit tests for classification
+└── test_end_to_end.py          # End-to-end workflow tests
 ```
 
 ## Project Structure / Steps
