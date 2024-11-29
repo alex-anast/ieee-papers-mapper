@@ -19,6 +19,37 @@
 - Store data in a PostgreSQL (or SQLite) database
 - Visualize research output using dynamic charts and graphs
 
+## Repo Structure Logic
+
+```bash
+src/
+├── app/                        # Web application
+│   ├── __init__.py             # Initializes the app as a package
+│   ├── dash_webapp.py          # Dash application logic
+│   ├── callbacks.py            # Callbacks for interactivity
+│   └── assets/                 # Static files (CSS, images, etc.)
+│       └── styles.css
+│
+├── config/                     # Configuration and environment setup
+│   ├── config.py               # Contains constants, model names, API keys
+│   └── scheduler.py            # Scheduler setup (APScheduler logic)
+│
+├── data/                       # Data processing and classification
+│   ├── get_papers.py           # Fetch data from IEEE API
+│   ├── process_papers.py       # Preprocess raw data
+│   ├── classify_papers.py      # Classify papers
+│   ├── pipeline.py             # End-to-end pipeline logic
+│   ├── database.py             # Database setup and query functions
+│   └── demo.ipynb              # Demo notebook for testing workflows
+│
+├── main.py                     # Main script orchestrating the phases
+├── __init__.py                 # Initializes the src directory as a package
+└── tests/                      # Testing
+    ├── test_database.py        # Unit tests for database module
+    ├── test_classify_papers.py # Unit tests for classification
+    └── test_end_to_end.py      # End-to-end workflow tests
+```
+
 ## Project Structure / Steps
 
 Outline what this teaches you for future recruiters!

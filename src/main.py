@@ -39,9 +39,7 @@ def main():
     # )
 
     # For debugging
-    df_raw = pd.read_csv(
-        "/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv"
-    )
+    df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
 
     logger.info("Step 2: Processing data...")
     df_processed = process_papers(df_raw)
@@ -55,7 +53,7 @@ def main():
                 f"Error inserting paper with is_number {row['is_number']}: {e}"
             )
 
-    logger.info("Step 3: Classifying papers...")
+    logger.info("Step 4: Classifying papers...")
     df_unclassified = pd.read_sql_query(
         sql="""
             SELECT p.paper_id, pr.prompt_text
@@ -67,7 +65,6 @@ def main():
         """,
         con=db.connection,
     )
-
     if df_unclassified.empty:
         logger.info("No unclassified papers found")
     else:
@@ -78,7 +75,7 @@ def main():
         )
         logger.info(f"Classified and stored {len(df_classified)} papers.")
 
-    logger.info("Step 4: Launching web app...")
+    logger.info("Step 5: Launching web app...")
 
     # db.close()
 
