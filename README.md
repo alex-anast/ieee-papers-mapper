@@ -6,12 +6,10 @@
 
 ## TODO
 
-[X] Skeleton and Setup
-[ ] Retrieve a research paper from IEEE API, make sure it's still compatible and all
-[X] Create the idea of the end-goal. Is it a webapp or not?
-[ ] Convert .ipynb files into .py files - Search what is a proper DS pipeline
-[ ] Classify through context-aware embeddings (encoder-only transformers)
-[ ] Idea RAG: premade texdt that will return based on similarity outcome. Maybe with a softmax and yes/no
+- [ ] Automate data retrieval (chron or APScheduler)
+- [ ] Automate, classify, store in the DB
+- [ ] For the dash webapp, create a prototype interactive interface
+- [ ] If webapp is running, if a change in the database has happened, let the user know through a push notification and update visuals
 
 ## Features
 
