@@ -14,6 +14,7 @@ import time
 import sys
 import logging
 import argparse
+from data.pipeline import run_pipeline
 from config.scheduler import Scheduler
 
 # Setup logger
@@ -21,7 +22,7 @@ logger = logging.getLogger("ieee_logger")
 logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -45,8 +46,9 @@ def main():
     )
 
     try:
-        scheduler.start()
+        # scheduler.start()
         print("Scheduler is running. Press Ctrl+C to stop.")
+        run_pipeline()
         while True:
             time.sleep(1)  # Keeps the main thread alive
     except (KeyboardInterrupt, SystemExit):
