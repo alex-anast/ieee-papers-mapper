@@ -13,10 +13,10 @@ import os
 import logging
 import pandas as pd
 import config.config as cfg
-from database import Database
-from get_papers import get_papers
-from process_papers import process_papers
-from classify_papers import classify_all_papers
+from data.database import Database
+from data.get_papers import get_papers
+from data.process_papers import process_papers
+from data.classify_papers import classify_all_papers
 
 logger = logging.getLogger("ieee_logger")
 

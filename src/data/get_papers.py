@@ -10,7 +10,7 @@ The query and optional file name are provided as command-line arguments.
 import requests
 import pandas as pd
 import argparse
-import config
+import config.config as cfg
 import logging
 from typing import Optional
 
@@ -30,7 +30,7 @@ def get_papers(query: str, start_year: str, max_records: int) -> Optional[pd.Dat
         list: A list of articles retrieved from the API.
     """
     params = {
-        "apikey": config.IEEE_API_KEY,
+        "apikey": cfg.IEEE_API_KEY,
         "format": "json",
         "content_type": "Journals",
         "start_year": start_year,
@@ -42,7 +42,7 @@ def get_papers(query: str, start_year: str, max_records: int) -> Optional[pd.Dat
     }
 
     try:
-        response = requests.get(config.BASE_URL, params=params)
+        response = requests.get(cfg.BASE_URL, params=params)
         response.raise_for_status()
         papers = response.json().get("articles", [])
         if not papers:
@@ -57,7 +57,7 @@ def get_papers(query: str, start_year: str, max_records: int) -> Optional[pd.Dat
     except requests.exceptions.HTTPError as http_err:
         logger.warning(f"HTTP error occurred: {http_err}")
     except requests.exceptions.RequestException as req_err:
-        logger.warning(f"Error during requests to {config.BASE_URL}: {req_err}")
+        logger.warning(f"Error during requests to {cfg.BASE_URL}: {req_err}")
     except KeyError:
         logger.warning("No articles found in the response.")
     return []
@@ -81,6 +81,3 @@ if __name__ == "__main__":
         help="Optional: The name of the CSV file to save the results. Defaults to the query name.",
     )
     args = parser.parse_args()
-
-    # fetch_papers_and_store_csv(args.query, csv_filename)
-    # TODO: get the dataframe and print out the head.

@@ -24,10 +24,9 @@ in the specified output directory (or a default location if not specified).
 """
 
 import os
-import pandas as pd
-import config
 import ast
-from typing import List
+import pandas as pd
+import config.config as cfg
 
 
 def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
@@ -152,7 +151,7 @@ if __name__ == "__main__":
         "-o",
         "--output",
         type=str,
-        default=os.path.join(config.ROOT_DIR, config.DATA_PROCESSED_DIR),
+        default=os.path.join(cfg.ROOT_DIR, cfg.DATA_PROCESSED_DIR),
         help="The directory to save the processed CSV file",
     )
     args = parser.parse_args()

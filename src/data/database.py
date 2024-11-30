@@ -9,12 +9,12 @@ This script fetches research papers from the IEEE Xplore API based on a specific
 The query and optional file name are provided as command-line arguments.
 """
 
-import sqlite3
-import pandas as pd
 import os
-import config
+import sqlite3
 import logging
+import pandas as pd
 from typing import Optional
+import config.config as cfg
 
 logger = logging.getLogger("ieee_logger")
 
@@ -27,7 +27,7 @@ class Database:
             self.db_name = os.path.join(filepath, f"{name}.db")
         self.connection = sqlite3.connect(self.db_name)
         self.cursor = self.connection.cursor()
-        self.expected_tables = config.DB_TABLES
+        self.expected_tables = cfg.DB_TABLES
 
     @property
     def file_exists(self) -> bool:
@@ -38,7 +38,7 @@ class Database:
             bool: True if the database exists, False otherwise.
         """
         return os.path.exists(
-            os.path.join(config.ROOT_DIR, config.DATA_DIR, self.db_name)
+            os.path.join(cfg.ROOT_DIR, cfg.DATA_DIR, self.db_name)
         )
 
     def get_existing_tables(self):

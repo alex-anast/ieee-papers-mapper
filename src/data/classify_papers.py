@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import config
+import config.config as cfg
 import pandas as pd
 from transformers import pipeline
 
 
-classifier = pipeline("zero-shot-classification", model=config.DEBERTA_V3_MODEL_NAME)
+classifier = pipeline("zero-shot-classification", model=cfg.DEBERTA_V3_MODEL_NAME)
 
 
 def classify_text(text: str) -> list:
@@ -18,7 +18,7 @@ def classify_text(text: str) -> list:
     Returns:
         list: A list of tuples (category, confidence).
     """
-    results = classifier(text, candidate_labels=config.CATEGORIES, multi_label=True)
+    results = classifier(text, candidate_labels=cfg.CATEGORIES, multi_label=True)
     return [
         (label, score) for label, score in zip(results["labels"], results["scores"])
     ]
