@@ -18,7 +18,7 @@ from get_papers import get_papers
 from process_papers import process_papers
 from classify_papers import classify_all_papers
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("ieee_logger")
 
 def run_pipeline():
     """

@@ -14,7 +14,7 @@ import config
 import logging
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("ieee_logger")
 
 
 def get_papers(query: str, start_year: str, max_records: int) -> Optional[pd.DataFrame]:

@@ -16,7 +16,7 @@ import config
 import logging
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("ieee_logger")
 
 
 class Database:

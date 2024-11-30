@@ -19,7 +19,7 @@ from process_papers import process_papers
 from classify_papers import classify_all_papers
 from database import Database
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("ieee_logger")
 
 
 def main():

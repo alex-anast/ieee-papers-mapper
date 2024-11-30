@@ -14,9 +14,8 @@ from apscheduler.triggers.interval import IntervalTrigger
 from data.pipeline import run_pipeline
 import logging
 
-# Setup logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("ieee_logger")
 
 
 class Scheduler:
