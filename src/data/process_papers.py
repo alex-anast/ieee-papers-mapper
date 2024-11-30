@@ -25,8 +25,11 @@ in the specified output directory (or a default location if not specified).
 
 import os
 import ast
+import logging
 import pandas as pd
 import config.config as cfg
+
+logger = logging.getLogger("ieee_logger")
 
 
 def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
@@ -176,4 +179,4 @@ if __name__ == "__main__":
     # Save the processed DataFrame to a CSV file
     df_processed.to_csv(output_path, index=False)
 
-    print(f"Processed file saved to: {output_path}")
+    logger.info(f"Processed file saved to: {output_path}")
