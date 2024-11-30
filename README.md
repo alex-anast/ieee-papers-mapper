@@ -7,10 +7,13 @@
 ## TODO
 
 - [ ] Automate data retrieval (chron or APScheduler)
-- [ ] Automate, classify, store in the DB
+- [X] Automate, classify, store in the DB
 - [ ] For the dash webapp, create a prototype interactive interface
 - [ ] If webapp is running, if a change in the database has happened, let the user know through a push notification and update visuals
 - [ ] Try and connect everything together!
+- [ ] Test with APScheduler
+- [ ] Create logic for starting the query where I left off
+- [ ] Connect with web app. Currently it is not sourcing the data, the dash is empty
 
 ## Features
 
