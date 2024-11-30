@@ -86,4 +86,5 @@ Outline what this teaches you for future recruiters!
 
 ## Future Ideas
 
-1. Use SQLite instead of .CSV files for data storage.
+- Get geolocation of the cities and have a map-like dashboard
+

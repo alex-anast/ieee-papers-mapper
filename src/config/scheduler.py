@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 
 """
+TODO: This is wrong, change it:
+
+IEEE Papers Data Extraction Script
+==================================
+This script fetches research papers from the IEEE Xplore API based on a specific search query.
+The query and optional file name are provided as command-line arguments.
 """
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from data.pipeline import run_pipeline
 import logging
-import time
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -24,8 +29,8 @@ class Scheduler:
         """
         logger.info("Starting scheduler...")
         self.scheduler.add_job(
-            run_pipeline,
-            trigger=IntervalTrigger(hours=6),  # Runs every 6 hours
+            run_pipeline,  # ...
+            trigger=IntervalTrigger(hours=6),
             id="pipeline_job",
             replace_existing=True,
         )

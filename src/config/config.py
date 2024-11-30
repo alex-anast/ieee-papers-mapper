@@ -20,6 +20,7 @@ DATA_DIR = os.path.join(ROOT_DIR, "data")
 DATA_RAW_DIR = os.path.join(ROOT_DIR, "data/raw/")
 DATA_PROCESSED_DIR = os.path.join(ROOT_DIR, "data/processed/")
 DATA_CLASSIFIED_DIR = os.path.join(ROOT_DIR, "data/classified/")
+SRC_DIR = os.path.join(ROOT_DIR, "src")
 
 # API Keys
 IEEE_API_KEY = os.getenv("IEEE_API_KEY")

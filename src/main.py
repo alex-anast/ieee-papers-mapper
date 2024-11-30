@@ -1,5 +1,17 @@
-from config.scheduler import Scheduler
+#!/usr/bin/env python3
+
+
+"""
+TODO: This is wrong, change it:
+
+IEEE Papers Data Extraction Script
+==================================
+This script fetches research papers from the IEEE Xplore API based on a specific search query.
+The query and optional file name are provided as command-line arguments.
+"""
+
 import time
+from config.scheduler import Scheduler
 
 
 def main():
