@@ -15,7 +15,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Directories
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
+ROOT_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
+)
 DATA_DIR = os.path.join(ROOT_DIR, "data")
 DATA_RAW_DIR = os.path.join(ROOT_DIR, "data/raw/")
 DATA_PROCESSED_DIR = os.path.join(ROOT_DIR, "data/processed/")

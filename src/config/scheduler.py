@@ -22,7 +22,7 @@ logger = logging.getLogger("ieee_logger")
 class Scheduler:
     def __init__(self, **interval_kwargs):
         datetime.UTC
-        self.scheduler = BackgroundScheduler({'apscheduler.timezone': 'UTC'})
+        self.scheduler = BackgroundScheduler({"apscheduler.timezone": "UTC"})
         if interval_kwargs is None:
             logger.debug("No time interval provided for scheduler, default: 1 week")
             # TODO: make self.interval_kwargs to be 1 week for IntervalTrigger
@@ -33,7 +33,9 @@ class Scheduler:
         """
         Start the scheduler and schedule the data pipeline task.
         """
-        logger.info(f"Starting scheduler with trigger interval: {self.interval_kwargs} ...")
+        logger.info(
+            f"Starting scheduler with trigger interval: {self.interval_kwargs} ..."
+        )
         try:
             self.scheduler.add_job(
                 run_pipeline,  # ...
@@ -42,7 +44,9 @@ class Scheduler:
                 replace_existing=True,
             )
         except ZINFError as zinfe:
-            logger.error("Host timezone is not in alignment with the predicted one. Sync your environment.")
+            logger.error(
+                "Host timezone is not in alignment with the predicted one. Sync your environment."
+            )
             logger.error(zinfe)
             raise ZINFError
         self.scheduler.start()

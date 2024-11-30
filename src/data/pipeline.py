@@ -20,6 +20,7 @@ from data.classify_papers import classify_all_papers
 
 logger = logging.getLogger("ieee_logger")
 
+
 def run_pipeline():
     """
     Executes the full data pipeline:
@@ -49,7 +50,9 @@ def run_pipeline():
         #     start_year=2020,
         #     max_records=10,
         # )
-        df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
+        df_raw = pd.read_csv(
+            "/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv"
+        )
 
         if df_raw.empty:
             logger.info(f"No new papers found for category: {category}")
@@ -94,7 +97,9 @@ def run_pipeline():
 
         df_classified = classify_all_papers(df_unclassified, timer=True)
         del df_unclassified
-        df_classified.to_sql("classification", db.connection, if_exists="append", index=False)
+        df_classified.to_sql(
+            "classification", db.connection, if_exists="append", index=False
+        )
         logger.info(f"Classified and stored {len(df_classified)} papers.")
 
     db.close()

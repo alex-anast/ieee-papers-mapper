@@ -12,7 +12,7 @@ logger = logging.getLogger("ieee_logger")
 classifier = pipeline("zero-shot-classification", model=cfg.DEBERTA_V3_MODEL_NAME)
 
 
-def classify_text(text: str, timer: bool=False) -> list:
+def classify_text(text: str, timer: bool = False) -> list:
     """
     Classify a single text into multiple categories.
 
@@ -36,7 +36,7 @@ def classify_text(text: str, timer: bool=False) -> list:
     ]
 
 
-def classify_all_papers(df: pd.DataFrame, timer: bool=False) -> pd.DataFrame:
+def classify_all_papers(df: pd.DataFrame, timer: bool = False) -> pd.DataFrame:
     """
     Classify all papers and return their classifications.
 
