@@ -39,16 +39,17 @@ def run_pipeline():
 
     new_papers_retrieved = False
 
-    for category in cfg.CATEGORIES:
+    for category in cfg.CATEGORIES[:-1]:  # Assuming last item is "others" category
         # Get new papers
         logger.debug(f"Sourcing new papers from IEEE DB for category: {category}...")
-        df_raw = get_papers(
-            query=category,
-            # TODO: This should be dynamic
-            # TODO: Keep track fo the latest retrieval so next time start from there
-            start_year=2020,
-            max_records=10,
-        )
+        # df_raw = get_papers(
+        #     query=category,
+        #     # TODO: This should be dynamic
+        #     # TODO: Keep track fo the latest retrieval so next time start from there
+        #     start_year=2020,
+        #     max_records=10,
+        # )
+        df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_20241126_160712.csv")
 
         if df_raw.empty:
             logger.info(f"No new papers found for category: {category}")
@@ -90,7 +91,7 @@ def run_pipeline():
     if df_unclassified.empty:
         logger.debug("No unclassified papers found")
     else:
-        logger.debug("Starting timer")
+
         df_classified = classify_all_papers(df_unclassified, timer=True)
         del df_unclassified
         df_classified.to_sql("classification", db.connection, if_exists="append", index=False)
