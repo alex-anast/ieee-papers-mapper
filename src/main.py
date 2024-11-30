@@ -11,7 +11,18 @@ The query and optional file name are provided as command-line arguments.
 """
 
 import time
+import sys
+import logging
 from config.scheduler import Scheduler
+
+# Setup logger
+logger = logging.getLogger("ieee_logger")
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 
 def main():
