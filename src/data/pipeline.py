@@ -37,32 +37,44 @@ def run_pipeline():
     logger.debug("Initializing database...")
     db.initialize()  # Handles cases where db doesn't exist or not all tables
 
-    # Step 1: Get new papers
-    logger.debug("Retrieving papers from IEEE database...")
-    df_raw = get_papers(
-        query="machine learning",
-        start_year=2020,
-        max_records=50,
-    )
-    if df_raw.empty:
-        logger.info("No new papers fetched.")
-        logger.debug("Returning False if no papers fetched.")
+    new_papers_retrieved = False
+
+    for category in cfg.CATEGORIES:
+        # Get new papers
+        logger.debug(f"Sourcing new papers from IEEE DB for category: {category}...")
+        df_raw = get_papers(
+            query=category,
+            # TODO: This should be dynamic
+            # TODO: Keep track fo the latest retrieval so next time start from there
+            start_year=2020,
+            max_records=10,
+        )
+
+        if df_raw.empty:
+            logger.info(f"No new papers found for category: {category}")
+            continue
+        new_papers_retrieved = True
+
+        # Process data
+        logger.debug("Processing papers...")
+        df_processed = process_papers(df_raw)
+
+        # Insert new data into the database
+        logger.debug("Storing data in SQLite database...")
+        for _, row in df_processed.iterrows():
+            try:
+                db.insert_full_paper(row)
+            except Exception as e:
+                logger.error(
+                    f"Error inserting paper with is_number {row['is_number']}: {e}"
+                )
+
+    # There is nothing new to classify at this point
+    if not new_papers_retrieved:
+        db.close()
         return False
 
-    # Step 2: Process data
-    logger.debug("Processing papers...")
-    df_processed = process_papers(df_raw)
-
-    # Step 3: Insert new data into the database
-    logger.debug("Storing data in SQLite database...")
-    for _, row in df_processed.iterrows():
-        try:
-            db.insert_full_paper(row)
-        except Exception as e:
-            logger.error(
-                f"Error inserting paper with is_number {row['is_number']}: {e}"
-            )
-
+    # Classify newly retrieved papers by comparing the unique ID
     logger.debug("Classifying papers...")
     df_unclassified = pd.read_sql_query(
         sql="""

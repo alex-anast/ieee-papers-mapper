@@ -14,22 +14,26 @@ from apscheduler.triggers.interval import IntervalTrigger
 from data.pipeline import run_pipeline
 import logging
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("ieee_logger")
 
 
 class Scheduler:
-    def __init__(self):
+    def __init__(self, **interval_kwargs):
         self.scheduler = BackgroundScheduler()
+        if interval_kwargs is None:
+            logger.debug("No time interval provided for scheduler, default: 1 week")
+            # TODO: make self.interval_kwargs to be 1 week for IntervalTrigger
+        else:
+            self.interval_kwargs = interval_kwargs
 
     def start(self):
         """
         Start the scheduler and schedule the data pipeline task.
         """
-        logger.info("Starting scheduler...")
+        logger.info(f"Starting scheduler with trigger interval: {self.interval_kwargs} ...")
         self.scheduler.add_job(
             run_pipeline,  # ...
-            trigger=IntervalTrigger(hours=6),
+            trigger=IntervalTrigger(**self.interval_kwargs),
             id="pipeline_job",
             replace_existing=True,
         )
