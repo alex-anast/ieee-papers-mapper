@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Directories
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
 DATA_RAW_DIR = os.path.join(ROOT_DIR, "data/raw/")
 DATA_PROCESSED_DIR = os.path.join(ROOT_DIR, "data/processed/")
@@ -27,7 +27,8 @@ IEEE_API_KEY = os.getenv("IEEE_API_KEY")
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
-CATEGORIES = ["energy", "computer science", "machine learning", "other category"]
+# CATEGORIES = ["energy", "computer science", "machine learning", "other category"]
+CATEGORIES = ["machine learning", "other category"]
 DB_TABLES = ["papers", "authors", "index_terms", "prompts", "classification"]
 
 # Models
