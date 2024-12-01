@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 
 """
-TODO: This is wrong, change it:
+IEEE Papers Scheduler
+=====================
+This script automates the process of retrieving, processing, and classifying research papers from the IEEE Xplore API.
+It uses APScheduler to periodically trigger the data pipeline task at specified intervals.
 
-IEEE Papers Data Extraction Script
-==================================
-This script fetches research papers from the IEEE Xplore API based on a specific search query.
-The query and optional file name are provided as command-line arguments.
+Features:
+- Automatic retrieval of new papers based on predefined categories.
+- Incremental processing and classification of papers.
+- Configurable scheduling intervals.
+
+Dependencies:
+- APScheduler for scheduling.
+- Logging for structured logging.
+- ZoneInfo for handling time zone errors.
 """
 
 import logging
@@ -20,25 +28,51 @@ logger = logging.getLogger("ieee_logger")
 
 
 class Scheduler:
+    """
+    A class for scheduling the IEEE papers data pipeline using APScheduler.
+    """
+
     def __init__(self, **interval_kwargs):
-        datetime.UTC
+        """
+        Initializes the Scheduler instance with a specified time interval.
+
+        Parameters:
+        ----------
+        interval_kwargs : dict
+            A dictionary containing the time intervals for the scheduler 
+            (weeks, days, hours, minutes, seconds).
+
+        Raises:
+        -------
+        ValueError:
+            If invalid interval values are provided.
+        """
+        datetime.UTC  # Ensures UTC is recognized
         self.scheduler = BackgroundScheduler({"apscheduler.timezone": "UTC"})
-        if interval_kwargs is None:
+        if not interval_kwargs:
             logger.debug("No time interval provided for scheduler, default: 1 week")
-            # TODO: make self.interval_kwargs to be 1 week for IntervalTrigger
+            self.interval_kwargs = {"weeks": 1}  # Default interval
         else:
             self.interval_kwargs = interval_kwargs
 
     def start(self):
         """
-        Start the scheduler and schedule the data pipeline task.
+        Starts the scheduler and schedules the data pipeline task.
+
+        The scheduler runs the `run_pipeline` function at intervals specified 
+        during initialization.
+
+        Raises:
+        -------
+        ZINFError:
+            If the system's time zone configuration is incorrect.
         """
         logger.info(
-            f"Starting scheduler with trigger interval: {self.interval_kwargs} ..."
+            f"Starting scheduler with trigger interval: {self.interval_kwargs}..."
         )
         try:
             self.scheduler.add_job(
-                run_pipeline,  # ...
+                run_pipeline,
                 trigger=IntervalTrigger(**self.interval_kwargs),
                 id="pipeline_job",
                 replace_existing=True,
@@ -54,7 +88,9 @@ class Scheduler:
 
     def stop(self):
         """
-        Stop the scheduler gracefully.
+        Stops the scheduler gracefully.
+
+        Ensures that all jobs are terminated and resources are cleaned up.
         """
         logger.info("Stopping scheduler...")
         self.scheduler.shutdown()
