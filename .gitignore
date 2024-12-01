@@ -3,6 +3,7 @@
 bin/tmp
 .vscode
 src/demo.ipynb
+data/ieee_papers.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
