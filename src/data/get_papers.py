@@ -3,8 +3,18 @@
 """
 IEEE Papers Data Extraction Script
 ==================================
-This script fetches research papers from the IEEE Xplore API based on a specific search query.
-The query and optional file name are provided as command-line arguments.
+This script retrieves research papers from the IEEE Xplore API based on a specified query. 
+It supports command-line arguments to customize the query and output file name.
+
+Features:
+- Fetch papers from the IEEE Xplore API.
+- Save the fetched data as a CSV file.
+- Handle API rate limits and errors gracefully.
+
+Dependencies:
+- Requests for API calls.
+- Pandas for data manipulation.
+- Argparse for command-line argument parsing.
 """
 
 import requests
@@ -18,22 +28,39 @@ logger = logging.getLogger("ieee_logger")
 
 
 def get_papers(
-        query: str,
-        start_year: str,
-        api_key: int,
-        max_records: int,
-        start_record: int,
-    ) -> Optional[pd.DataFrame]:
+    query: str,
+    start_year: str,
+    api_key: str,
+    max_records: int,
+    start_record: int,
+) -> Optional[pd.DataFrame]:
     """
-    Gets research papers from the IEEE API.
+    Fetches research papers from the IEEE Xplore API.
 
     Parameters:
-        query (str): The search query for the API.
-        start_year (str): The starting year for the search.
-        max_records (int): Maximum number of records to fetch (max 200).
+    ----------
+    query : str
+        The search query for the API.
+    start_year : str
+        The starting year for the search.
+    api_key : str
+        The API key for authenticating the request.
+    max_records : int
+        Maximum number of records to fetch per request (maximum allowed: 200).
+    start_record : int
+        The starting record for pagination.
 
     Returns:
-        list: A list of articles retrieved from the API.
+    -------
+    Optional[pd.DataFrame]
+        A DataFrame containing the retrieved articles if successful, otherwise None.
+
+    Raises:
+    ------
+    requests.exceptions.HTTPError
+        If the HTTP request returns an unsuccessful status code.
+    requests.exceptions.RequestException
+        For other network-related errors.
     """
     params = {
         "apikey": api_key,
@@ -52,7 +79,7 @@ def get_papers(
         response.raise_for_status()
         papers = response.json().get("articles", [])
         if not papers:
-            logger.info(f"TERMINATE: No data fetched for query:\n    {query}")
+            logger.info(f"No data fetched for query: {query}")
             return None
 
         # Convert the list of articles to a DataFrame
@@ -63,13 +90,18 @@ def get_papers(
     except requests.exceptions.HTTPError as http_err:
         logger.warning(f"HTTP error occurred: {http_err}")
     except requests.exceptions.RequestException as req_err:
-        logger.warning(f"Error during requests to {cfg.BASE_URL}: {req_err}")
+        logger.warning(f"Request error occurred: {req_err}")
     except KeyError:
-        logger.warning("No articles found in the response.")
-    return []
+        logger.warning("No articles found in the API response.")
+    return None
 
 
 if __name__ == "__main__":
+    """
+    Main entry point for the script.
+
+    Allows users to specify a query and optionally a filename via command-line arguments.
+    """
     parser = argparse.ArgumentParser(
         description="Extract research papers from IEEE Xplore API."
     )
