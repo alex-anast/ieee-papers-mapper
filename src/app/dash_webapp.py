@@ -1,62 +1,78 @@
 import dash
 from dash import dcc, html
+from dash.dependencies import Input, Output
 import pandas as pd
 import sqlite3
 import plotly.express as px
 
-# Connect to the database
-DB_PATH = "./data/ieee_papers.db"
-conn = sqlite3.connect(DB_PATH)
-
-# Query the classification data
-query = """
-SELECT c.paper_id, p.title, c.category, c.confidence
-FROM classification c
-JOIN papers p ON c.paper_id = p.paper_id
-"""
-df = pd.read_sql_query(query, conn)
-
-# Close the database connection
-conn.close()
-
-# Initialize Dash app
+# Initialize the Dash app
 app = dash.Dash(__name__)
+app.title = "IEEE Papers Dashboard"
 
-# Layout for the dashboard
-app.layout = html.Div(
-    children=[
-        html.H1(children="IEEE Papers Classification Dashboard"),
-        html.Div(children="A dashboard to visualize classified papers."),
-        dcc.Graph(
-            id="classification-bar-chart",
-            figure=px.bar(
-                df,
-                x="category",
-                y="confidence",
-                color="category",
-                title="Confidence Scores by Category",
-                labels={"confidence": "Confidence Score", "category": "Category"},
-            ),
-        ),
-        dcc.Graph(
-            id="paper-count-pie-chart",
-            figure=px.pie(
-                df, names="category", title="Distribution of Papers by Category"
-            ),
-        ),
-        dcc.Graph(
-            id="confidence-histogram",
-            figure=px.histogram(
-                df,
-                x="confidence",
-                color="category",
-                title="Confidence Score Distribution",
-                nbins=20,
-            ),
-        ),
-    ]
+# Connect to the database
+DB_PATH = "/home/alex-anast/workspace/ieee-papers-mapper/data/ieee_papers.db"
+
+def fetch_data():
+    """
+    Fetches paper counts grouped by category from the database.
+
+    Returns:
+    -------
+    pd.DataFrame:
+        DataFrame containing category and count of papers.
+    """
+    query = """
+        SELECT c.category, COUNT(*) as paper_count
+        FROM classification c
+        JOIN papers p ON c.paper_id = p.paper_id
+        GROUP BY c.category
+    """
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    return df
+
+# Layout for the app
+app.layout = html.Div([
+    html.H1("IEEE Papers by Category", style={"textAlign": "center"}),
+    dcc.Graph(id="papers-bar-chart"),
+    dcc.Interval(
+        id="interval-component",
+        interval=10 * 1000,  # Update every 10 seconds
+        n_intervals=0
+    )
+])
+
+# Callback to update graph
+@app.callback(
+    Output("papers-bar-chart", "figure"),
+    [Input("interval-component", "n_intervals")]
 )
+def update_graph(n_intervals):
+    """
+    Updates the bar chart based on new data.
 
-# Run the Dash app
+    Parameters:
+    ----------
+    n_intervals : int
+        Number of times the interval has fired.
+
+    Returns:
+    -------
+    plotly.graph_objects.Figure:
+        Updated bar chart.
+    """
+    df = fetch_data()
+    fig = px.bar(
+        df,
+        x="category",
+        y="paper_count",
+        title="Papers by Category",
+        labels={"category": "Category", "paper_count": "Number of Papers"},
+        text="paper_count"
+    )
+    fig.update_layout(transition_duration=500)
+    return fig
+
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, host="0.0.0.0", port=8050)
