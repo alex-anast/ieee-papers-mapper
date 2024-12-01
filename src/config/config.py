@@ -15,21 +15,22 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Directories
-ROOT_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
-)
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
-DATA_RAW_DIR = os.path.join(ROOT_DIR, "data/raw/")
-DATA_PROCESSED_DIR = os.path.join(ROOT_DIR, "data/processed/")
-DATA_CLASSIFIED_DIR = os.path.join(ROOT_DIR, "data/classified/")
+DATA_RAW_DIR = os.path.join(DATA_DIR, "raw")
 SRC_DIR = os.path.join(ROOT_DIR, "src")
+CONFIG_DIR = os.path.join(SRC_DIR, "config")
+JSON_FILENAME = "progress.json"
 
-# API Keys
+# IEEE API Parameters
 IEEE_API_KEY = os.getenv("IEEE_API_KEY")
+IEEE_API_START_RECORD = 1
+IEEE_API_START_YEAR = 2000
+# TODO: Change to 200
+IEEE_API_MAX_RECORDS = 2
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
-# CATEGORIES = ["energy", "computer science", "machine learning", "other category"]
 CATEGORIES = ["machine learning", "other category"]
 DB_TABLES = ["papers", "authors", "index_terms", "prompts", "classification"]
 

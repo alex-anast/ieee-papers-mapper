@@ -66,6 +66,7 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
         "index_terms.ieee_terms.terms",
         "index_terms.dynamic_index_terms.terms",
     ]:
+        # TODO: This needs to be replaced. Crashes if data format is not perfect
         df_processed[col] = df_processed[col].apply(eval)
 
     # Rename index_terms columns

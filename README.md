@@ -6,14 +6,15 @@
 
 ## TODO
 
-- [ ] Automate data retrieval (chron or APScheduler)
+- [X] Automate data retrieval (chron or APScheduler)
 - [X] Automate, classify, store in the DB
 - [ ] For the dash webapp, create a prototype interactive interface
 - [ ] If webapp is running, if a change in the database has happened, let the user know through a push notification and update visuals
-- [ ] Try and connect everything together!
-- [ ] Test with APScheduler
-- [ ] Create logic for starting the query where I left off
+- [X] Try and connect everything together!
+- [X] Test with APScheduler
+- [X] Create logic for starting the query where I left off
 - [ ] Connect with web app. Currently it is not sourcing the data, the dash is empty
+- [ ] Paper processing counters an error on `eval` function, use other logic
 
 ## Features
 
@@ -70,6 +71,13 @@ Outline what this teaches you for future recruiters!
     - `docs/` folder, and `notebooks/` folder for tutorial
 
 ## Getting Started
+
+In order to add a new category, these two actions are needed:
+
+1. Modify `./src/config/config.py` and global constant variable `CATEGORIES`. The last item of this list should always be `other_category`.
+2. Add the category with a starting record (default is 1) in the JSON file `./src/config/progress.json` for full control, otherwise entry is automatically configured in this file.
+
+NOTE: Adding categories increases the amount of time needed to classify the papers (> O(n)). A pipeline runtime should not exceed the scheduler's interval. If it is, racing conditions will crash the program.
 
 ### Prerequisites
 
