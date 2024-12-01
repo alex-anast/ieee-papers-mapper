@@ -17,7 +17,13 @@ from typing import Optional
 logger = logging.getLogger("ieee_logger")
 
 
-def get_papers(query: str, start_year: str, max_records: int) -> Optional[pd.DataFrame]:
+def get_papers(
+        query: str,
+        start_year: str,
+        api_key: int,
+        max_records: int,
+        start_record: int,
+    ) -> Optional[pd.DataFrame]:
     """
     Gets research papers from the IEEE API.
 
@@ -30,7 +36,7 @@ def get_papers(query: str, start_year: str, max_records: int) -> Optional[pd.Dat
         list: A list of articles retrieved from the API.
     """
     params = {
-        "apikey": cfg.IEEE_API_KEY,
+        "apikey": api_key,
         "format": "json",
         "content_type": "Journals",
         "start_year": start_year,
@@ -38,7 +44,7 @@ def get_papers(query: str, start_year: str, max_records: int) -> Optional[pd.Dat
         "sort_field": "article_number",
         "sort_order": "asc",
         "querytext": query,
-        "start_record": 1,
+        "start_record": start_record,
     }
 
     try:
