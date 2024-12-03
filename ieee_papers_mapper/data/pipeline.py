@@ -48,7 +48,7 @@ def run_pipeline():
     """
     db = Database(
         name="ieee_papers",
-        filepath=os.path.join(cfg.ROOT_DIR, cfg.DATA_DIR),
+        filepath=os.path.join(cfg.SRC_DIR),
     )
     logger.debug("Initializing database...")
     db.initialize()  # Handles cases where db doesn't exist or not all tables

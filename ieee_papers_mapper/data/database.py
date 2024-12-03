@@ -37,7 +37,7 @@ class Database:
         Returns:
             bool: True if the database exists, False otherwise.
         """
-        return os.path.exists(os.path.join(cfg.ROOT_DIR, cfg.DATA_DIR, self.db_name))
+        return os.path.exists(os.path.join(cfg.SRC_DIR, self.db_name))
 
     def get_existing_tables(self):
         if not self.file_exists:

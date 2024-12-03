@@ -18,10 +18,10 @@ load_dotenv()
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
 DATA_RAW_DIR = os.path.join(DATA_DIR, "raw")
-SRC_DIR = os.path.join(ROOT_DIR, "src")
+SRC_DIR = os.path.join(ROOT_DIR, "ieee_papers_mapper")
 CONFIG_DIR = os.path.join(SRC_DIR, "config")
 JSON_FILENAME = "progress.json"
-DB_PATH = os.path.join(DATA_DIR, "ieee_papers.db")
+DB_PATH = os.path.join(SRC_DIR, "ieee_papers.db")
 
 # IEEE API Parameters
 IEEE_API_KEY = os.getenv("IEEE_API_KEY")
