@@ -18,7 +18,8 @@
 - [X] Make it a python package pip installable
 - [ ] Create a proper `requirements.txt` file after package completion
 - [X] Create a docs prototype
-- [ ] Test if pip installable
+- [X] Test if pip installable
+- [ ] Run pytest on basic py files
 
 ## Features
 
