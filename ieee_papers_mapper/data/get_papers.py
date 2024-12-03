@@ -3,7 +3,7 @@
 """
 IEEE Papers Data Extraction Script
 ==================================
-This script retrieves research papers from the IEEE Xplore API based on a specified query. 
+This script retrieves research papers from the IEEE Xplore API based on a specified query.
 It supports command-line arguments to customize the query and output file name.
 
 Features:
