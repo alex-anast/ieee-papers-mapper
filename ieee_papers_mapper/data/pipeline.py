@@ -63,16 +63,16 @@ def run_pipeline():
         # Get new papers
         while True:
             logger.debug(f"Fetching IEEE data for category '{category}', start_record={start_record}...")
-            # df_raw = get_papers(
-            #     query=category,
-            #     api_key=cfg.IEEE_API_KEY,
-            #     start_year=cfg.IEEE_API_START_YEAR,
-            #     start_record=start_record,  # Incremental
-            #     max_records=cfg.IEEE_API_MAX_RECORDS,
-            # )
+            df_raw = get_papers(
+                query=category,
+                api_key=cfg.IEEE_API_KEY,
+                start_year=cfg.IEEE_API_START_YEAR,
+                start_record=start_record,  # Incremental
+                max_records=cfg.IEEE_API_MAX_RECORDS,
+            )
 
             # For debug, manually give file, again in DataFrame format
-            df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_small.csv")
+            # df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_small.csv")
 
             if df_raw.empty:
                 logger.info(f"No new papers found for category: '{category}'")
