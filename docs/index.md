@@ -1,17 +1,12 @@
-# Welcome to MkDocs
+# Welcome to IEEE Papers Mapper
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+The IEEE Papers Mapper is an innovative tool designed for automating the process of fetching, processing, and classifying research papers from the IEEE Xplore API. It integrates data extraction, machine learning classification, and interactive data visualization to provide insights into categorized research topics.
 
-## Commands
+Explore the documentation to learn how to use, contribute, and extend the project.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## Key Features
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+- Automated data retrieval and processing pipeline.
+- Paper classification using state-of-the-art transformer models.
+- Interactive Dash-based web application for visualizing research data.
+- Modular design for easy extension and integration.
