@@ -21,13 +21,14 @@ DATA_RAW_DIR = os.path.join(DATA_DIR, "raw")
 SRC_DIR = os.path.join(ROOT_DIR, "src")
 CONFIG_DIR = os.path.join(SRC_DIR, "config")
 JSON_FILENAME = "progress.json"
+DB_PATH = os.path.join(DATA_DIR, "ieee_papers.db")
 
 # IEEE API Parameters
 IEEE_API_KEY = os.getenv("IEEE_API_KEY")
 IEEE_API_START_RECORD = 1
 IEEE_API_START_YEAR = 2000
 # TODO: Change to 200
-IEEE_API_MAX_RECORDS = 2
+IEEE_API_MAX_RECORDS = 5
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"

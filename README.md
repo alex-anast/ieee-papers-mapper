@@ -13,8 +13,11 @@
 - [X] Try and connect everything together!
 - [X] Test with APScheduler
 - [X] Create logic for starting the query where I left off
-- [ ] Connect with web app. Currently it is not sourcing the data, the dash is empty
-- [ ] Paper processing counters an error on `eval` function, use other logic
+- [X] Connect with web app. Currently it is not sourcing the data, the dash is empty
+- [X] Paper processing counters an error on `eval` function, use other logic
+- [ ] Make it a python package pip installable
+- [ ] Create a proper `requirements.txt` file after package completion
+- [ ] Create a docs prototype
 
 ## Features
 

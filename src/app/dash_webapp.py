@@ -1,16 +1,23 @@
+#!/usr/bin/env python3
+
+
+"""
+"""
+
+
 import dash
-from dash import dcc, html
-from dash.dependencies import Input, Output
 import pandas as pd
 import sqlite3
 import plotly.express as px
+from dash import dcc, html
+from dash.dependencies import Input, Output
+import config.config as cfg
+
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
 app.title = "IEEE Papers Dashboard"
 
-# Connect to the database
-DB_PATH = "/home/alex-anast/workspace/ieee-papers-mapper/data/ieee_papers.db"
 
 def fetch_data():
     """
@@ -26,8 +33,9 @@ def fetch_data():
         FROM classification c
         JOIN papers p ON c.paper_id = p.paper_id
         GROUP BY c.category
+        HAVING c.confidence >= 0.5
     """
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(cfg.DB_PATH)
     df = pd.read_sql_query(query, conn)
     conn.close()
     return df
