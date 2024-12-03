@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 
 """
-TODO: This is wrong, change it:
+IEEE Papers Pipeline Script
+===========================
+This script automates the process of fetching, processing, classifying, and storing research papers from the IEEE Xplore API.
 
-IEEE Papers Data Extraction Script
-==================================
-This script fetches research papers from the IEEE Xplore API based on a specific search query.
-The query and optional file name are provided as command-line arguments.
+Pipeline Overview:
+1. Incrementally fetch new papers based on categories.
+2. Preprocess raw data for further analysis.
+3. Classify papers into predefined categories.
+4. Store results in an SQLite database.
+5. Track progress using a JSON file for incremental data retrieval.
+
+Features:
+- Handles incremental fetching using the `start_record` parameter.
+- Classifies papers using an encoder-based transformer model.
+- Stores data persistently in an SQLite database.
+- Progress tracking via a JSON file.
 """
 
 import os
@@ -30,7 +40,9 @@ def run_pipeline():
     3. Store final results in the database.
 
     Returns:
-        bool: True if new papers were processed, False otherwise.
+    -------
+    bool
+        True if new papers were processed, False otherwise.
 
     TODO: Handle whether query limit has been reached
     """
@@ -58,6 +70,8 @@ def run_pipeline():
             #     start_record=start_record,  # Incremental
             #     max_records=cfg.IEEE_API_MAX_RECORDS,
             # )
+
+            # For debug, manually give file, again in DataFrame format
             df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_small.csv")
 
             if df_raw.empty:
@@ -97,7 +111,12 @@ def run_pipeline():
 
 def _classify_new_unclassified_papers(db: Database) -> None:
     """
-    Classifies unclassified papers from the database.
+    Classifies unclassified papers and updates the database.
+
+    Parameters:
+    ----------
+    db : Database
+        The active database connection to query and store classified data.
     """
     df_unclassified = pd.read_sql_query(
         sql="""
@@ -121,13 +140,17 @@ def _classify_new_unclassified_papers(db: Database) -> None:
 
 def load_progress(filename: str):
     """
-    Load the progress JSON file.
+    Load the progress tracking JSON file.
 
     Parameters:
-        filename (str): JSON file name.
+    ----------
+    filename : str
+        The name of the JSON file storing progress data.
 
     Returns:
-        dict: Each category retruns the start_record for the API query.
+    -------
+    dict
+        A dictionary where each category maps to its last fetched `start_record`.
     """
     fn_path = os.path.join(cfg.CONFIG_DIR, filename)
     if not os.path.exists(fn_path):
@@ -140,11 +163,14 @@ def load_progress(filename: str):
 
 def save_progress(filename: str, progress) -> None:
     """
-    Save the progress to the JSON file.
+    Save progress tracking data to a JSON file.
 
     Parameters:
-        filename (str): JSON file name.
-        progress (dict): Progress data to save.
+    ----------
+    filename : str
+        The name of the JSON file to save progress.
+    progress : dict
+        A dictionary mapping each category to its current `start_record`.
     """
     fn_path = os.path.join(cfg.CONFIG_DIR, filename)
     with open(fn_path, "w") as file:
