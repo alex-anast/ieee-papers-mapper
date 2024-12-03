@@ -3,7 +3,7 @@
 import pytest
 import requests
 import pandas as pd
-from ..ieee_papers_mapper.data.get_papers import get_papers
+from ieee_papers_mapper.data.get_papers import get_papers
 
 
 @pytest.fixture

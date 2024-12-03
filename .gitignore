@@ -3,9 +3,8 @@
 bin/tmp
 .vscode
 ieee_papers_mapper/demo.ipynb
-data/ieee_papers.db
 ieee_papers_mapper/config/progress.json
-ieee_papers_mapper/ieee_papers.db
+ieee_papers.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

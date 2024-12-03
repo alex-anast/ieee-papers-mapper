@@ -11,8 +11,8 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/alex-anast/ieee-papers-mapper",
-    packages=find_packages(where="ieee_papers_mapper"),
-    package_dir={"": "ieee_papers_mapper"},
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",

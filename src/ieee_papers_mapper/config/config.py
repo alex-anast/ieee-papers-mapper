@@ -16,8 +16,6 @@ load_dotenv()
 
 # Directories
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
-DATA_DIR = os.path.join(ROOT_DIR, "data")
-DATA_RAW_DIR = os.path.join(DATA_DIR, "raw")
 SRC_DIR = os.path.join(ROOT_DIR, "ieee_papers_mapper")
 CONFIG_DIR = os.path.join(SRC_DIR, "config")
 JSON_FILENAME = "progress.json"
