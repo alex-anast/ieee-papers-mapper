@@ -24,6 +24,18 @@ setup(
     # List only the parent packages needed, not their dependencies as well
     # It is not the same as `requirements.txt` !!!
     install_requires=[
+        "dash",
         "pandas",
+        "dotenv",
+        "python-dotenv",
+        "transformers",
+        "torch",
+        "torchvision",
+        "torchaudio",
+        "sympy",
+        "pillow",
+        "networkx",
+        "mpmath",
+        "APScheduler",
     ],
 )
