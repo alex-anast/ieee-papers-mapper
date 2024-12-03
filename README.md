@@ -8,16 +8,17 @@
 
 - [X] Automate data retrieval (chron or APScheduler)
 - [X] Automate, classify, store in the DB
-- [ ] For the dash webapp, create a prototype interactive interface
-- [ ] If webapp is running, if a change in the database has happened, let the user know through a push notification and update visuals
+- [X] For the dash webapp, create a prototype interactive interface
+- [X] If webapp is running, if a change in the database has happened, let the user know through a push notification and update visuals
 - [X] Try and connect everything together!
 - [X] Test with APScheduler
 - [X] Create logic for starting the query where I left off
 - [X] Connect with web app. Currently it is not sourcing the data, the dash is empty
 - [X] Paper processing counters an error on `eval` function, use other logic
-- [ ] Make it a python package pip installable
+- [X] Make it a python package pip installable
 - [ ] Create a proper `requirements.txt` file after package completion
-- [ ] Create a docs prototype
+- [X] Create a docs prototype
+- [ ] Test if pip installable
 
 ## Features
 
