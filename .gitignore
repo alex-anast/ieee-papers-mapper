@@ -2,7 +2,7 @@
 ./data
 bin/tmp
 .vscode
-src/demo.ipynb
+ieee_papers_mapper/demo.ipynb
 data/ieee_papers.db
 
 # Byte-compiled / optimized / DLL files
