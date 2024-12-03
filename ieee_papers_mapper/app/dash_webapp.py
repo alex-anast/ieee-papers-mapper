@@ -18,22 +18,26 @@ import config.config as cfg
 app = dash.Dash(__name__)
 app.title = "IEEE Papers Dashboard"
 
-
-def fetch_data():
+def fetch_data(threshold: float = 0.5) -> pd.DataFrame:
     """
     Fetches paper counts grouped by category from the database.
 
+    Parameters:
+    ----------
+    threshold : float, optional
+        Minimum confidence score to filter the papers (default is 0.5).
+
     Returns:
     -------
-    pd.DataFrame:
+    pd.DataFrame
         DataFrame containing category and count of papers.
     """
-    query = """
+    query = f"""
         SELECT c.category, COUNT(*) as paper_count
         FROM classification c
         JOIN papers p ON c.paper_id = p.paper_id
         GROUP BY c.category
-        HAVING c.confidence >= 0.5
+        HAVING c.confidence >= {threshold}
     """
     conn = sqlite3.connect(cfg.DB_PATH)
     df = pd.read_sql_query(query, conn)
