@@ -299,7 +299,7 @@ class Database:
         # Insert index terms
         index_terms_types = ["author", "ieee", "dynamic"]
         index_terms_columns = [
-            "index_terms_author",
+            # "index_terms_author",
             "index_terms_ieee",
             "index_terms_dynamic",
         ]

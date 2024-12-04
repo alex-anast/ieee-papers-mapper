@@ -48,13 +48,20 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
         "citing_patent_count",
         "title",
         "abstract",
-        "index_terms.author_terms.terms",
+        # "index_terms.author_terms.terms",
         "index_terms.ieee_terms.terms",
         "index_terms.dynamic_index_terms.terms",
         "authors.authors",
     ]
 
-    df_processed = df_raw[keep_columns].copy()
+    # Retain only the columns that exist in df_raw
+    existing_columns = [col for col in keep_columns if col in df_raw.columns]
+    missing_columns = set(keep_columns) - set(existing_columns)
+
+    if missing_columns:
+        logger.warning(f"(!) Missing columns in input data: {missing_columns}")
+
+    df_processed = df_raw[existing_columns].copy()
 
     # Convert 'insert_date' to ISO8601 format
     df_processed["insert_date"] = pd.to_datetime(
@@ -66,7 +73,7 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
 
     # Transform index_terms columns
     for col in [
-        "index_terms.author_terms.terms",
+        # "index_terms.author_terms.terms",
         "index_terms.ieee_terms.terms",
         "index_terms.dynamic_index_terms.terms",
     ]:
@@ -76,7 +83,7 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
     # Rename index_terms columns
     df_processed.rename(
         columns={
-            "index_terms.author_terms.terms": "index_terms_author",
+            # "index_terms.author_terms.terms": "index_terms_author",
             "index_terms.ieee_terms.terms": "index_terms_ieee",
             "index_terms.dynamic_index_terms.terms": "index_terms_dynamic",
         },
@@ -95,7 +102,7 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
         "publication_year",
         "download_count",
         "citing_patent_count",
-        "index_terms_author",
+        # "index_terms_author",
         "index_terms_ieee",
         "index_terms_dynamic",
         "authors",
@@ -174,7 +181,8 @@ def _create_prompt(row: pd.Series) -> str:
     """
     title = row["title"]
     abstract = row["abstract"]
-    all_terms = row["index_terms_author"] + row["index_terms_ieee"] + row["index_terms_dynamic"]
+    # all_terms = row["index_terms_author"] + row["index_terms_ieee"] + row["index_terms_dynamic"]
+    all_terms = row["index_terms_ieee"] + row["index_terms_dynamic"]
     index_terms = ", ".join(all_terms)
     return f"title: {title} - abstract: {abstract} - index_terms: {index_terms}"
 

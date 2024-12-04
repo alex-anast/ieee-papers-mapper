@@ -2,13 +2,28 @@
 
 
 """
-TODO: This is wrong, change it:
+IEEE Papers Scheduler Script
+============================
 
-IEEE Papers Data Extraction Script
-==================================
-This script fetches research papers from the IEEE Xplore API based on a specific search query.
-The query and optional file name are provided as command-line arguments.
+This script starts the scheduler for fetching, processing, and classifying research
+papers from the IEEE Xplore API at specified intervals.
+
+Usage:
+    python3 <script_name>.py [--weeks WEEKS] [--days DAYS]
+                             [--hours HOURS] [--minutes MINUTES]
+                             [--seconds SECONDS]
+
+Arguments:
+    --weeks     : Interval in weeks (default: 0).
+    --days      : Interval in days (default: 0).
+    --hours     : Interval in hours (default: 0).
+    --minutes   : Interval in minutes (default: 0).
+    --seconds   : Interval in seconds (default: 0).
+
+The scheduler runs the pipeline in the background at the specified interval.
+Press Ctrl+C to stop the scheduler gracefully.
 """
+
 
 import time
 import sys
