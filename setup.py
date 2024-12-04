@@ -25,7 +25,6 @@ setup(
     install_requires=[
         "dash",
         "pandas",
-        "dotenv",
         "python-dotenv",
         "transformers",
         "torch",

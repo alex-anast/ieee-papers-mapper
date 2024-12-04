@@ -24,13 +24,13 @@ DB_PATH = os.path.join(SRC_DIR, "ieee_papers.db")
 # IEEE API Parameters
 IEEE_API_KEY = os.getenv("IEEE_API_KEY")
 IEEE_API_START_RECORD = 1
-IEEE_API_START_YEAR = 2000
+IEEE_API_START_YEAR = 2024
 # TODO: Change to 200
 IEEE_API_MAX_RECORDS = 5
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
-CATEGORIES = ["machine learning", "other category"]
+CATEGORIES = ["machine learning", "power electronics", "robotics", "other category"]
 DB_TABLES = ["papers", "authors", "index_terms", "prompts", "classification"]
 
 # Models

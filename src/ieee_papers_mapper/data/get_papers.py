@@ -20,7 +20,7 @@ Dependencies:
 import requests
 import pandas as pd
 import argparse
-from ..config import config as cfg
+from src.ieee_papers_mapper.config import config as cfg
 import logging
 from typing import Optional
 

@@ -28,7 +28,7 @@ import sqlite3
 import logging
 import pandas as pd
 from typing import Optional
-from ..config import config as cfg
+from src.ieee_papers_mapper.config import config as cfg
 
 logger = logging.getLogger("ieee_logger")
 

@@ -23,7 +23,7 @@ import os
 import json
 import logging
 import pandas as pd
-from ..config import config as cfg
+from src.ieee_papers_mapper.config import config as cfg
 from data.database import Database
 from data.get_papers import get_papers
 from data.process_papers import process_papers
@@ -70,9 +70,6 @@ def run_pipeline():
                 start_record=start_record,  # Incremental
                 max_records=cfg.IEEE_API_MAX_RECORDS,
             )
-
-            # For debug, manually give file, again in DataFrame format
-            # df_raw = pd.read_csv("/home/alex-anast/workspace/ieee-papers-mapper/data/raw/machine_learning_small.csv")
 
             if df_raw.empty:
                 logger.info(f"No new papers found for category: '{category}'")
