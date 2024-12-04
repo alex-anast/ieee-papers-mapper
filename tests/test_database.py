@@ -14,11 +14,11 @@ def db(tmp_path):
 
 
 def test_create_tables(db):
+    db.create_all_tables()
     existing_tables = db.get_existing_tables()
     assert "papers" in existing_tables
     assert "authors" in existing_tables
     assert "classification" in existing_tables
-
 
 def test_insert_paper(db):
     paper_data = {

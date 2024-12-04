@@ -3,6 +3,7 @@
 import pytest
 import requests
 import pandas as pd
+import src.ieee_papers_mapper.config.config as cfg
 from src.ieee_papers_mapper.data.get_papers import get_papers
 
 
@@ -19,7 +20,7 @@ def mock_response():
 def test_get_papers_success(mock_response, requests_mock):
     query = "machine learning"
     requests_mock.get(
-        "https://ieeexploreapi.ieee.org/api/v1/search/articles", json=mock_response
+        f"{cfg.BASE_URL}", json=mock_response
     )
 
     df = get_papers(
@@ -37,7 +38,7 @@ def test_get_papers_success(mock_response, requests_mock):
 def test_get_papers_no_data(requests_mock):
     query = "nonexistent topic"
     requests_mock.get(
-        "https://ieeexploreapi.ieee.org/api/v1/search/articles", json={"articles": []}
+        f"{cfg.BASE_URL}", json={"articles": []}
     )
 
     df = get_papers(
@@ -53,7 +54,7 @@ def test_get_papers_no_data(requests_mock):
 def test_get_papers_request_exception(requests_mock):
     query = "machine learning"
     requests_mock.get(
-        "https://ieeexploreapi.ieee.org/api/v1/search/articles",
+        f"{cfg.BASE_URL}",
         exc=requests.exceptions.RequestException,
     )
 
