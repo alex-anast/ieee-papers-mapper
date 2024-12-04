@@ -16,10 +16,14 @@
 - [X] Connect with web app. Currently it is not sourcing the data, the dash is empty
 - [X] Paper processing counters an error on `eval` function, use other logic
 - [X] Make it a python package pip installable
-- [ ] Create a proper `requirements.txt` file after package completion
+- [X] Create a proper `requirements.txt` file after package completion
 - [X] Create a docs prototype
 - [X] Test if pip installable
-- [ ] Run pytest on basic py files
+- [X] Run pytest on basic py files
+- [ ] Fix README.md fully
+- [ ] See CS50X requirements for posting
+- [ ] Put badges on README.md
+- [ ] Record video showcasing a demo
 
 ## Features
 
