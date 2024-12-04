@@ -2,7 +2,7 @@
 
 import pytest
 import pandas as pd
-from ieee_papers_mapper.data.process_papers import process_papers
+from src.ieee_papers_mapper.data.process_papers import process_papers
 
 
 @pytest.fixture

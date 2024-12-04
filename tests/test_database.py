@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 
 import pytest
-from ..ieee_papers_mapper.data.database import Database
+from src.ieee_papers_mapper.data.database import Database
 
 
 @pytest.fixture
-def db():
-    db = Database(name="test_db")
+def db(tmp_path):
+    """Fixture to create a temporary database for testing."""
+    db_path = tmp_path / "test_ieee_papers.db"
+    db = Database(name="test_ieee_papers", filepath=str(tmp_path))
     db.initialize()
-    yield db
-    db.close()
+    return db
 
 
 def test_create_tables(db):

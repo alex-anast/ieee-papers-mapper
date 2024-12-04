@@ -2,7 +2,7 @@
 
 import pytest
 import pandas as pd
-from ..ieee_papers_mapper.data.classify_papers import classify_text, classify_all_papers
+from src.ieee_papers_mapper.data.classify_papers import classify_text, classify_all_papers
 
 
 @pytest.fixture
