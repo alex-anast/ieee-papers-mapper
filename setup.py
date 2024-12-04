@@ -18,7 +18,6 @@ setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: POSIX :: Linux",
-        "Operating System :: Ubuntu :: 24.04",
     ],
     python_requires=">=3.12",
     # List only the parent packages needed, not their dependencies as well

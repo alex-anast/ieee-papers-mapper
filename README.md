@@ -2,109 +2,241 @@
 
 ## Overview
 
-**IEEE Papers Mapper** is a tool that sources papers through the IEEE API and visualizes the results in a dashboard. The goal is to quantify and map research trends across various fields using intuitive visualizations.
+IEEE Papers Mapper is a comprehensive tool for retrieving, processing, classifying, and visualizing research papers from the IEEE Xplore API. It automates data ingestion, applies machine learning for classification, and offers interactive dashboards for insights.
 
-## TODO
+## Badges
 
-- [X] Automate data retrieval (chron or APScheduler)
-- [X] Automate, classify, store in the DB
-- [X] For the dash webapp, create a prototype interactive interface
-- [X] If webapp is running, if a change in the database has happened, let the user know through a push notification and update visuals
-- [X] Try and connect everything together!
-- [X] Test with APScheduler
-- [X] Create logic for starting the query where I left off
-- [X] Connect with web app. Currently it is not sourcing the data, the dash is empty
-- [X] Paper processing counters an error on `eval` function, use other logic
-- [X] Make it a python package pip installable
-- [X] Create a proper `requirements.txt` file after package completion
-- [X] Create a docs prototype
-- [X] Test if pip installable
-- [X] Run pytest on basic py files
-- [ ] Fix README.md fully
-- [ ] See CS50X requirements for posting
-- [ ] Put badges on README.md
-- [ ] Record video showcasing a demo
+![PyPI version](https://img.shields.io/pypi/v/ieee-papers-mapper)<br>
+![Build Status](https://img.shields.io/github/actions/workflow/status/alex-anast/ieee-papers-mapper/ci.yml)<br>
+![Code Coverage](https://img.shields.io/codecov/c/github/alex-anast/ieee-papers-mapper)<br>
+![Issues](https://img.shields.io/github/issues/alex-anast/ieee-papers-mapper)<br>
+![Last Commit](https://img.shields.io/github/last-commit/alex-anast/ieee-papers-mapper)
+![License](https://img.shields.io/github/license/alex-anast/ieee-papers-mapper)<br>
 
-## Features
+## Table of Contents
 
-- Automate data extraction from IEEE Xplore API.
-- Clean and preprocess research data
-- Classify research papers based on keywords or machine learning models
-- Store data in a PostgreSQL (or SQLite) database
-- Visualize research output using dynamic charts and graphs
+- [IEEE Papers Mapper](#ieee-papers-mapper)
+  - [Overview](#overview)
+  - [Key Features](#key-features)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Documentation](#documentation)
+  - [Testing](#testing)
+  - [Contributing](#contributing)
+  - [Roadmap](#roadmap)
+  - [License](#license)
+  - [Acknowledgments](#acknowledgments)
+  - [Contact](#contact)
 
-## Repo Structure Logic
+## Demo
 
-```bash
-src/
-├── app/                        # Web application
-│   ├── __init__.py             # Initializes the app as a package
-│   ├── dash_webapp.py          # Dash application logic
-│   ├── callbacks.py            # Callbacks for interactivity
-│   └── assets/                 # Static files (CSS, images, etc.)
-│       └── styles.css
-│
-├── config/                     # Configuration and environment setup
-│   ├── config.py               # Contains constants, model names, API keys
-│   └── scheduler.py            # Scheduler setup (APScheduler logic)
-│
-├── data/                       # Data processing and classification
-│   ├── get_papers.py           # Fetch data from IEEE API
-│   ├── process_papers.py       # Preprocess raw data
-│   ├── classify_papers.py      # Classify papers
-│   ├── pipeline.py             # End-to-end pipeline logic
-│   ├── database.py             # Database setup and query functions
-│   └── demo.ipynb              # Demo notebook for testing workflows
-│
-├── main.py                     # Main script orchestrating the phases
-└── __init__.py                 # Initializes the src directory as a package
-tests/                          # Testing
-├── test_database.py            # Unit tests for database module
-├── test_classify_papers.py     # Unit tests for classification
-└── test_end_to_end.py          # End-to-end workflow tests
-```
+[![Watch the video](https://img.youtube.com/vi/sNybO2tVy_w/0.jpg)](https://www.youtube.com/watch?v=sNybO2tVy_w)
 
-## Project Structure / Steps
+## Key Features
 
-Outline what this teaches you for future recruiters!
+- Automated Data Retrieval: Scheduled fetching of research papers using APScheduler.
+- Data Processing: Cleans, formats, and prepares data for analysis.
+- Machine Learning Classification: Zero-shot classification using transformer models.
+- Interactive Dashboard: Visualize categorized papers and insights using Plotly Dash.
 
-1. Data Collection
-    - IEEE API Integration (`requests`, pagination)
-    - Data Storage (JSON, CSV, SQLite, Data Version Control (DVC))
-    - Data Cleaning (removal, normalization, tokenization)
-    - Preprocessing (matadata)
-2. Text Classification (Keyword classification, LLMs, Embedding (Semantic) Search)
-3. Trend Analysis & Visualization
-4. Deployment & Documentation
-    - Web deployment
-    - `docs/` folder, and `notebooks/` folder for tutorial
-
-## Getting Started
-
-In order to add a new category, these two actions are needed:
-
-1. Modify `./src/..config.config.py` and global constant variable `CATEGORIES`. The last item of this list should always be `other_category`.
-2. Add the category with a starting record (default is 1) in the JSON file `./src/config/progress.json` for full control, otherwise entry is automatically configured in this file.
-
-NOTE: Adding categories increases the amount of time needed to classify the papers (> O(n)). A pipeline runtime should not exceed the scheduler's interval. If it is, racing conditions will crash the program.
+## Installation
 
 ### Prerequisites
 
-### Installation
+- Python 3.12+
+- Virtual Environment (optional but recommended)
+- Required tools: pip, git
 
-### Usage
+### Steps (for Usage)
 
-## Workflow
+1. Create a project directory:
 
-## Classifiers
+    ```bash
+    mkdir ~/workspace/my_project
+    cd ~/workspace/my_project
+    ```
 
-## Contributions
+2. Create and activate a virtual environment:
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # For Linux/Mac
+    venv\Scripts\activate     # For Windows
+    ```
+
+3. Install the `pip` package and start using it at will:
+
+    ```bash
+    pip install ieee-papers-mapper
+    ```
+
+### Steps (for Development)
+
+1. Clone the repository
+
+    ```bash
+    git clone https://github.com/alex-anast/ieee-papers-mapper.git
+    cd ieee-papers-mapper
+    ```
+
+2. Create and activate a virtual environment:
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # For Linux/Mac
+    venv\Scripts\activate     # For Windows
+    ```
+
+3. Install the required packages:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Install the package locally:
+
+    ```bash
+    pip install .
+    ```
+
+## Usage
+
+### Running the Application
+
+#### Dashboard
+
+To launch the dashboard, run:
+
+```bash
+python ieee_papers_mapper/app/dash_webapp.py
+```
+
+Visit [http://localhost:8050](http://localhost:8050) to view the dashboard.
+
+#### Data Pipeline
+
+To run the pipeline of retrieving, processing and classifying the papers automatically, execute:
+
+```bash
+python ieee_papers_mapper/main.py --days 1
+```
+
+NOTE: Currently the scheduler is commented out. The pipeline runs must be executed manually.
+
+### Functionality
+
+- **Data Retrieval:** Automatically fetches new papers based on categories from IEEE Xplore.
+- **Data Processing:** Handles missing columns and formats data for classification.
+- **Classification:** Uses a DeBERTa-v3 model for zero-shot classification into predefined categories.
+- **Data Storage:** Uses SQLite3 for storing the data in an SQL database (scalability, modularity over CSV files).
+
+## Documentation
+
+### Link to Docs
+
+Complete documentation is available at: [https://alex-anast.com/ieee-papers-mapper/](alex-anast.com/ieee-papers-mapper/)
+
+### Code structure
+
+```bash
+./ieee-pappers-mapper
+├── conftest.py
+├── docs                                # MkDocs
+│   ├── about.md
+│   ├── developer_guide
+│   │   ├── api_reference.md
+│   │   └── code_structure.md
+│   ├── index.md
+│   └── user_guide
+│       ├── installation.md
+│       ├── overview.md
+│       └── usage.md
+├── LICENSE
+├── mkdocs.yml                          # MkDocs config
+├── pyproject.toml
+├── README.md
+├── requirements.txt
+├── setup.py
+├── src
+│   └── ieee_papers_mapper
+│       ├── app                         # Web App (plotly dash)
+│       │   ├── assets
+│       │   │   └── styles.css
+│       │   ├── callbacks.py
+│       │   ├── dash_webapp.py
+│       │   └── __init__.py
+│       ├── config                      # Config and util files
+│       │   ├── config.py
+│       │   ├── progress.json
+│       │   └── scheduler.py            # Custom scheduler wrapper class
+│       ├── data
+│       │   ├── classify_papers.py      # Classification
+│       │   ├── database.py             # Custom Database wrapper class
+│       │   ├── get_papers.py           # Paper retrieval
+│       │   ├── __init__.py
+│       │   ├── pipeline.py             # Pipeline actions
+│       │   └── process_papers.py       # Paper (pre)processing
+│       ├── ieee_papers.db
+│       ├── __init__.py
+│       └── main.py
+└── tests
+    ├── __init__.py
+    ├── test_classify_papers.py
+    ├── test_database.py
+    ├── test_get_papers.py
+    └── test_process_papers.py
+```
+
+## Testing
+
+Run the tests with:
+
+`python -m pytest`
+
+### Testing Coverage
+
+- **get_papers.py:** Validates API integration and error handling.
+- **process_papers.py:** Ensures data cleaning and formatting.
+- **classify_papers.py:** Verifies ML classification accuracy and runtime performance.
+- **database.py:** Checks database initialization and CRUD operations.
+
+## Contributing
+
+### Guidelines
+
+- Fork the repository and submit a pull request.
+- Adhere to PEP 8 code style.
+- Include unit tests for new core functionality.
+- Lint with `black` formatter.
+
+## Roadmap
+
+### Future Features
+
+1. Currently `author index terms` is not consistent, and therefore commented out. Fix.
+2. Scheduler is not enabled.
+3. Add more advanced ML models for classification.
+4. Enhance the dashboard with dynamic filtering.
+
+### Known Issues
+
+Limited to 20 API calls/day and to max 200 papers/call, due to IEEE Xplore API restrictions.
 
 ## License
 
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+## Acknowledgments
+
+### Inspiration
+
+This project is a recreated minimal duplicate to my internship at Toyota Motor Europe, Belgium.
+
+### Special Thanks
+
+To my mentors at TME.
+
 ## Contact
 
-## Future Ideas
-
-- Get geolocation of the cities and have a map-like dashboard
-
+- Owner: Alexandros Anastasiou
+- Email: [anastasioyaa@gmail.com](mailto:anastasioyaa@gmail.com)
