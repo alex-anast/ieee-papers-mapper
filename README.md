@@ -79,7 +79,7 @@ Outline what this teaches you for future recruiters!
 
 In order to add a new category, these two actions are needed:
 
-1. Modify `./src/config/config.py` and global constant variable `CATEGORIES`. The last item of this list should always be `other_category`.
+1. Modify `./src/..config.config.py` and global constant variable `CATEGORIES`. The last item of this list should always be `other_category`.
 2. Add the category with a starting record (default is 1) in the JSON file `./src/config/progress.json` for full control, otherwise entry is automatically configured in this file.
 
 NOTE: Adding categories increases the amount of time needed to classify the papers (> O(n)). A pipeline runtime should not exceed the scheduler's interval. If it is, racing conditions will crash the program.

@@ -23,7 +23,7 @@ import os
 import json
 import logging
 import pandas as pd
-import config.config as cfg
+from ..config import config as cfg
 from data.database import Database
 from data.get_papers import get_papers
 from data.process_papers import process_papers

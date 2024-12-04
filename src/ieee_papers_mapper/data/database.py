@@ -1,20 +1,34 @@
 #!/usr/bin/env python3
 
-"""
-TODO: This is wrong, change it:
 
-IEEE Papers Data Extraction Script
-==================================
-This script fetches research papers from the IEEE Xplore API based on a specific search query.
-The query and optional file name are provided as command-line arguments.
 """
+Database Module for IEEE Papers Mapper
+======================================
+
+This module manages the SQLite database used by the IEEE Papers Mapper project.
+It provides functionality to initialize the database, create tables, and insert
+data such as papers, authors, index terms, prompts, and classification results.
+
+Classes:
+    Database: A class that handles all database operations, including table
+              creation, data insertion, and connection management.
+
+Functions:
+    - initialize: Creates tables in the database if they don't exist.
+    - insert_paper: Inserts paper metadata into the `papers` table.
+    - insert_authors: Inserts authors associated with a paper into the `authors` table.
+    - insert_index_terms: Adds index terms for a paper into the `index_terms` table.
+    - insert_prompt: Stores prompts related to a paper.
+    - insert_full_paper: Inserts a complete paper along with its associated data.
+"""
+
 
 import os
 import sqlite3
 import logging
 import pandas as pd
 from typing import Optional
-import config.config as cfg
+from ..config import config as cfg
 
 logger = logging.getLogger("ieee_logger")
 

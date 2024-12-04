@@ -21,7 +21,7 @@ import os
 import ast
 import logging
 import pandas as pd
-import config.config as cfg
+from ..config import config as cfg
 
 logger = logging.getLogger("ieee_logger")
 

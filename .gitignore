@@ -5,6 +5,7 @@ bin/tmp
 ieee_papers_mapper/demo.ipynb
 ieee_papers_mapper/config/progress.json
 ieee_papers.db
+test_db.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

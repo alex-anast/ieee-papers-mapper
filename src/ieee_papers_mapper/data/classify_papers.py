@@ -4,7 +4,7 @@ import time
 import pandas as pd
 import logging
 from transformers import pipeline
-import config.config as cfg
+from ..config import config as cfg
 
 logger = logging.getLogger("ieee_logger")
 
