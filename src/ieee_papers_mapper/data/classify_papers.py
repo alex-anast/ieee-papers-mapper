@@ -26,6 +26,7 @@ def classify_text(text: str, timer: bool = False) -> list:
         start_time = time.time()
 
     results = classifier(text, candidate_labels=cfg.CATEGORIES, multi_label=True)
+    print(results)
 
     if timer:
         elapsed_time = time.time() - start_time

@@ -56,48 +56,49 @@ def run_pipeline():
     progress = load_progress(cfg.JSON_FILENAME)
     new_papers_retrieved = False
 
-    for category in cfg.CATEGORIES[:-1]:  # Skip last category, assume it's "others"
+    # for category in cfg.CATEGORIES[:-1]:  # Skip last category, assume it's "others"
+    for category in cfg.CATEGORIES:
         # Returns start_record, default to 1 if entry doesn't exist (will be saved)
         start_record = progress.get(category, 1)
 
         # Get new papers
-        while True:
-            logger.debug(f"Fetching IEEE data for category '{category}', start_record={start_record}...")
-            df_raw = get_papers(
-                query=category,
-                api_key=cfg.IEEE_API_KEY,
-                start_year=cfg.IEEE_API_START_YEAR,
-                start_record=start_record,  # Incremental
-                max_records=cfg.IEEE_API_MAX_RECORDS,
-            )
+        # while True:
+        logger.debug(f"Fetching IEEE data for category '{category}', start_record={start_record}...")
+        df_raw = get_papers(
+            query=category,
+            api_key=cfg.IEEE_API_KEY,
+            start_year=cfg.IEEE_API_START_YEAR,
+            start_record=start_record,  # Incremental
+            max_records=cfg.IEEE_API_MAX_RECORDS,
+        )
 
-            if df_raw.empty:
-                logger.info(f"No new papers found for category: '{category}'")
-                break
-            # True if anything has been returned for any category
-            new_papers_retrieved = True
+        if df_raw.empty:
+            logger.info(f"No new papers found for category: '{category}'")
+            break
+        # True if anything has been returned for any category
+        new_papers_retrieved = True
 
-            # Process data
-            logger.debug("Processing retrieved papers...")
-            df_processed = process_papers(df_raw)
+        # Process data
+        logger.debug("Processing retrieved papers...")
+        df_processed = process_papers(df_raw)
 
-            # Insert new data into the database
-            logger.debug("Storing data in SQLite database...")
-            for _, row in df_processed.iterrows():
-                try:
-                    db.insert_full_paper(row)
-                except Exception as e:
-                    logger.error(
-                        f"Error inserting paper with is_number {row['is_number']}: {e}"
-                    )
+        # Insert new data into the database
+        logger.debug("Storing data in SQLite database...")
+        for _, row in df_processed.iterrows():
+            try:
+                db.insert_full_paper(row)
+            except Exception as e:
+                logger.error(
+                    f"Error inserting paper with is_number {row['is_number']}: {e}"
+                )
 
-            start_record += cfg.IEEE_API_MAX_RECORDS
-            progress[category] = start_record
-            save_progress(cfg.JSON_FILENAME, progress)
+        start_record += cfg.IEEE_API_MAX_RECORDS
+        progress[category] = start_record
+        save_progress(cfg.JSON_FILENAME, progress)
 
-            if len(df_raw) < cfg.IEEE_API_MAX_RECORDS:
-                logger.info(f"Completed retrieval for category '{category}'.")
-                break
+        if len(df_raw) < cfg.IEEE_API_MAX_RECORDS:
+            logger.info(f"Completed retrieval for category '{category}'.")
+            break
 
     # Classify newly retrieved papers by comparing the unique ID
     logger.debug("Classifying unclassified papers...")

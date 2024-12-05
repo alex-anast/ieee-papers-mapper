@@ -2,6 +2,32 @@
 
 
 """
+IEEE Papers Dashboard
+=====================
+
+This script creates a web-based dashboard using Dash to visualize paper counts by category from an IEEE database.
+The dashboard fetches data from a SQLite database and displays a bar chart showing the number of papers in each category.
+The chart is updated every 10 seconds to reflect the latest data.
+
+Key Components:
+---------------
+1. **Dash Web App**: A basic web interface created with Dash that includes a bar chart visualizing paper counts.
+2. **Database Interaction**: Fetches paper count data grouped by category from a SQLite database, with a confidence threshold filter.
+3. **Real-time Updates**: The bar chart updates every 10 seconds to display real-time changes in paper counts.
+
+Functions:
+----------
+- `fetch_data(threshold: float = 0.5) -> pd.DataFrame`: Fetches paper counts grouped by category from the database.
+- `update_graph(n_intervals: int) -> plotly.graph_objects.Figure`: Callback function to update the bar chart with new data.
+
+Usage:
+------
+- Run the script to start the web application.
+- The app fetches and displays data from the database, and automatically updates the bar chart every 10 seconds.
+
+Example:
+--------
+- The web page will display the number of papers in each category where the confidence score is above a given threshold (default 0.5).
 """
 
 

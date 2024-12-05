@@ -42,6 +42,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
+
 def main():
     # Set up argument parsing for setting the scheduler trigger intervals
     parser = argparse.ArgumentParser(description="Start the IEEE papers scheduler.")
