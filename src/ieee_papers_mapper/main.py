@@ -62,11 +62,11 @@ def main():
     )
 
     try:
-        # scheduler.start()
+        scheduler.start()
         print("Scheduler is running. Press Ctrl+C to stop.")
-        run_pipeline()
-        # while True:
-        #     time.sleep(1)  # Keeps the main thread alive
+        # run_pipeline()
+        while True:
+            time.sleep(1)  # Keeps the main thread alive
     except (KeyboardInterrupt, SystemExit):
         scheduler.stop()
         print("Scheduler stopped gracefully.")

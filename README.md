@@ -30,7 +30,7 @@ IEEE Papers Mapper is a comprehensive tool for retrieving, processing, classifyi
 
 ## Demo
 
-[![Watch the video](https://img.youtube.com/vi/sNybO2tVy_w/0.jpg)](https://www.youtube.com/watch?v=sNybO2tVy_w)
+[![Watch the video](https://img.youtube.com/vi/s_osIJvKWCE/0.jpg)](https://youtu.be/s_osIJvKWCE)
 
 ## Key Features
 
