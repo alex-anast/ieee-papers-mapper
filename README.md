@@ -17,6 +17,7 @@ IEEE Papers Mapper is a comprehensive tool for retrieving, processing, classifyi
 
 - [IEEE Papers Mapper](#ieee-papers-mapper)
   - [Overview](#overview)
+  - [Description](#description)
   - [Key Features](#key-features)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -31,6 +32,10 @@ IEEE Papers Mapper is a comprehensive tool for retrieving, processing, classifyi
 ## Demo
 
 [![Watch the video](https://img.youtube.com/vi/s_osIJvKWCE/0.jpg)](https://youtu.be/s_osIJvKWCE)
+
+## Description
+
+The IEEE Papers Mapper is a comprehensive pipeline designed to automate the retrieval, processing, classification, and visualization of academic papers sourced from the IEEE Xplore digital library. This tool streamlines research management by automatically fetching papers based on user-defined queries, preprocessing the raw data to extract key metadata, and employing an encoder-only machine learning model to classify papers into predefined categories. The results are stored in a robust SQLite database and visualized through a Plotly Dash web app. The project integrates APScheduler for scheduled data retrieval, ensuring that the pipeline remains up-to-date. It is highly configurable, allowing users to define custom thresholds, categories, and schedules, making it a valuable resource for researchers and data professionals aiming to organize vast volumes of academic literature efficiently.
 
 ## Key Features
 
