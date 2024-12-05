@@ -287,9 +287,8 @@ class Database:
             row (pd.Series): A row from the processed DataFrame.
         """
         if self.paper_exists(row["is_number"]):
-            logger.warning(
-                f"Paper with is_number {row['is_number']} already exists. Skipping."
-            )
+            # TODO: Commenting out for DEMO purposes
+            # logger.warning(f"Paper with is_number {row['is_number']} already exists. Skipping.")
             return
 
         # Insert main paper metadata

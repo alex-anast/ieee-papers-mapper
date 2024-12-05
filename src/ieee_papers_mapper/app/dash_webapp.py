@@ -62,8 +62,8 @@ def fetch_data(threshold: float = 0.5) -> pd.DataFrame:
         SELECT c.category, COUNT(*) as paper_count
         FROM classification c
         JOIN papers p ON c.paper_id = p.paper_id
+        WHERE c.confidence >= {threshold}  -- Filter rows before grouping
         GROUP BY c.category
-        HAVING c.confidence >= {threshold}
     """
     conn = sqlite3.connect(cfg.DB_PATH)
     df = pd.read_sql_query(query, conn)

@@ -26,7 +26,7 @@ IEEE_API_KEY = os.getenv("IEEE_API_KEY")
 IEEE_API_START_RECORD = 1
 IEEE_API_START_YEAR = 2024
 # TODO: Change to 200
-IEEE_API_MAX_RECORDS = 20
+IEEE_API_MAX_RECORDS = 50
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
