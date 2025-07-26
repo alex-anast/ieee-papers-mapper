@@ -223,6 +223,64 @@ Run the tests with:
 3. Add more advanced ML models for classification.
 4. Enhance the dashboard with dynamic filtering.
 
+## Actionable TODOs to Turn to Enterprise Level
+
+This project has a solid foundation. To elevate it to a level that showcases enterprise-grade engineering, the following steps should be taken. These focus on scalability, reliability, security, observability, and maintainability.
+
+### 1. Production-Grade Deployment & Scalability
+
+The current project runs locally. The single most impactful step is to make it a deployable, scalable service.
+
+*   **Containerize Everything:**
+    *   **Action:** Create a `Dockerfile` for the main application (pipeline + scheduler) and another for the Dash web app. Use a multi-stage build to keep the final images lean. Create a `docker-compose.yml` to orchestrate the services locally.
+    *   **Why it shows seniority:** Demonstrates understanding of environment consistency, portability, and managing multi-service applications.
+
+*   **Infrastructure as Code (IaC):**
+    *   **Action:** Use Terraform to define the cloud infrastructure needed to run your application. This would include a database instance, a container orchestration service, and the necessary networking and security groups.
+    *   **Why it shows seniority:** You are not manually clicking buttons in a cloud console. You are creating reproducible, version-controlled infrastructure, a core tenet of modern DevOps and SRE.
+
+*   **Deploy to the Cloud:**
+    *   **Action:** Use the Terraform script to deploy the containerized application to a cloud provider (e.g., AWS, GCP, Azure).
+        *   **Database:** Replace SQLite with a managed, production-grade database like **AWS RDS (PostgreSQL)**. This is critical for scalability and reliability.
+        *   **Container Orchestration:** Deploy your containers using a service like **AWS ECS (Elastic Container Service)** or **EKS (Elastic Kubernetes Service)**.
+    *   **Why it shows seniority:** Shows the ability to take a project from a local machine to a real-world, scalable cloud environment.
+
+### 2. Advanced Architecture & Data Engineering
+
+Refactor the pipeline from a single script into a more robust, event-driven architecture.
+
+*   **Decouple the Pipeline with a Message Queue:**
+    *   **Action:** Instead of a monolithic `run_pipeline` function, break it into discrete services that communicate via a message queue (e.g., **AWS SQS** or **RabbitMQ**).
+        1.  **Fetcher Service**: Polls the IEEE API and pushes new paper IDs into a "papers_to_process" queue.
+        2.  **Processing Service**: Listens to the queue, fetches full paper details, processes them, and stores them in the database.
+        3.  **Classifier Service**: After processing, a message is sent to a "papers_to_classify" queue. This service picks it up, runs the ML model, and updates the database.
+    *   **Why it shows seniority:** This demonstrates a deep understanding of distributed systems, improving scalability (workers can be scaled independently) and resilience (failed messages can be retried).
+
+*   **Data Validation:**
+    *   **Action:** Integrate a data validation library like **Pydantic** or **Great Expectations**. Before inserting data into your database, validate that it conforms to an expected schema (e.g., `publication_year` is a valid year, `title` is a non-empty string).
+    *   **Why it shows seniority:** Proactively ensures data quality, preventing "garbage in, garbage out" and making the system more robust.
+
+### 3. Observability and Security
+
+A production system is a black box unless you instrument it.
+
+*   **Structured Logging & Monitoring:**
+    *   **Action:**
+        1.  Configure your logger to output logs in **JSON format**.
+        2.  In your cloud deployment, ship these logs to a centralized logging service (e.g., **AWS CloudWatch** or the ELK stack).
+        3.  Add monitoring with **Prometheus** and **Grafana**. Expose key metrics from your application, such as `papers_processed_per_minute`, `api_error_rate`, and `classification_time_seconds`.
+    *   **Why it shows seniority:** Demonstrates thinking about how to debug and monitor a system *after* it's deployed.
+
+*   **Security Hardening:**
+    *   **Action:** Move the IEEE API key from the `.env` file to a dedicated secrets management service like **AWS Secrets Manager** or **HashiCorp Vault**. The application should fetch the secret at runtime.
+    *   **Why it shows seniority:** Shows understanding of enterprise-grade security practices for managing sensitive credentials.
+
+### 4. Documentation
+
+*   **Architectural Design Document:**
+    *   **Action:** Create a new document in the `docs` folder explaining the new, event-driven architecture with diagrams.
+    *   **Why it shows seniority:** The ability to clearly communicate complex technical designs is a critical skill for senior engineers.
+
 ### Known Issues
 
 Limited to 20 API calls/day and to max 200 papers/call, due to IEEE Xplore API restrictions.
