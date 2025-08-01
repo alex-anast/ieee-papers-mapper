@@ -48,7 +48,7 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
         "citing_patent_count",
         "title",
         "abstract",
-        # "index_terms.author_terms.terms",
+        # "index_terms.author_terms.terms",  # This cannot be prod
         "index_terms.ieee_terms.terms",
         "index_terms.dynamic_index_terms.terms",
         "authors.authors",
@@ -136,7 +136,7 @@ def _safe_parse_list(value: str) -> list:
         return []
 
 
-def _extract_author_info(authors_str: str) -> list:
+def _extract_author_info(authors_str: str) -> list:  # TODO: Dataclasses for these things. Show that you care
     """
     Extracts author information from a stringified list.
 
@@ -193,7 +193,7 @@ if __name__ == "__main__":
     `csv` file. To select it, argparse is used.
     """
 
-    import argparse as ag
+    import argparse as ag  # This should NOT be here
 
     parser = ag.ArgumentParser(description="Preprocess IEEE CSV files.")
     parser.add_argument(
@@ -214,6 +214,8 @@ if __name__ == "__main__":
 
     if not os.path.exists(args.file):
         raise FileNotFoundError(f"File '{args.file}' does not exist.")
+
+    # TODO: These steps should be contained
 
     # Read the input CSV file
     df_raw = pd.read_csv(args.file)

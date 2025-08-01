@@ -7,6 +7,8 @@ What:
 Why:
     - Easy to access and modify centralized configurations.
     - Keeps configuration logic separate from the rest of the implementation.
+
+TODO: This should obvisouly be a config manager, not a python file
 """
 
 import os
@@ -35,3 +37,4 @@ DB_TABLES = ["papers", "authors", "index_terms", "prompts", "classification"]
 
 # Models
 DEBERTA_V3_MODEL_NAME = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"
+

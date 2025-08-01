@@ -87,6 +87,7 @@ def get_papers(
         logger.info(f"Successfully fetched {len(df)} articles for query: {query}")
         return df
 
+    # TODO: Why not just let python raise the error to the surface. I am just supressing it with a half-assed log
     except requests.exceptions.HTTPError as http_err:
         logger.warning(f"HTTP error occurred: {http_err}")
     except requests.exceptions.RequestException as req_err:
@@ -96,6 +97,7 @@ def get_papers(
     return None
 
 
+# TODO: See if you should work with click
 if __name__ == "__main__":
     """
     Main entry point for the script.

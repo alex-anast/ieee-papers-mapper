@@ -40,9 +40,10 @@ from dash.dependencies import Input, Output
 from src.ieee_papers_mapper.config import config as cfg
 
 
-# Initialize the Dash app
+# Initialise the Dash app
 app = dash.Dash(__name__)
 app.title = "IEEE Papers Dashboard"
+
 
 def fetch_data(threshold: float = 0.5) -> pd.DataFrame:
     """
@@ -70,6 +71,7 @@ def fetch_data(threshold: float = 0.5) -> pd.DataFrame:
     conn.close()
     return df
 
+
 # Layout for the app
 app.layout = html.Div([
     html.H1("IEEE Papers by Category", style={"textAlign": "center"}),
@@ -81,12 +83,13 @@ app.layout = html.Div([
     )
 ])
 
+
 # Callback to update graph
 @app.callback(
     Output("papers-bar-chart", "figure"),
     [Input("interval-component", "n_intervals")]
 )
-def update_graph(n_intervals):
+def update_graph(n_intervals):  # TODO: missing type hint and return type
     """
     Updates the bar chart based on new data.
 
@@ -112,5 +115,7 @@ def update_graph(n_intervals):
     fig.update_layout(transition_duration=500)
     return fig
 
+
 if __name__ == "__main__":
     app.run_server(debug=True, host="0.0.0.0", port=8050)
+

@@ -32,7 +32,7 @@ from data.classify_papers import classify_all_papers
 logger = logging.getLogger("ieee_logger")
 
 
-def run_pipeline():
+def run_pipeline():  # TODO
     """
     Executes the full data pipeline:
     1. Fetch new papers incrementally.
@@ -51,7 +51,7 @@ def run_pipeline():
         filepath=os.path.join(cfg.SRC_DIR),
     )
     logger.debug("Initializing database...")
-    db.initialize()  # Handles cases where db doesn't exist or not all tables
+    db.initialise()  # Handles cases where db doesn't exist or not all tables
 
     progress = load_progress(cfg.JSON_FILENAME)
     new_papers_retrieved = False
@@ -173,3 +173,4 @@ def save_progress(filename: str, progress) -> None:
     fn_path = os.path.join(cfg.CONFIG_DIR, filename)
     with open(fn_path, "w") as file:
         json.dump(progress, file, indent=4)
+

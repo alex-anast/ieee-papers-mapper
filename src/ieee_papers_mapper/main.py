@@ -32,7 +32,7 @@ import argparse
 from data.pipeline import run_pipeline
 from config.scheduler import Scheduler
 
-# Setup logger
+# Setup logger  # TODO: This should be its own file and override get_logger or smth
 logger = logging.getLogger("ieee_logger")
 logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler(sys.stdout)
@@ -44,7 +44,7 @@ logger.addHandler(handler)
 
 
 def main():
-    # Set up argument parsing for setting the scheduler trigger intervals
+    # Set up argument parsing for setting the scheduler trigger intervals  # TODO: click
     parser = argparse.ArgumentParser(description="Start the IEEE papers scheduler.")
     parser.add_argument("--weeks", type=int, default=0, help="Interval in weeks.")
     parser.add_argument("--days", type=int, default=0, help="Interval in days.")

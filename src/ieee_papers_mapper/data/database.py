@@ -6,7 +6,7 @@ Database Module for IEEE Papers Mapper
 ======================================
 
 This module manages the SQLite database used by the IEEE Papers Mapper project.
-It provides functionality to initialize the database, create tables, and insert
+It provides functionality to initialise the database, create tables, and insert
 data such as papers, authors, index terms, prompts, and classification results.
 
 Classes:
@@ -14,7 +14,7 @@ Classes:
               creation, data insertion, and connection management.
 
 Functions:
-    - initialize: Creates tables in the database if they don't exist.
+    - initialise: Creates tables in the database if they don't exist.
     - insert_paper: Inserts paper metadata into the `papers` table.
     - insert_authors: Inserts authors associated with a paper into the `authors` table.
     - insert_index_terms: Adds index terms for a paper into the `index_terms` table.
@@ -30,11 +30,13 @@ import pandas as pd
 from typing import Optional
 from src.ieee_papers_mapper.config import config as cfg
 
-logger = logging.getLogger("ieee_logger")
+logger = logging.getLogger("ieee_logger")  # TODO
 
 
 class Database:
-    def __init__(self, name: str, filepath: Optional[str] = None):
+    """TODO"""
+    def __init__(self, name: str, filepath: Optional[str] = None):  # TODO
+        """TODO"""
         if filepath is None:
             self.db_name = f"{name}.db"
         else:
@@ -46,14 +48,14 @@ class Database:
     @property
     def file_exists(self) -> bool:
         """
-        Check if the database exists.
+        Check if the database exists.  TODO: file or DB?
 
         Returns:
             bool: True if the database exists, False otherwise.
         """
         return os.path.exists(os.path.join(cfg.SRC_DIR, self.db_name))
 
-    def get_existing_tables(self):
+    def get_existing_tables(self):  # TODO
         if not self.file_exists:
             return []
         conn = sqlite3.connect(self.db_name)
@@ -63,7 +65,7 @@ class Database:
         conn.close()
         return existing_tables
 
-    def initialize(self):
+    def initialise(self):  # TODO
         if not self.file_exists:
             # Create new database file and all tables
             logger.info("Database file doesn't exist, creating from scratch...")
@@ -78,7 +80,7 @@ class Database:
             if missing_tables:
                 self.create_tables(missing_tables)
 
-    def create_all_tables(self):
+    def create_all_tables(self):  # TODO
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
@@ -88,7 +90,7 @@ class Database:
         conn.commit()
         conn.close()
 
-    def create_tables(self, tables, cursor=None):
+    def create_tables(self, tables, cursor=None):  # TODO
         if cursor is None:
             conn = sqlite3.connect(self.db_name)
             cursor = conn.cursor()
@@ -162,10 +164,11 @@ class Database:
         if conn:
             conn.commit()
             conn.close()
-            logger.info(f"Database '{self.db_name}' initialized successfully.")
+            logger.info(f"Database '{self.db_name}' initialised successfully.")
 
     @property
     def is_connected(self) -> bool:
+        """TODO"""
         if self.connection is None:
             return False
         return True
@@ -187,7 +190,7 @@ class Database:
             self.connection = None
             logger.info("Database connection closed.")
 
-    def paper_exists(self, is_number: str) -> bool:
+    def paper_exists(self, is_number: str) -> bool:  # TODO: This is confusing, it should be obvious
         """
         Check if a paper with the given is_number exists in the database.
 
@@ -201,7 +204,7 @@ class Database:
         self.cursor.execute(query, (is_number,))
         return self.cursor.fetchone() is not None
 
-    def insert_paper(self, paper_data: dict) -> int:
+    def insert_paper(self, paper_data: dict) -> int:  # TODO: paper data could be a dataclass
         """
         Insert a paper into the papers table and return its paper_id.
 
@@ -211,6 +214,7 @@ class Database:
         Returns:
             int: The paper_id of the inserted paper.
         """
+        # TODO: Mention protection against dependency injection
         query = """
         INSERT INTO papers (is_number, insert_date, publication_year, download_count,
                             citing_patent_count, title, abstract)
@@ -231,7 +235,7 @@ class Database:
         self.connection.commit()
         return self.cursor.lastrowid
 
-    def insert_authors(self, paper_id: int, authors: list):
+    def insert_authors(self, paper_id: int, authors: list):  # TODO
         """
         Insert authors into the authors table.
 
@@ -250,7 +254,7 @@ class Database:
             )
         self.connection.commit()
 
-    def insert_index_terms(self, paper_id: int, term_type: str, terms: list):
+    def insert_index_terms(self, paper_id: int, term_type: str, terms: list):  # TODO
         """
         Insert index terms into the index_terms table.
 
@@ -267,7 +271,7 @@ class Database:
             self.cursor.execute(query, (paper_id, term_type, term))
         self.connection.commit()
 
-    def insert_prompt(self, paper_id: int, prompt: str):
+    def insert_prompt(self, paper_id: int, prompt: str):  # TODO
         """
         Insert a prompt into the prompts table.
 
@@ -279,7 +283,7 @@ class Database:
         self.cursor.execute(query, (paper_id, prompt))
         self.connection.commit()
 
-    def insert_full_paper(self, row: pd.Series):
+    def insert_full_paper(self, row: pd.Series):  # TODO
         """
         Insert a full paper, including all related data, into the database.
 
@@ -291,6 +295,7 @@ class Database:
             # logger.warning(f"Paper with is_number {row['is_number']} already exists. Skipping.")
             return
 
+        # TODO: I think that the comments should not exist -- if something is not obvious, make it obvious, especially here
         # Insert main paper metadata
         paper_data = row[
             [
@@ -312,7 +317,7 @@ class Database:
         # Insert index terms
         index_terms_types = ["author", "ieee", "dynamic"]
         index_terms_columns = [
-            # "index_terms_author",
+            # "index_terms_author",  # TODO: This cannot be prod
             "index_terms_ieee",
             "index_terms_dynamic",
         ]
@@ -322,3 +327,4 @@ class Database:
 
         # Insert prompt
         self.insert_prompt(paper_id, row["prompt"])
+

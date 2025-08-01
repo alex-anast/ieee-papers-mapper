@@ -24,6 +24,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from zoneinfo import ZoneInfoNotFoundError as ZINFError
 from src.ieee_papers_mapper.data.pipeline import run_pipeline
 
+# TODO: As per convention, make it constant (capitals) and see if private
 logger = logging.getLogger("ieee_logger")
 
 
@@ -32,7 +33,7 @@ class Scheduler:
     A class for scheduling the IEEE papers data pipeline using APScheduler.
     """
 
-    def __init__(self, **interval_kwargs):
+    def __init__(self, **interval_kwargs):  # TODO: Return statement even if init
         """
         Initializes the Scheduler instance with a specified time interval.
 
@@ -47,7 +48,7 @@ class Scheduler:
         ValueError:
             If invalid interval values are provided.
         """
-        datetime.UTC  # Ensures UTC is recognized
+        datetime.UTC  # Ensures UTC is recognised
         self.scheduler = BackgroundScheduler({"apscheduler.timezone": "UTC"})
         if not interval_kwargs:
             logger.debug("No time interval provided for scheduler, default: 1 week")
@@ -55,7 +56,7 @@ class Scheduler:
         else:
             self.interval_kwargs = interval_kwargs
 
-    def start(self):
+    def start(self):  # TODO: Return statement
         """
         Starts the scheduler and schedules the data pipeline task.
 
@@ -86,7 +87,7 @@ class Scheduler:
         self.scheduler.start()
         logger.info("Scheduler started.")
 
-    def stop(self):
+    def stop(self):  # TODO: Return statement
         """
         Stops the scheduler gracefully.
 
@@ -95,3 +96,4 @@ class Scheduler:
         logger.info("Stopping scheduler...")
         self.scheduler.shutdown()
         logger.info("Scheduler stopped.")
+
