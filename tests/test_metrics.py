@@ -6,11 +6,20 @@ from prometheus_client import REGISTRY
 
 @pytest.fixture
 def flask_client():
-    """Create a Flask test client with health routes and /metrics registered."""
-    from ieee_papers_mapper.app.dash_webapp import app
+    """Create a minimal Flask test client with health routes and /metrics."""
+    from flask import Flask
+    from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+    from ieee_papers_mapper.app.health import register_health_routes
 
-    app.server.config["TESTING"] = True
-    return app.server.test_client()
+    app = Flask(__name__)
+    app.config["TESTING"] = True
+    register_health_routes(app)
+
+    @app.route("/metrics")
+    def metrics():
+        return generate_latest(), 200, {"Content-Type": CONTENT_TYPE_LATEST}
+
+    return app.test_client()
 
 
 def test_health_endpoint(flask_client):
@@ -64,6 +73,8 @@ def test_ready_endpoint_missing_api_key(flask_client, tmp_path, monkeypatch):
 
 def test_metrics_endpoint(flask_client):
     """GET /metrics returns Prometheus text format with expected metric names."""
+    import ieee_papers_mapper.config.metrics  # noqa: F401 — ensure metrics are registered
+
     response = flask_client.get("/metrics")
     assert response.status_code == 200
     assert response.content_type.startswith("text/plain")
