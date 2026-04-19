@@ -1,12 +1,18 @@
-# My Files
-./data
-bin/tmp
-.vscode
-ieee_papers_mapper/demo.ipynb
-src/ieee_papers_mapper/config/progress.json
-*.db
+# Generated data — never commit
+data/
 *.duckdb
 *.duckdb.wal
+*.db
+*.csv
+src/ieee_papers_mapper/config/progress.json
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Misc
+bin/tmp
+*.odp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
