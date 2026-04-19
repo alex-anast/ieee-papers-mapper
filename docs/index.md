@@ -1,12 +1,41 @@
-# Welcome to IEEE Papers Mapper
+# IEEE Papers Mapper
 
-The IEEE Papers Mapper is an innovative tool designed for automating the process of fetching, processing, and classifying research papers from the IEEE Xplore API. It integrates data extraction, machine learning classification, and interactive data visualization to provide insights into categorized research topics.
+Automated pipeline for fetching, classifying, and visualizing IEEE research papers using zero-shot NLP and a DuckDB analytical store.
 
-Explore the documentation to learn how to use, contribute, and extend the project.
+![Tests](https://github.com/alex-anast/ieee-papers-mapper/actions/workflows/test.yml/badge.svg)
+![License](https://img.shields.io/github/license/alex-anast/ieee-papers-mapper)
+![Last Commit](https://img.shields.io/github/last-commit/alex-anast/ieee-papers-mapper)
 
-## Key Features
+---
 
-- Automated data retrieval and processing pipeline.
-- Paper classification using state-of-the-art transformer models.
-- Interactive Dash-based web application for visualizing research data.
-- Modular design for easy extension and integration.
+## What This Project Does
+
+- **Fetches** research papers from the IEEE Xplore API with incremental pagination that resumes across runs.
+- **Validates** every record through Pydantic models, rejecting malformed data at the boundary rather than letting it propagate silently.
+- **Classifies** papers into configurable categories using a DeBERTa-v3-large zero-shot transformer, loaded lazily to keep startup fast.
+- **Visualizes** classified paper counts in a Plotly Dash dashboard that auto-refreshes every 10 seconds.
+
+## Quick Start
+
+```bash
+git clone https://github.com/alex-anast/ieee-papers-mapper.git
+cd ieee-papers-mapper
+cp .env.example .env          # add your IEEE_API_KEY
+make install                   # creates venv, installs deps + package
+ieee-papers run                # fetch, classify, store
+ieee-papers dashboard          # open http://localhost:8050
+```
+
+See the [Installation Guide](user_guide/installation.md) for detailed setup instructions.
+
+## Documentation
+
+| Section | Description |
+|---------|-------------|
+| [Overview](user_guide/overview.md) | Pipeline architecture, data flow, and design decisions |
+| [Installation](user_guide/installation.md) | Prerequisites, setup (local and Docker), verification |
+| [Usage](user_guide/usage.md) | CLI commands, configuration, environment variables |
+| [Code Structure](developer_guide/code_structure.md) | Module layout, design patterns, data flow trace |
+| [Testing Runbook](developer_guide/testing_runbook.md) | Automated tests, linting, manual smoke tests |
+| [API Reference](developer_guide/api_reference.md) | Function signatures, parameter types, return values |
+| [About](about.md) | Project motivation, tech stack rationale, contact |

@@ -56,4 +56,45 @@ make docker-build
 make docker-up
 ```
 
-The dashboard will be available at `http://localhost:8050`.
+The dashboard will be available at `http://localhost:8050`. The pipeline service runs every 24 hours in the background.
+
+Docker Compose uses two named volumes:
+
+| Volume | Purpose |
+|--------|---------|
+| `app-data` | Shared DuckDB database and progress tracker between services |
+| `huggingface-cache` | Persists the downloaded DeBERTa model across container restarts |
+
+## Verify Installation
+
+After installation, run the built-in health check to confirm everything is working:
+
+```bash
+ieee-papers verify
+```
+
+Expected output:
+
+```
+=== IEEE Papers Mapper -- System Verify ===
+
+API key:    set (your...)
+Database:   NOT FOUND at /path/to/ieee_papers.duckdb
+  Run: ieee-papers db-reset
+
+Classifier: available (lazy-load, not yet loaded)
+```
+
+If the database does not exist yet, create it:
+
+```bash
+ieee-papers db-reset --yes
+```
+
+Then re-run `ieee-papers verify` to confirm all five tables are present (papers, authors, index_terms, prompts, classification).
+
+## Note on the DeBERTa Model
+
+The zero-shot classifier uses the `MoritzLaurer/deberta-v3-large-zeroshot-v2.0` model from Hugging Face. This model is approximately **700 MB** and is downloaded automatically on the first classification run, not at install time.
+
+The download happens lazily when `classify_text()` is first called. Subsequent runs use the cached model from `~/.cache/huggingface/`. If you are behind a firewall or on a restricted network, you may need to download the model in advance or configure a Hugging Face mirror.
