@@ -20,8 +20,9 @@ load_dotenv()
 ROOT_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
 )
-SRC_DIR = os.path.join(ROOT_DIR, "ieee_papers_mapper")
-CONFIG_DIR = os.path.join(SRC_DIR, "config")
+_DATA_DIR = os.getenv("DATA_DIR")
+SRC_DIR = _DATA_DIR if _DATA_DIR else os.path.join(ROOT_DIR, "ieee_papers_mapper")
+CONFIG_DIR = _DATA_DIR if _DATA_DIR else os.path.join(SRC_DIR, "config")
 JSON_FILENAME = "progress.json"
 DB_PATH = os.path.join(SRC_DIR, "ieee_papers.duckdb")
 

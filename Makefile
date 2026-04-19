@@ -6,7 +6,7 @@ PYTHON := $(VENV_DIR)/bin/python
 PIP := $(VENV_DIR)/bin/pip
 TORCH_INDEX := https://download.pytorch.org/whl/cpu
 
-.PHONY: help venv install lint format test test-verbose clean db-reset dash-smoke check
+.PHONY: help venv install lint format test test-verbose clean db-reset dash-smoke check docker-build docker-up docker-down docker-logs
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -63,3 +63,15 @@ clean: ## Remove venv, caches, and build artifacts
 
 check: lint test ## Run lint + tests (preflight check)
 	@echo "All checks passed."
+
+docker-build: ## Build Docker images
+	docker compose build
+
+docker-up: ## Start all services in detached mode
+	docker compose up -d
+
+docker-down: ## Stop and remove containers
+	docker compose down
+
+docker-logs: ## Tail logs from all services
+	docker compose logs -f
