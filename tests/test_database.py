@@ -9,7 +9,7 @@ def db(tmp_path):
     """Fixture to create a temporary database for testing."""
     db_path = tmp_path / "test_ieee_papers.db"
     db = Database(name="test_ieee_papers", filepath=str(tmp_path))
-    db.initialize()
+    db.initialise()
     return db
 
 
