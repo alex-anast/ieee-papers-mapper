@@ -1,9 +1,25 @@
 import dash
 import dash_bootstrap_components as dbc
-from dash import dcc, html
+from dash import clientside_callback, dcc, html, Input, Output
 
 from ieee_papers_mapper.app.components.filters import build_filter_bar
 from ieee_papers_mapper.app.queries import available_years
+
+
+def _color_mode_switch() -> html.Span:
+    return html.Span(
+        [
+            dbc.Label(className="fa fa-moon", html_for="color-mode-switch"),
+            dbc.Switch(
+                id="color-mode-switch",
+                value=True,
+                className="d-inline-block ms-1",
+                persistence=True,
+            ),
+            dbc.Label(className="fa fa-sun", html_for="color-mode-switch"),
+        ],
+        className="d-flex align-items-center",
+    )
 
 
 def build_navbar() -> dbc.Navbar:
@@ -21,8 +37,10 @@ def build_navbar() -> dbc.Navbar:
                         dbc.NavItem(dbc.NavLink("Papers", href="/papers")),
                         dbc.NavItem(dbc.NavLink("Trends", href="/trends")),
                         dbc.NavItem(dbc.NavLink("Terms", href="/terms")),
+                        dbc.NavItem(_color_mode_switch(), className="ms-3"),
                     ],
                     navbar=True,
+                    className="align-items-center",
                 ),
             ],
             fluid=True,
@@ -40,6 +58,7 @@ def build_layout() -> html.Div:
 
     return html.Div(
         [
+            dcc.Store(id="theme-store", data="light"),
             build_navbar(),
             dbc.Container(
                 [
@@ -56,3 +75,16 @@ def build_layout() -> html.Div:
             ),
         ]
     )
+
+
+clientside_callback(
+    """
+    (switchOn) => {
+        const theme = switchOn ? "light" : "dark";
+        document.documentElement.setAttribute("data-bs-theme", theme);
+        return theme;
+    }
+    """,
+    Output("theme-store", "data"),
+    Input("color-mode-switch", "value"),
+)

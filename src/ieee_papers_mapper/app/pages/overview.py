@@ -3,7 +3,9 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
-from ieee_papers_mapper.app.app import CATEGORY_COLORS
+from ieee_papers_mapper.app.app import (
+    CATEGORY_COLORS, PLOTLY_DARK_TEMPLATE, PLOTLY_LIGHT_TEMPLATE,
+)
 from ieee_papers_mapper.app.components.kpi_card import kpi_card
 from ieee_papers_mapper.app import queries
 
@@ -54,11 +56,16 @@ layout = html.Div(
 )
 
 
+def _template(theme: str) -> str:
+    return PLOTLY_DARK_TEMPLATE if theme == "dark" else PLOTLY_LIGHT_TEMPLATE
+
+
 @callback(
     Output("category-bar-chart", "figure"),
     Input("filter-store", "data"),
+    Input("theme-store", "data"),
 )
-def update_category_bar(filters):
+def update_category_bar(filters, theme):
     df = queries.papers_by_category(
         confidence=filters.get("confidence", 0.5),
         categories=filters.get("categories") or None,
@@ -73,6 +80,7 @@ def update_category_bar(filters):
         text="paper_count",
         labels={"category": "Category", "paper_count": "Papers"},
         title="Papers by Category",
+        template=_template(theme),
     )
     fig.update_layout(
         showlegend=False,
@@ -86,8 +94,9 @@ def update_category_bar(filters):
 @callback(
     Output("confidence-box-plot", "figure"),
     Input("filter-store", "data"),
+    Input("theme-store", "data"),
 )
-def update_confidence_box(filters):
+def update_confidence_box(filters, theme):
     df = queries.confidence_distribution(
         categories=filters.get("categories") or None,
         year_range=filters.get("year_range") or None,
@@ -101,6 +110,7 @@ def update_confidence_box(filters):
         points="all",
         labels={"category": "Category", "confidence": "Confidence"},
         title="Classification Confidence Distribution",
+        template=_template(theme),
     )
     fig.update_layout(
         showlegend=False,

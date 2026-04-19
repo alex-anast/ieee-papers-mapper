@@ -3,7 +3,9 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
-from ieee_papers_mapper.app.app import CATEGORY_COLORS
+from ieee_papers_mapper.app.app import (
+    CATEGORY_COLORS, PLOTLY_DARK_TEMPLATE, PLOTLY_LIGHT_TEMPLATE,
+)
 from ieee_papers_mapper.app import queries
 
 dash.register_page(__name__, path="/trends", name="Trends")
@@ -42,18 +44,23 @@ layout = html.Div(
 )
 
 
+def _template(theme: str) -> str:
+    return PLOTLY_DARK_TEMPLATE if theme == "dark" else PLOTLY_LIGHT_TEMPLATE
+
+
 @callback(
     Output("papers-over-time", "figure"),
     Input("filter-store", "data"),
+    Input("theme-store", "data"),
 )
-def update_time_series(filters):
+def update_time_series(filters, theme):
     df = queries.papers_over_time(
         confidence=filters.get("confidence", 0.5),
         categories=filters.get("categories") or None,
         year_range=filters.get("year_range") or None,
     )
     if df.empty:
-        fig = px.area(title="Papers Added Over Time")
+        fig = px.area(title="Papers Added Over Time", template=_template(theme))
         fig.update_layout(
             xaxis_title="Month",
             yaxis_title="Papers",
@@ -74,6 +81,7 @@ def update_time_series(filters):
         color_discrete_map=CATEGORY_COLORS,
         labels={"month": "Month", "paper_count": "Papers", "category": "Category"},
         title="Papers Added Over Time",
+        template=_template(theme),
     )
     fig.update_layout(
         margin=dict(t=40, b=30),
@@ -85,15 +93,19 @@ def update_time_series(filters):
 @callback(
     Output("downloads-vs-citations", "figure"),
     Input("filter-store", "data"),
+    Input("theme-store", "data"),
 )
-def update_scatter(filters):
+def update_scatter(filters, theme):
     df = queries.downloads_vs_citations(
         confidence=filters.get("confidence", 0.5),
         categories=filters.get("categories") or None,
         year_range=filters.get("year_range") or None,
     )
     if df.empty:
-        fig = px.scatter(title="Downloads vs Patent Citations")
+        fig = px.scatter(
+            title="Downloads vs Patent Citations",
+            template=_template(theme),
+        )
         fig.update_layout(
             annotations=[dict(
                 text="No data for current filters",
@@ -119,6 +131,7 @@ def update_scatter(filters):
             "confidence": "Confidence",
         },
         title="Downloads vs Patent Citations",
+        template=_template(theme),
     )
     fig.update_layout(margin=dict(t=40, b=30))
     return fig
