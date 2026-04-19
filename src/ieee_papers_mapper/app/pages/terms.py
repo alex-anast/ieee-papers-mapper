@@ -3,7 +3,6 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
-from ieee_papers_mapper.app.app import PLOTLY_DARK_TEMPLATE, PLOTLY_LIGHT_TEMPLATE
 from ieee_papers_mapper.app import queries
 
 dash.register_page(__name__, path="/terms", name="Term Analysis")
@@ -54,18 +53,13 @@ layout = html.Div(
 )
 
 
-def _template(theme: str) -> str:
-    return PLOTLY_DARK_TEMPLATE if theme == "dark" else PLOTLY_LIGHT_TEMPLATE
-
-
 @callback(
     Output("top-terms-chart", "figure"),
     Input("filter-store", "data"),
     Input("term-type-dropdown", "value"),
     Input("top-n-slider", "value"),
-    Input("theme-store", "data"),
 )
-def update_terms(filters, term_type, top_n, theme):
+def update_terms(filters, term_type, top_n):
     df = queries.top_terms(
         n=top_n or 15,
         term_type=term_type or None,
@@ -74,7 +68,7 @@ def update_terms(filters, term_type, top_n, theme):
         year_range=filters.get("year_range") or None,
     )
     if df.empty:
-        fig = px.bar(title="Top Index Terms", template=_template(theme))
+        fig = px.bar(title="Top Index Terms")
         fig.update_layout(
             annotations=[dict(
                 text="No data for current filters",
@@ -97,7 +91,6 @@ def update_terms(filters, term_type, top_n, theme):
         labels={"freq": "Frequency", "term": "Term", "term_type": "Type"},
         title=f"Top {len(df)} Index Terms",
         color_discrete_map={"IEEE": "#636EFA", "Dynamic": "#AB63FA"},
-        template=_template(theme),
     )
     fig.update_layout(
         yaxis=dict(categoryorder="total ascending"),

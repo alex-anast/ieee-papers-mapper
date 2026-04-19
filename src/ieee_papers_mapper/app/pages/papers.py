@@ -16,26 +16,6 @@ TABLE_COLUMNS = [
     {"name": "Authors", "id": "authors", "type": "text"},
 ]
 
-_LIGHT_TABLE_STYLE = {
-    "header_bg": "#f8f9fa",
-    "cell_bg": "white",
-    "cell_color": "#212529",
-    "selected_bg": "#e2e6ea",
-    "selected_border": "1px solid #2c7be5",
-    "filter_bg": "white",
-    "filter_color": "#212529",
-}
-
-_DARK_TABLE_STYLE = {
-    "header_bg": "#2b3035",
-    "cell_bg": "#212529",
-    "cell_color": "#dee2e6",
-    "selected_bg": "#3a4149",
-    "selected_border": "1px solid #6ea8fe",
-    "filter_bg": "#2b3035",
-    "filter_color": "#dee2e6",
-}
-
 layout = html.Div(
     [
         html.H2("Papers Explorer", className="mb-3"),
@@ -57,6 +37,17 @@ layout = html.Div(
                             "whiteSpace": "normal",
                             "height": "auto",
                         },
+                        style_header={
+                            "fontWeight": "bold",
+                            "backgroundColor": "#f8f9fa",
+                        },
+                        style_data_conditional=[
+                            {
+                                "if": {"state": "selected"},
+                                "backgroundColor": "#e2e6ea",
+                                "border": "1px solid #2c7be5",
+                            },
+                        ],
                         style_cell_conditional=[
                             {"if": {"column_id": "title"}, "minWidth": "280px"},
                             {"if": {"column_id": "authors"}, "minWidth": "200px"},
@@ -84,44 +75,15 @@ layout = html.Div(
 
 @callback(
     Output("papers-table", "data"),
-    Output("papers-table", "style_header"),
-    Output("papers-table", "style_data"),
-    Output("papers-table", "style_data_conditional"),
-    Output("papers-table", "style_filter"),
     Input("filter-store", "data"),
-    Input("theme-store", "data"),
 )
-def update_table(filters, theme):
+def update_table(filters):
     df = queries.papers_table(
         confidence=filters.get("confidence", 0.5),
         categories=filters.get("categories") or None,
         year_range=filters.get("year_range") or None,
     )
-
-    s = _DARK_TABLE_STYLE if theme == "dark" else _LIGHT_TABLE_STYLE
-
-    style_header = {
-        "fontWeight": "bold",
-        "backgroundColor": s["header_bg"],
-        "color": s["cell_color"],
-    }
-    style_data = {
-        "backgroundColor": s["cell_bg"],
-        "color": s["cell_color"],
-    }
-    style_cond = [
-        {
-            "if": {"state": "selected"},
-            "backgroundColor": s["selected_bg"],
-            "border": s["selected_border"],
-        },
-    ]
-    style_filter = {
-        "backgroundColor": s["filter_bg"],
-        "color": s["filter_color"],
-    }
-
-    return df.to_dict("records"), style_header, style_data, style_cond, style_filter
+    return df.to_dict("records")
 
 
 @callback(
