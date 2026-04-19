@@ -63,7 +63,9 @@ def run_pipeline():  # TODO
 
         # Get new papers
         while True:
-            logger.debug(f"Fetching IEEE data for category '{category}', start_record={start_record}...")
+            logger.debug(
+                f"Fetching IEEE data for category '{category}', start_record={start_record}..."
+            )
             df_raw = get_papers(
                 query=category,
                 api_key=cfg.IEEE_API_KEY,
@@ -132,7 +134,9 @@ def _classify_new_unclassified_papers(db: Database) -> None:
         return
     else:
         df_classified = classify_all_papers(df_unclassified, timer=True)
-        df_classified.to_sql("classification", db.connection, if_exists="append", index=False)
+        df_classified.to_sql(
+            "classification", db.connection, if_exists="append", index=False
+        )
         logger.info(f"Classified and stored {len(df_classified)} papers.")
 
 
@@ -173,4 +177,3 @@ def save_progress(filename: str, progress) -> None:
     fn_path = os.path.join(cfg.CONFIG_DIR, filename)
     with open(fn_path, "w") as file:
         json.dump(progress, file, indent=4)
-

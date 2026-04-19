@@ -2,7 +2,10 @@
 
 import pytest
 import pandas as pd
-from src.ieee_papers_mapper.data.classify_papers import classify_text, classify_all_papers
+from src.ieee_papers_mapper.data.classify_papers import (
+    classify_text,
+    classify_all_papers,
+)
 
 
 @pytest.fixture
@@ -23,7 +26,8 @@ def test_classify_text(mocker):
 
 def test_classify_all_papers(mock_prompt_data, mocker):
     mocker.patch(
-        "src.ieee_papers_mapper.data.classify_papers.classify_text", return_value=[("Category 1", 0.95)]
+        "src.ieee_papers_mapper.data.classify_papers.classify_text",
+        return_value=[("Category 1", 0.95)],
     )
     df_classified = classify_all_papers(mock_prompt_data)
     assert len(df_classified) == 1

@@ -20,6 +20,7 @@ def test_create_tables(db):
     assert "authors" in existing_tables
     assert "classification" in existing_tables
 
+
 def test_insert_paper(db):
     paper_data = {
         "is_number": "12345",

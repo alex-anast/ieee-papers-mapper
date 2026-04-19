@@ -19,9 +19,7 @@ def mock_response():
 
 def test_get_papers_success(mock_response, requests_mock):
     query = "machine learning"
-    requests_mock.get(
-        f"{cfg.BASE_URL}", json=mock_response
-    )
+    requests_mock.get(f"{cfg.BASE_URL}", json=mock_response)
 
     df = get_papers(
         query=query,
@@ -37,9 +35,7 @@ def test_get_papers_success(mock_response, requests_mock):
 
 def test_get_papers_no_data(requests_mock):
     query = "nonexistent topic"
-    requests_mock.get(
-        f"{cfg.BASE_URL}", json={"articles": []}
-    )
+    requests_mock.get(f"{cfg.BASE_URL}", json={"articles": []})
 
     df = get_papers(
         query=query,

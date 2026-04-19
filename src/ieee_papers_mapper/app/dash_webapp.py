@@ -73,21 +73,22 @@ def fetch_data(threshold: float = 0.5) -> pd.DataFrame:
 
 
 # Layout for the app
-app.layout = html.Div([
-    html.H1("IEEE Papers by Category", style={"textAlign": "center"}),
-    dcc.Graph(id="papers-bar-chart"),
-    dcc.Interval(
-        id="interval-component",
-        interval=10 * 1000,  # Update every 10 seconds
-        n_intervals=0
-    )
-])
+app.layout = html.Div(
+    [
+        html.H1("IEEE Papers by Category", style={"textAlign": "center"}),
+        dcc.Graph(id="papers-bar-chart"),
+        dcc.Interval(
+            id="interval-component",
+            interval=10 * 1000,  # Update every 10 seconds
+            n_intervals=0,
+        ),
+    ]
+)
 
 
 # Callback to update graph
 @app.callback(
-    Output("papers-bar-chart", "figure"),
-    [Input("interval-component", "n_intervals")]
+    Output("papers-bar-chart", "figure"), [Input("interval-component", "n_intervals")]
 )
 def update_graph(n_intervals):  # TODO: missing type hint and return type
     """
@@ -110,7 +111,7 @@ def update_graph(n_intervals):  # TODO: missing type hint and return type
         y="paper_count",
         title="Papers by Category",
         labels={"category": "Category", "paper_count": "Number of Papers"},
-        text="paper_count"
+        text="paper_count",
     )
     fig.update_layout(transition_duration=500)
     return fig
@@ -118,4 +119,3 @@ def update_graph(n_intervals):  # TODO: missing type hint and return type
 
 if __name__ == "__main__":
     app.run_server(debug=True, host="0.0.0.0", port=8050)
-

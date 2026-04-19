@@ -90,7 +90,9 @@ def process_papers(df_raw: pd.DataFrame) -> pd.DataFrame:
         inplace=True,
     )
 
-    df_processed["authors"] = df_processed["authors.authors"].apply(_extract_author_info)
+    df_processed["authors"] = df_processed["authors.authors"].apply(
+        _extract_author_info
+    )
     df_processed.drop("authors.authors", axis=1, inplace=True)
 
     df_processed["prompt"] = df_processed.apply(_create_prompt, axis=1)
@@ -136,7 +138,9 @@ def _safe_parse_list(value: str) -> list:
         return []
 
 
-def _extract_author_info(authors_str: str) -> list:  # TODO: Dataclasses for these things. Show that you care
+def _extract_author_info(
+    authors_str: str,
+) -> list:  # TODO: Dataclasses for these things. Show that you care
     """
     Extracts author information from a stringified list.
 

@@ -17,7 +17,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Directories
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
+ROOT_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
+)
 SRC_DIR = os.path.join(ROOT_DIR, "ieee_papers_mapper")
 CONFIG_DIR = os.path.join(SRC_DIR, "config")
 JSON_FILENAME = "progress.json"
@@ -37,4 +39,3 @@ DB_TABLES = ["papers", "authors", "index_terms", "prompts", "classification"]
 
 # Models
 DEBERTA_V3_MODEL_NAME = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"
-

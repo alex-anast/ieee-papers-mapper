@@ -40,7 +40,7 @@ class Scheduler:
         Parameters:
         ----------
         interval_kwargs : dict
-            A dictionary containing the time intervals for the scheduler 
+            A dictionary containing the time intervals for the scheduler
             (weeks, days, hours, minutes, seconds).
 
         Raises:
@@ -60,7 +60,7 @@ class Scheduler:
         """
         Starts the scheduler and schedules the data pipeline task.
 
-        The scheduler runs the `run_pipeline` function at intervals specified 
+        The scheduler runs the `run_pipeline` function at intervals specified
         during initialization.
 
         Raises:
@@ -96,4 +96,3 @@ class Scheduler:
         logger.info("Stopping scheduler...")
         self.scheduler.shutdown()
         logger.info("Scheduler stopped.")
-

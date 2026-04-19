@@ -35,6 +35,7 @@ logger = logging.getLogger("ieee_logger")  # TODO
 
 class Database:
     """TODO"""
+
     def __init__(self, name: str, filepath: Optional[str] = None):  # TODO
         """TODO"""
         if filepath is None:
@@ -190,7 +191,9 @@ class Database:
             self.connection = None
             logger.info("Database connection closed.")
 
-    def paper_exists(self, is_number: str) -> bool:  # TODO: This is confusing, it should be obvious
+    def paper_exists(
+        self, is_number: str
+    ) -> bool:  # TODO: This is confusing, it should be obvious
         """
         Check if a paper with the given is_number exists in the database.
 
@@ -204,7 +207,9 @@ class Database:
         self.cursor.execute(query, (is_number,))
         return self.cursor.fetchone() is not None
 
-    def insert_paper(self, paper_data: dict) -> int:  # TODO: paper data could be a dataclass
+    def insert_paper(
+        self, paper_data: dict
+    ) -> int:  # TODO: paper data could be a dataclass
         """
         Insert a paper into the papers table and return its paper_id.
 
@@ -327,4 +332,3 @@ class Database:
 
         # Insert prompt
         self.insert_prompt(paper_id, row["prompt"])
-
