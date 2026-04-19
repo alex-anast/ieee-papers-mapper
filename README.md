@@ -56,14 +56,20 @@ make check                     # lint + 27 tests
 Run the pipeline (fetches, classifies, stores):
 
 ```bash
-.venv/bin/python -m ieee_papers_mapper.main --hours 24
+ieee-papers run                   # one-shot
+ieee-papers run --hours 24        # repeat every 24h
 ```
 
 Launch the dashboard:
 
 ```bash
-.venv/bin/python -m ieee_papers_mapper.app.dash_webapp
-# Open http://localhost:8050
+ieee-papers dashboard             # http://localhost:8050
+```
+
+Check system health:
+
+```bash
+ieee-papers verify
 ```
 
 ### Docker

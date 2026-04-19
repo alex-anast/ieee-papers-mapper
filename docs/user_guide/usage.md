@@ -1,32 +1,52 @@
 # Usage Guide
 
-## Running the Pipeline
+## CLI
 
-Fetch, process, classify, and store papers on a schedule:
+The `ieee-papers` command is installed as a console script. All operations go through it.
+
+### Running the Pipeline
+
+One-shot (fetch, process, classify, store, then exit):
 
 ```bash
-python -m ieee_papers_mapper.main --hours 24
+ieee-papers run
 ```
 
-This runs the pipeline immediately, then repeats every 24 hours. Adjust the interval with `--weeks`, `--days`, `--hours`, `--minutes`, or `--seconds`.
-
-For a one-shot run (no scheduler):
+Scheduled (runs immediately, then repeats on the interval):
 
 ```bash
-python -c "from ieee_papers_mapper.data.pipeline import run_pipeline; run_pipeline()"
+ieee-papers run --hours 24
 ```
 
-## Running the Dashboard
+Adjust with `--weeks`, `--days`, `--hours`, `--minutes`, or `--seconds`.
+
+### Running the Dashboard
 
 ```bash
-python -m ieee_papers_mapper.app.dash_webapp
+ieee-papers dashboard
 ```
 
 Open `http://localhost:8050` to see a bar chart of paper counts by category. The chart auto-refreshes every 10 seconds.
 
+Options: `--host`, `--port`, `--debug/--no-debug`.
+
+### System Health Check
+
+```bash
+ieee-papers verify
+```
+
+Shows API key status, database table counts, and classifier availability.
+
 ## Database Management
 
 Reset the database (deletes all data):
+
+```bash
+ieee-papers db-reset
+```
+
+Or via Make:
 
 ```bash
 make db-reset
@@ -35,14 +55,7 @@ make db-reset
 Inspect the database directly:
 
 ```bash
-python -c "
-import duckdb, ieee_papers_mapper.config.config as cfg
-conn = duckdb.connect(cfg.DB_PATH, read_only=True)
-for table in ['papers', 'authors', 'index_terms', 'prompts', 'classification']:
-    count = conn.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0]
-    print(f'{table}: {count} rows')
-conn.close()
-"
+ieee-papers verify
 ```
 
 ## Configuration

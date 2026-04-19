@@ -21,7 +21,7 @@ services:
   pipeline:
     build: .
     restart: unless-stopped
-    command: ["python", "-m", "ieee_papers_mapper.main", "--hours", "24"]
+    command: ["ieee-papers", "run", "--hours", "24"]
     env_file:
       - .env
     environment:

@@ -34,15 +34,12 @@ test: ## Run tests with pytest
 test-verbose: ## Run tests with full output
 	$(PYTHON) -m pytest tests/ -v --tb=long -s
 
-db-reset: ## Delete and recreate the SQLite database
-	rm -f src/ieee_papers_mapper/ieee_papers.duckdb
-	$(PYTHON) -c "from ieee_papers_mapper.data.database import Database; \
-		db = Database(name='ieee_papers', filepath='src/ieee_papers_mapper'); \
-		db.initialise(); db.close(); print('Database recreated.')"
+db-reset: ## Delete and recreate the DuckDB database
+	$(VENV_DIR)/bin/ieee-papers db-reset --yes
 
 dash-smoke: ## Start dashboard, verify it responds, then stop it
 	@echo "Starting Dash server..."
-	@$(PYTHON) -m ieee_papers_mapper.app.dash_webapp & \
+	@$(VENV_DIR)/bin/ieee-papers dashboard --no-debug & \
 		DASH_PID=$$!; \
 		sleep 3; \
 		STATUS=$$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8050); \

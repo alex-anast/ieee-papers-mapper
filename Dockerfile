@@ -19,4 +19,4 @@ COPY src/ ./src/
 RUN pip install --no-cache-dir -e .
 
 # Default: run the Dash dashboard
-CMD ["python", "-m", "ieee_papers_mapper.app.dash_webapp"]
+CMD ["ieee-papers", "dashboard", "--host", "0.0.0.0"]

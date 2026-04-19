@@ -104,7 +104,7 @@ make dash-smoke
 Or manually:
 
 ```bash
-.venv/bin/python -m ieee_papers_mapper.app.dash_webapp
+ieee-papers dashboard
 # Open http://localhost:8050 in a browser
 ```
 
@@ -113,6 +113,12 @@ Expected: HTTP 200. The bar chart will be empty until the pipeline has populated
 ### 4. Database Reset
 
 Delete and recreate the database from scratch:
+
+```bash
+ieee-papers db-reset
+```
+
+Or via Make:
 
 ```bash
 make db-reset
@@ -127,27 +133,13 @@ Run the complete pipeline against the live API. This fetches papers, processes t
 **Warning:** The first run downloads the DeBERTa model (~700MB). Classification takes ~1-2s per paper.
 
 ```bash
-.venv/bin/python -c "
-import ieee_papers_mapper.config.config as cfg
-cfg.IEEE_API_MAX_RECORDS = 5
-cfg.CATEGORIES = ['robotics']
-from ieee_papers_mapper.data.pipeline import run_pipeline
-result = run_pipeline()
-print(f'New papers processed: {result}')
-"
+ieee-papers run
 ```
 
 Then verify the database contents:
 
 ```bash
-.venv/bin/python -c "
-import duckdb, ieee_papers_mapper.config.config as cfg
-conn = duckdb.connect(cfg.DB_PATH, read_only=True)
-for table in ['papers', 'authors', 'index_terms', 'prompts', 'classification']:
-    count = conn.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0]
-    print(f'{table}: {count} rows')
-conn.close()
-"
+ieee-papers verify
 ```
 
 Expected: Non-zero counts across all 5 tables. Classification confidence scores should be between 0.0 and 1.0.
