@@ -53,18 +53,22 @@ def _parse_date(raw: str) -> str:
 
 
 def _safe_parse_list(value) -> list:
-    try:
-        return ast.literal_eval(value) if isinstance(value, str) else []
-    except (ValueError, SyntaxError) as e:
-        logger.warning(f"Failed to parse list: {value}. Error: {e}")
-        return []
+    if isinstance(value, list):
+        return value
+    if isinstance(value, str):
+        try:
+            return ast.literal_eval(value)
+        except (ValueError, SyntaxError) as e:
+            logger.warning(f"Failed to parse list: {value}. Error: {e}")
+            return []
+    return []
 
 
-def _extract_author_info(authors_str) -> list[Author]:
-    authors = _safe_parse_list(authors_str)
+def _extract_author_info(authors_raw) -> list[Author]:
+    authors = _safe_parse_list(authors_raw)
     return [
         Author(
-            author_id=author["id"],
+            author_id=str(author["id"]),
             full_name=author["full_name"],
             affiliation=author["affiliation"],
         )

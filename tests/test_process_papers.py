@@ -54,6 +54,11 @@ def test_safe_parse_list_non_string():
     assert result == []
 
 
+def test_safe_parse_list_already_parsed():
+    result = _safe_parse_list(["term1", "term2"])
+    assert result == ["term1", "term2"]
+
+
 def test_extract_author_info():
     authors_str = '[{"id": "1", "full_name": "Alice", "affiliation": "MIT"}]'
     result = _extract_author_info(authors_str)
