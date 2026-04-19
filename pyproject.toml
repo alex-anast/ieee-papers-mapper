@@ -20,6 +20,7 @@ classifiers = [
 dependencies = [
     "click",
     "dash",
+    "dash-bootstrap-components",
     "duckdb",
     "pandas",
     "pydantic",
