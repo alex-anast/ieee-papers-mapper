@@ -203,7 +203,7 @@ Transforms raw API DataFrame rows into validated Pydantic models. For each row:
 ### `classify_text()`
 
 ```python
-def classify_text(text: str, timer: bool = False) -> list[tuple[str, float]]
+def classify_text(text: str) -> list[tuple[str, float]]
 ```
 
 Classifies a single text against all configured categories using multi-label zero-shot classification. The DeBERTa classifier is lazy-loaded on first call.
@@ -213,7 +213,6 @@ Classifies a single text against all configured categories using multi-label zer
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `text` | `str` | The input text to classify (typically a paper prompt). |
-| `timer` | `bool` | If `True`, logs classification time at DEBUG level. |
 
 **Returns:** `list[tuple[str, float]]` -- List of `(category, confidence_score)` tuples.
 
@@ -222,7 +221,7 @@ Classifies a single text against all configured categories using multi-label zer
 ### `classify_all_papers()`
 
 ```python
-def classify_all_papers(df: pd.DataFrame, timer: bool = False) -> list[ClassifiedPaper]
+def classify_all_papers(df: pd.DataFrame) -> list[ClassifiedPaper]
 ```
 
 Classifies all papers in a DataFrame and returns validated models.
@@ -232,9 +231,10 @@ Classifies all papers in a DataFrame and returns validated models.
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `df` | `pd.DataFrame` | Must contain `paper_id` and `prompt_text` columns. |
-| `timer` | `bool` | If `True`, logs per-paper and aggregate classification times. |
 
 **Returns:** `list[ClassifiedPaper]` -- One `ClassifiedPaper` per paper-category pair.
+
+**Note:** Classification latency is recorded automatically via Prometheus histogram (`classification_duration_seconds`).
 
 ---
 
@@ -300,6 +300,8 @@ Typed CRUD operations on the DuckDB database. Accepts and returns Pydantic model
 | `insert_full_paper()` | `paper: ProcessedPaper` | `None` | Inserts a paper across all tables. Skips if the paper already exists (deduplication on `is_number`). |
 | `get_unclassified_papers()` | -- | `pd.DataFrame` | Returns papers that have no classification rows. DataFrame has columns `paper_id` and `prompt_text`. |
 | `insert_classifications()` | `classifications: list[ClassifiedPaper]` | `None` | Bulk-inserts classification results via a registered DataFrame view. |
+| `count_papers()` | — | `int` | Returns total number of papers in the database. |
+| `count_unclassified()` | — | `int` | Returns count of papers without classification entries. |
 
 ---
 
@@ -408,6 +410,47 @@ def update_graph(n_intervals: int) -> go.Figure
 Dash callback that fires every 10 seconds (driven by `dcc.Interval`). Calls `fetch_data()` and renders a Plotly bar chart of paper counts by category.
 
 **Returns:** `go.Figure` -- Updated bar chart with transition animation.
+
+---
+
+## Metrics (`config/metrics.py`)
+
+Defines all Prometheus metrics as module-level singletons. Import individual metrics where needed.
+
+| Metric | Type | Labels | Description |
+|--------|------|--------|-------------|
+| `pipeline_runs` | `Counter` | `status` | Pipeline execution count (success/failure) |
+| `pipeline_duration` | `Histogram` | — | Pipeline run wall time |
+| `papers_fetched` | `Counter` | `category` | Papers fetched from IEEE API |
+| `api_requests` | `Counter` | `category`, `status` | IEEE API request count |
+| `api_latency` | `Histogram` | `category` | IEEE API request latency |
+| `papers_classified` | `Counter` | `category` | Papers classified |
+| `classification_latency` | `Histogram` | — | Per-paper classification time |
+| `db_operations` | `Histogram` | `operation` | Database operation latency |
+| `total_papers_gauge` | `Gauge` | — | Total papers in database |
+| `unclassified_gauge` | `Gauge` | — | Papers awaiting classification |
+| `last_successful_run` | `Gauge` | — | Unix timestamp of last successful run |
+| `build_info` | `Info` | — | Application version metadata |
+
+---
+
+## Health Endpoints (`app/health.py`)
+
+### `register_health_routes()`
+
+```python
+def register_health_routes(server: Flask) -> None
+```
+
+Registers `/health` and `/ready` endpoints on the given Flask server instance.
+
+**Endpoints:**
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/health` | GET | Liveness probe. Always returns `200 {"status": "healthy"}`. |
+| `/ready` | GET | Readiness probe. Returns `200` if database is queryable and API key is set, `503` otherwise. |
+| `/metrics` | GET | Prometheus metrics in text exposition format. Registered in `dash_webapp.py`. |
 
 ---
 

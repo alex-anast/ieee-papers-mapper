@@ -14,6 +14,7 @@ Automated pipeline for fetching, classifying, and visualizing IEEE research pape
 - **Validates** every record through Pydantic models, rejecting malformed data at the boundary rather than letting it propagate silently.
 - **Classifies** papers into configurable categories using a DeBERTa-v3-large zero-shot transformer, loaded lazily to keep startup fast.
 - **Visualizes** classified paper counts in a Plotly Dash dashboard that auto-refreshes every 10 seconds.
+- **Monitors** pipeline health through Prometheus metrics, health endpoints, and a pre-built Grafana dashboard.
 
 ## Quick Start
 
@@ -35,6 +36,7 @@ See the [Installation Guide](user_guide/installation.md) for detailed setup inst
 | [Overview](user_guide/overview.md) | Pipeline architecture, data flow, and design decisions |
 | [Installation](user_guide/installation.md) | Prerequisites, setup (local and Docker), verification |
 | [Usage](user_guide/usage.md) | CLI commands, configuration, environment variables |
+| [Observability](user_guide/observability.md) | Metrics, health endpoints, Grafana dashboard, structured logging |
 | [Code Structure](developer_guide/code_structure.md) | Module layout, design patterns, data flow trace |
 | [Testing Runbook](developer_guide/testing_runbook.md) | Automated tests, linting, manual smoke tests |
 | [API Reference](developer_guide/api_reference.md) | Function signatures, parameter types, return values |

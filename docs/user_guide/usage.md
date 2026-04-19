@@ -165,6 +165,22 @@ The dashboard is available at `http://localhost:8050`. Both services share a nam
 
 The pipeline service depends on the dashboard service being healthy (HTTP 200 on port 8050) before starting, ensuring the database is accessible before the pipeline writes to it.
 
+### Monitoring Stack
+
+Docker Compose also includes Prometheus and Grafana for metrics visualization:
+
+```bash
+docker compose up -d
+```
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| Dashboard | `http://localhost:8050` | Application dashboard |
+| Prometheus | `http://localhost:9090` | Metrics collection |
+| Grafana | `http://localhost:3000` | Metrics visualization (admin/admin) |
+
+See the [Observability Guide](observability.md) for details on metrics, health endpoints, and the Grafana dashboard.
+
 ---
 
 ## Environment Variables
