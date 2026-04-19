@@ -2,7 +2,7 @@
 
 import pytest
 import pandas as pd
-from src.ieee_papers_mapper.data.classify_papers import (
+from ieee_papers_mapper.data.classify_papers import (
     classify_text,
     classify_all_papers,
 )
@@ -16,7 +16,7 @@ def mock_prompt_data():
 
 def test_classify_text(mocker):
     mocker.patch(
-        "src.ieee_papers_mapper.data.classify_papers.classifier",
+        "ieee_papers_mapper.data.classify_papers.classifier",
         return_value={"labels": ["Category 1", "Category 2"], "scores": [0.9, 0.1]},
     )
     result = classify_text("Sample prompt")
@@ -26,7 +26,7 @@ def test_classify_text(mocker):
 
 def test_classify_all_papers(mock_prompt_data, mocker):
     mocker.patch(
-        "src.ieee_papers_mapper.data.classify_papers.classify_text",
+        "ieee_papers_mapper.data.classify_papers.classify_text",
         return_value=[("Category 1", 0.95)],
     )
     df_classified = classify_all_papers(mock_prompt_data)

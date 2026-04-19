@@ -29,8 +29,8 @@ import time
 import sys
 import logging
 import argparse
-from data.pipeline import run_pipeline
-from config.scheduler import Scheduler
+from ieee_papers_mapper.data.pipeline import run_pipeline
+from ieee_papers_mapper.config.scheduler import Scheduler
 
 # Setup logger  # TODO: This should be its own file and override get_logger or smth
 logger = logging.getLogger("ieee_logger")

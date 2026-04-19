@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pytest
-from src.ieee_papers_mapper.data.database import Database
+from ieee_papers_mapper.data.database import Database
 
 
 @pytest.fixture

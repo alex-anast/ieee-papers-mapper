@@ -37,7 +37,7 @@ import sqlite3
 import plotly.express as px
 from dash import dcc, html
 from dash.dependencies import Input, Output
-from src.ieee_papers_mapper.config import config as cfg
+from ieee_papers_mapper.config import config as cfg
 
 
 # Initialise the Dash app

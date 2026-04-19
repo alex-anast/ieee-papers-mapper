@@ -23,11 +23,11 @@ import os
 import json
 import logging
 import pandas as pd
-from src.ieee_papers_mapper.config import config as cfg
-from data.database import Database
-from data.get_papers import get_papers
-from data.process_papers import process_papers
-from data.classify_papers import classify_all_papers
+from ieee_papers_mapper.config import config as cfg
+from ieee_papers_mapper.data.database import Database
+from ieee_papers_mapper.data.get_papers import get_papers
+from ieee_papers_mapper.data.process_papers import process_papers
+from ieee_papers_mapper.data.classify_papers import classify_all_papers
 
 logger = logging.getLogger("ieee_logger")
 

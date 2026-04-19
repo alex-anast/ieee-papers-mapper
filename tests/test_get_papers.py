@@ -3,8 +3,8 @@
 import pytest
 import requests
 import pandas as pd
-import src.ieee_papers_mapper.config.config as cfg
-from src.ieee_papers_mapper.data.get_papers import get_papers
+import ieee_papers_mapper.config.config as cfg
+from ieee_papers_mapper.data.get_papers import get_papers
 
 
 @pytest.fixture

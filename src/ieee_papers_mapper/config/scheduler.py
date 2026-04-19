@@ -22,7 +22,7 @@ import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from zoneinfo import ZoneInfoNotFoundError as ZINFError
-from src.ieee_papers_mapper.data.pipeline import run_pipeline
+from ieee_papers_mapper.data.pipeline import run_pipeline
 
 # TODO: As per convention, make it constant (capitals) and see if private
 logger = logging.getLogger("ieee_logger")

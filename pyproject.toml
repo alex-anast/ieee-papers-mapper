@@ -2,6 +2,38 @@
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
-[tool.pytest.ini_options]
-pythonpath = ["./"]
+[project]
+name = "ieee_papers_mapper"
+version = "1.0.0"
+description = "A project for fetching, processing, and classifying IEEE papers."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.12"
+authors = [
+    {name = "Alexandros Anastasiou", email = "anastasioyaa@gmail.com"},
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+]
+dependencies = [
+    "dash",
+    "pandas",
+    "python-dotenv",
+    "transformers",
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "sympy",
+    "pillow",
+    "networkx",
+    "mpmath",
+    "APScheduler",
+    "requests",
+]
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
