@@ -10,6 +10,6 @@ Academic and industrial researchers often deal with overwhelming volumes of rese
 
 - **Python**: Core programming language.
 - **Dash & Plotly**: For building interactive web applications.
-- **SQLite**: Lightweight database for managing data.
+- **DuckDB**: Analytical database for structured paper storage.
 - **Hugging Face Transformers**: For paper classification using encoder-only models.
 - **MkDocs**: For generating project documentation.

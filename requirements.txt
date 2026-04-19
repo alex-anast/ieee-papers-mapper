@@ -89,3 +89,4 @@ watchdog==6.0.0
 Werkzeug==3.0.6
 zipp==3.21.0
 python-json-logger
+pydantic
