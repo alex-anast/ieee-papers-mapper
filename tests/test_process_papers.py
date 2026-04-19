@@ -2,6 +2,7 @@
 
 import pytest
 import pandas as pd
+from ieee_papers_mapper.models import ProcessedPaper, Author
 from ieee_papers_mapper.data.process_papers import (
     process_papers,
     _safe_parse_list,
@@ -20,7 +21,6 @@ def sample_raw_data():
         "citing_patent_count": [2],
         "title": ["Sample Title"],
         "abstract": ["Sample Abstract"],
-        # "index_terms.author_terms.terms": ['["term1", "term2"]'],
         "index_terms.ieee_terms.terms": ['["term3", "term4"]'],
         "index_terms.dynamic_index_terms.terms": ['["term5"]'],
         "authors.authors": [
@@ -31,10 +31,12 @@ def sample_raw_data():
 
 
 def test_process_papers(sample_raw_data):
-    df_processed = process_papers(sample_raw_data)
-    assert "prompt" in df_processed.columns
-    assert df_processed["prompt"].iloc[0].startswith("title: Sample Title")
-    # assert df_processed["index_terms_author"].iloc[0] == ["term1", "term2"]
+    papers = process_papers(sample_raw_data)
+    assert len(papers) == 1
+    assert isinstance(papers[0], ProcessedPaper)
+    assert papers[0].title == "Sample Title"
+    assert papers[0].prompt.startswith("title: Sample Title")
+    assert papers[0].insert_date == "2024-01-01"
 
 
 def test_safe_parse_list_valid():
@@ -55,21 +57,15 @@ def test_safe_parse_list_non_string():
 def test_extract_author_info():
     authors_str = '[{"id": "1", "full_name": "Alice", "affiliation": "MIT"}]'
     result = _extract_author_info(authors_str)
-    assert result == [
-        {"author_id": "1", "author_full_name": "Alice", "author_affiliation": "MIT"}
-    ]
+    assert len(result) == 1
+    assert isinstance(result[0], Author)
+    assert result[0].full_name == "Alice"
+    assert result[0].affiliation == "MIT"
+    assert result[0].author_id == "1"
 
 
 def test_create_prompt():
-    row = pd.Series(
-        {
-            "title": "Test Title",
-            "abstract": "Test Abstract",
-            "index_terms_ieee": ["term1"],
-            "index_terms_dynamic": ["term2"],
-        }
-    )
-    result = _create_prompt(row)
+    result = _create_prompt("Test Title", "Test Abstract", ["term1"], ["term2"])
     assert (
         result
         == "title: Test Title - abstract: Test Abstract - index_terms: term1, term2"

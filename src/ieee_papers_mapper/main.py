@@ -36,7 +36,7 @@ logger = setup_logging()
 
 
 def main():
-    # Set up argument parsing for setting the scheduler trigger intervals  # TODO: click
+    # Set up argument parsing for setting the scheduler trigger intervals
     parser = argparse.ArgumentParser(description="Start the IEEE papers scheduler.")
     parser.add_argument("--weeks", type=int, default=0, help="Interval in weeks.")
     parser.add_argument("--days", type=int, default=0, help="Interval in days.")
@@ -46,6 +46,7 @@ def main():
     args = parser.parse_args()
 
     scheduler = Scheduler(
+        job=run_pipeline,
         weeks=args.weeks,
         days=args.days,
         hours=args.hours,
@@ -56,7 +57,6 @@ def main():
     try:
         scheduler.start()
         print("Scheduler is running. Press Ctrl+C to stop.")
-        # run_pipeline()
         while True:
             time.sleep(1)  # Keeps the main thread alive
     except (KeyboardInterrupt, SystemExit):

@@ -3,77 +3,62 @@
 """
 IEEE Papers Scheduler
 =====================
-This script automates the process of retrieving, processing, and classifying research papers from the IEEE Xplore API.
-It uses APScheduler to periodically trigger the data pipeline task at specified intervals.
-
-Features:
-- Automatic retrieval of new papers based on predefined categories.
-- Incremental processing and classification of papers.
-- Configurable scheduling intervals.
-
-Dependencies:
-- APScheduler for scheduling.
-- Logging for structured logging.
-- ZoneInfo for handling time zone errors.
+Wraps APScheduler to execute a configurable job callable at specified intervals.
+The job (typically the data pipeline) runs in a background thread, allowing the
+main process to remain responsive.
 """
 
 import logging
 import datetime
+from typing import Callable
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from zoneinfo import ZoneInfoNotFoundError as ZINFError
-from ieee_papers_mapper.data.pipeline import run_pipeline
 
-# TODO: As per convention, make it constant (capitals) and see if private
 logger = logging.getLogger("ieee_logger")
 
 
 class Scheduler:
     """
-    A class for scheduling the IEEE papers data pipeline using APScheduler.
+    Schedules a callable to run periodically using APScheduler.
     """
 
-    def __init__(self, **interval_kwargs):  # TODO: Return statement even if init
+    def __init__(self, job: Callable, **interval_kwargs):
         """
-        Initializes the Scheduler instance with a specified time interval.
+        Initializes the Scheduler with a job and a time interval.
 
-        Parameters:
+        Parameters
         ----------
+        job : Callable
+            The callable to execute on each trigger.
         interval_kwargs : dict
-            A dictionary containing the time intervals for the scheduler
-            (weeks, days, hours, minutes, seconds).
-
-        Raises:
-        -------
-        ValueError:
-            If invalid interval values are provided.
+            Time interval keyword arguments accepted by APScheduler's
+            IntervalTrigger (weeks, days, hours, minutes, seconds).
         """
         datetime.UTC  # Ensures UTC is recognised
+        self.job = job
         self.scheduler = BackgroundScheduler({"apscheduler.timezone": "UTC"})
         if not interval_kwargs:
             logger.debug("No time interval provided for scheduler, default: 1 week")
-            self.interval_kwargs = {"weeks": 1}  # Default interval
+            self.interval_kwargs = {"weeks": 1}
         else:
             self.interval_kwargs = interval_kwargs
 
-    def start(self):  # TODO: Return statement
+    def start(self) -> None:
         """
-        Starts the scheduler and schedules the data pipeline task.
+        Starts the scheduler and registers the job.
 
-        The scheduler runs the `run_pipeline` function at intervals specified
-        during initialization.
-
-        Raises:
-        -------
-        ZINFError:
-            If the system's time zone configuration is incorrect.
+        Raises
+        ------
+        ZINFError
+            If the host timezone configuration is incompatible.
         """
         logger.info(
             f"Starting scheduler with trigger interval: {self.interval_kwargs}..."
         )
         try:
             self.scheduler.add_job(
-                run_pipeline,
+                self.job,
                 trigger=IntervalTrigger(**self.interval_kwargs),
                 id="pipeline_job",
                 replace_existing=True,
@@ -87,11 +72,9 @@ class Scheduler:
         self.scheduler.start()
         logger.info("Scheduler started.")
 
-    def stop(self):  # TODO: Return statement
+    def stop(self) -> None:
         """
         Stops the scheduler gracefully.
-
-        Ensures that all jobs are terminated and resources are cleaned up.
         """
         logger.info("Stopping scheduler...")
         self.scheduler.shutdown()

@@ -21,6 +21,7 @@ dependencies = [
     "dash",
     "duckdb",
     "pandas",
+    "pydantic",
     "python-dotenv",
     "transformers",
     "torch",

@@ -5,29 +5,16 @@
 IEEE Papers Dashboard
 =====================
 
-This script creates a web-based dashboard using Dash to visualize paper counts by category from an IEEE database.
-The dashboard fetches data from a SQLite database and displays a bar chart showing the number of papers in each category.
-The chart is updated every 10 seconds to reflect the latest data.
+A web-based dashboard using Dash to visualize paper counts by category from
+the IEEE DuckDB database. Displays a bar chart that refreshes every 10 seconds
+to reflect the latest classification data.
 
-Key Components:
----------------
-1. **Dash Web App**: A basic web interface created with Dash that includes a bar chart visualizing paper counts.
-2. **Database Interaction**: Fetches paper count data grouped by category from a SQLite database, with a confidence threshold filter.
-3. **Real-time Updates**: The bar chart updates every 10 seconds to display real-time changes in paper counts.
-
-Functions:
-----------
-- `fetch_data(threshold: float = 0.5) -> pd.DataFrame`: Fetches paper counts grouped by category from the database.
-- `update_graph(n_intervals: int) -> plotly.graph_objects.Figure`: Callback function to update the bar chart with new data.
-
-Usage:
-------
-- Run the script to start the web application.
-- The app fetches and displays data from the database, and automatically updates the bar chart every 10 seconds.
-
-Example:
---------
-- The web page will display the number of papers in each category where the confidence score is above a given threshold (default 0.5).
+Functions
+---------
+- fetch_data(threshold: float = 0.5) -> pd.DataFrame
+    Fetches paper counts grouped by category from the database.
+- update_graph(n_intervals: int) -> go.Figure
+    Callback that refreshes the bar chart with new data.
 """
 
 
@@ -35,6 +22,7 @@ import dash
 import pandas as pd
 import duckdb
 import plotly.express as px
+import plotly.graph_objects as go
 from dash import dcc, html
 from dash.dependencies import Input, Output
 from ieee_papers_mapper.config import config as cfg
@@ -52,25 +40,25 @@ def fetch_data(threshold: float = 0.5) -> pd.DataFrame:
     """
     Fetches paper counts grouped by category from the database.
 
-    Parameters:
+    Parameters
     ----------
     threshold : float, optional
         Minimum confidence score to filter the papers (default is 0.5).
 
-    Returns:
+    Returns
     -------
     pd.DataFrame
         DataFrame containing category and count of papers.
     """
-    query = f"""
+    query = """
         SELECT c.category, COUNT(*) as paper_count
         FROM classification c
         JOIN papers p ON c.paper_id = p.paper_id
-        WHERE c.confidence >= {threshold}  -- Filter rows before grouping
+        WHERE c.confidence >= ?
         GROUP BY c.category
     """
     conn = duckdb.connect(cfg.DB_PATH, read_only=True)
-    df = pd.read_sql_query(query, conn)
+    df = conn.execute(query, [threshold]).fetchdf()
     conn.close()
     return df
 
@@ -93,18 +81,18 @@ app.layout = html.Div(
 @app.callback(
     Output("papers-bar-chart", "figure"), [Input("interval-component", "n_intervals")]
 )
-def update_graph(n_intervals):  # TODO: missing type hint and return type
+def update_graph(n_intervals: int) -> go.Figure:
     """
     Updates the bar chart based on new data.
 
-    Parameters:
+    Parameters
     ----------
     n_intervals : int
         Number of times the interval has fired.
 
-    Returns:
+    Returns
     -------
-    plotly.graph_objects.Figure:
+    go.Figure
         Updated bar chart.
     """
     df = fetch_data()

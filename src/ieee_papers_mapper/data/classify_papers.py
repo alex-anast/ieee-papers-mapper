@@ -3,13 +3,23 @@
 import time
 import pandas as pd
 import logging
-from transformers import pipeline
 from ieee_papers_mapper.config import config as cfg
+from ieee_papers_mapper.models import ClassifiedPaper
 
 logger = logging.getLogger("ieee_logger")
 
+_classifier = None
 
-classifier = pipeline("zero-shot-classification", model=cfg.DEBERTA_V3_MODEL_NAME)
+
+def _get_classifier():
+    global _classifier
+    if _classifier is None:
+        from transformers import pipeline as hf_pipeline
+
+        _classifier = hf_pipeline(
+            "zero-shot-classification", model=cfg.DEBERTA_V3_MODEL_NAME
+        )
+    return _classifier
 
 
 def classify_text(text: str, timer: bool = False) -> list:
@@ -25,8 +35,7 @@ def classify_text(text: str, timer: bool = False) -> list:
     if timer:
         start_time = time.time()
 
-    results = classifier(text, candidate_labels=cfg.CATEGORIES, multi_label=True)
-    # print(results)
+    results = _get_classifier()(text, candidate_labels=cfg.CATEGORIES, multi_label=True)
 
     if timer:
         elapsed_time = time.time() - start_time
@@ -37,7 +46,7 @@ def classify_text(text: str, timer: bool = False) -> list:
     ]
 
 
-def classify_all_papers(df: pd.DataFrame, timer: bool = False) -> pd.DataFrame:
+def classify_all_papers(df: pd.DataFrame, timer: bool = False) -> list[ClassifiedPaper]:
     """
     Classify all papers and return their classifications.
 
@@ -45,25 +54,22 @@ def classify_all_papers(df: pd.DataFrame, timer: bool = False) -> pd.DataFrame:
         df (pd.DataFrame): DataFrame with `paper_id` and `prompt_text`.
 
     Returns:
-        pd.DataFrame: DataFrame with `paper_id`, `category`, and `confidence`.
+        list[ClassifiedPaper]: List of ClassifiedPaper models.
     """
     classifications = []
     times = []
     for _, row in df.iterrows():
-
         if timer:
             start_time = time.time()
-        classifications.extend(
-            [
-                {"paper_id": row["paper_id"], "category": cat, "confidence": conf}
-                for cat, conf in classify_text(row["prompt_text"], timer=False)
-            ]
-        )
+        for cat, conf in classify_text(row["prompt_text"]):
+            classifications.append(
+                ClassifiedPaper(paper_id=row["paper_id"], category=cat, confidence=conf)
+            )
         if timer:
             elapsed_time = time.time() - start_time
             times.append(elapsed_time)
-    if timer:
-        mean_classification_time = sum(times) / df.shape[0]
+    if timer and times:
+        mean_classification_time = sum(times) / len(times)
         logger.debug(f"Mean Paper Classification Time: {mean_classification_time:.2f}s")
         logger.debug(f"Total Elapsed Classification Time: {sum(times):.2f}s")
-    return pd.DataFrame(classifications)
+    return classifications

@@ -5,6 +5,7 @@ import requests
 import pandas as pd
 import ieee_papers_mapper.config.config as cfg
 from ieee_papers_mapper.data.get_papers import get_papers
+from ieee_papers_mapper.exceptions import IEEEApiError
 
 
 @pytest.fixture
@@ -19,8 +20,7 @@ def mock_response():
 
 def test_get_papers_success(mock_response, requests_mock):
     query = "machine learning"
-    requests_mock.get(f"{cfg.BASE_URL}", json=mock_response)
-
+    requests_mock.get(cfg.BASE_URL, json=mock_response)
     df = get_papers(
         query=query,
         start_year="2020",
@@ -35,8 +35,7 @@ def test_get_papers_success(mock_response, requests_mock):
 
 def test_get_papers_no_data(requests_mock):
     query = "nonexistent topic"
-    requests_mock.get(f"{cfg.BASE_URL}", json={"articles": []})
-
+    requests_mock.get(cfg.BASE_URL, json={"articles": []})
     df = get_papers(
         query=query,
         start_year="2020",
@@ -44,21 +43,21 @@ def test_get_papers_no_data(requests_mock):
         max_records=2,
         start_record=1,
     )
-    assert df is None
+    assert isinstance(df, pd.DataFrame)
+    assert df.empty
 
 
 def test_get_papers_request_exception(requests_mock):
     query = "machine learning"
     requests_mock.get(
-        f"{cfg.BASE_URL}",
+        cfg.BASE_URL,
         exc=requests.exceptions.RequestException,
     )
-
-    df = get_papers(
-        query=query,
-        start_year="2020",
-        api_key="dummy_key",
-        max_records=2,
-        start_record=1,
-    )
-    assert df is None
+    with pytest.raises(IEEEApiError):
+        get_papers(
+            query=query,
+            start_year="2020",
+            api_key="dummy_key",
+            max_records=2,
+            start_record=1,
+        )

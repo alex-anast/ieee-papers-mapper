@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
 """
-What:
-    Contains all constants ang global variables.
-
-Why:
-    - Easy to access and modify centralized configurations.
-    - Keeps configuration logic separate from the rest of the implementation.
-
-TODO: This should obvisouly be a config manager, not a python file
+Configuration
+=============
+Centralised constants and environment-sourced settings for the IEEE papers
+pipeline. Values that vary across environments (API keys, data paths) are read
+from the environment or a .env file via python-dotenv.
 """
 
 import os
@@ -28,15 +25,13 @@ DB_PATH = os.path.join(SRC_DIR, "ieee_papers.duckdb")
 
 # IEEE API Parameters
 IEEE_API_KEY = os.getenv("IEEE_API_KEY")
-IEEE_API_START_RECORD = 1
 IEEE_API_START_YEAR = 2024
-# TODO: Change to 200
 IEEE_API_MAX_RECORDS = 50
 
 # Constants
 BASE_URL = "http://ieeexploreapi.ieee.org/api/v1/search/articles"
-CATEGORIES = ["machine learning", "power electronics", "robotics"]
 DB_TABLES = ["papers", "authors", "index_terms", "prompts", "classification"]
+CATEGORIES = ["machine learning", "power electronics", "robotics"]
 
 # Models
 DEBERTA_V3_MODEL_NAME = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"

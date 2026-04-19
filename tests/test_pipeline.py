@@ -6,6 +6,7 @@ import duckdb
 import pytest
 import pandas as pd
 from unittest.mock import patch
+from ieee_papers_mapper.models import ClassifiedPaper
 from ieee_papers_mapper.data.pipeline import run_pipeline, load_progress, save_progress
 
 
@@ -48,13 +49,9 @@ def test_run_pipeline_with_new_papers(tmp_path, monkeypatch):
         }
     )
 
-    mock_classification_result = pd.DataFrame(
-        {
-            "paper_id": [1],
-            "category": ["machine learning"],
-            "confidence": [0.92],
-        }
-    )
+    mock_classification_result = [
+        ClassifiedPaper(paper_id=1, category="machine learning", confidence=0.92)
+    ]
 
     with (
         patch(
