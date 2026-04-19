@@ -26,20 +26,13 @@ Press Ctrl+C to stop the scheduler gracefully.
 
 
 import time
-import sys
 import logging
 import argparse
 from ieee_papers_mapper.data.pipeline import run_pipeline
 from ieee_papers_mapper.config.scheduler import Scheduler
+from ieee_papers_mapper.config.logging_config import setup_logging
 
-# Setup logger  # TODO: This should be its own file and override get_logger or smth
-logger = logging.getLogger("ieee_logger")
-logger.setLevel(logging.DEBUG)
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+logger = setup_logging()
 
 
 def main():
