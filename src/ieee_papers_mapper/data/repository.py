@@ -91,3 +91,12 @@ class PaperRepository:
         )
         self.connection.unregister("df_classified_view")
         self.connection.commit()
+
+    def count_papers(self) -> int:
+        return self.cursor.execute("SELECT COUNT(*) FROM papers").fetchone()[0]
+
+    def count_unclassified(self) -> int:
+        return self.cursor.execute(
+            "SELECT COUNT(*) FROM papers p "
+            "WHERE NOT EXISTS (SELECT 1 FROM classification c WHERE c.paper_id = p.paper_id)"
+        ).fetchone()[0]

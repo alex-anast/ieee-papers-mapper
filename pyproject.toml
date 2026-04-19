@@ -24,6 +24,7 @@ dependencies = [
     "duckdb",
     "pandas",
     "pydantic",
+    "prometheus-client",
     "python-dotenv",
     "transformers",
     "torch",

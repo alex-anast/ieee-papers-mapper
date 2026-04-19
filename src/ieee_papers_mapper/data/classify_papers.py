@@ -4,6 +4,7 @@ import time
 import pandas as pd
 import logging
 from ieee_papers_mapper.config import config as cfg
+from ieee_papers_mapper.config.metrics import classification_latency, papers_classified
 from ieee_papers_mapper.models import ClassifiedPaper
 
 logger = logging.getLogger("ieee_logger")
@@ -22,7 +23,7 @@ def _get_classifier():
     return _classifier
 
 
-def classify_text(text: str, timer: bool = False) -> list:
+def classify_text(text: str) -> list:
     """
     Classify a single text into multiple categories.
 
@@ -32,21 +33,13 @@ def classify_text(text: str, timer: bool = False) -> list:
     Returns:
         list: A list of tuples (category, confidence).
     """
-    if timer:
-        start_time = time.time()
-
     results = _get_classifier()(text, candidate_labels=cfg.CATEGORIES, multi_label=True)
-
-    if timer:
-        elapsed_time = time.time() - start_time
-        logger.debug(f"Paper's classification time: {elapsed_time:.2f}s")
-
     return [
         (label, score) for label, score in zip(results["labels"], results["scores"])
     ]
 
 
-def classify_all_papers(df: pd.DataFrame, timer: bool = False) -> list[ClassifiedPaper]:
+def classify_all_papers(df: pd.DataFrame) -> list[ClassifiedPaper]:
     """
     Classify all papers and return their classifications.
 
@@ -57,19 +50,12 @@ def classify_all_papers(df: pd.DataFrame, timer: bool = False) -> list[Classifie
         list[ClassifiedPaper]: List of ClassifiedPaper models.
     """
     classifications = []
-    times = []
     for _, row in df.iterrows():
-        if timer:
-            start_time = time.time()
+        start = time.monotonic()
         for cat, conf in classify_text(row["prompt_text"]):
             classifications.append(
                 ClassifiedPaper(paper_id=row["paper_id"], category=cat, confidence=conf)
             )
-        if timer:
-            elapsed_time = time.time() - start_time
-            times.append(elapsed_time)
-    if timer and times:
-        mean_classification_time = sum(times) / len(times)
-        logger.debug(f"Mean Paper Classification Time: {mean_classification_time:.2f}s")
-        logger.debug(f"Total Elapsed Classification Time: {sum(times):.2f}s")
+            papers_classified.labels(category=cat).inc()
+        classification_latency.observe(time.monotonic() - start)
     return classifications

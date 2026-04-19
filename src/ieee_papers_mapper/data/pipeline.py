@@ -13,8 +13,20 @@ resume from where they left off.
 
 import os
 import json
+import time
+import uuid
 import logging
 from ieee_papers_mapper.config import config as cfg
+from ieee_papers_mapper.config.metrics import (
+    pipeline_runs,
+    pipeline_duration,
+    papers_fetched,
+    api_requests,
+    api_latency,
+    total_papers_gauge,
+    unclassified_gauge,
+    last_successful_run,
+)
 from ieee_papers_mapper.exceptions import IEEEApiError
 from ieee_papers_mapper.data.database import Database
 from ieee_papers_mapper.data.repository import PaperRepository
@@ -52,21 +64,33 @@ def run_pipeline() -> bool:
     bool
         True if new papers were fetched and stored, False otherwise.
     """
+    run_id = str(uuid.uuid4())[:8]
+    logger.info("Pipeline run started", extra={"run_id": run_id})
+    start = time.monotonic()
+
     db = Database(name="ieee_papers", filepath=cfg.SRC_DIR)
     db.initialise()
     repo = PaperRepository(db.connection)
     tracker = ProgressTracker(cfg.JSON_FILENAME, cfg.CONFIG_DIR)
 
     try:
-        new_papers = _fetch_and_store(repo, tracker)
+        new_papers = _fetch_and_store(repo, tracker, run_id)
         if new_papers:
-            _classify_new_papers(repo)
+            _classify_new_papers(repo, run_id)
+        pipeline_runs.labels(status="success").inc()
+        total_papers_gauge.set(repo.count_papers())
+        unclassified_gauge.set(repo.count_unclassified())
+        last_successful_run.set_to_current_time()
         return new_papers
+    except Exception:
+        pipeline_runs.labels(status="failure").inc()
+        raise
     finally:
+        pipeline_duration.observe(time.monotonic() - start)
         db.close()
 
 
-def _fetch_and_store(repo: PaperRepository, tracker: ProgressTracker) -> bool:
+def _fetch_and_store(repo: PaperRepository, tracker: ProgressTracker, run_id: str) -> bool:
     """
     Fetches papers from the IEEE API for each configured category and stores
     them via the repository.
@@ -77,6 +101,8 @@ def _fetch_and_store(repo: PaperRepository, tracker: ProgressTracker) -> bool:
         Repository used to persist paper records.
     tracker : ProgressTracker
         Tracks per-category pagination progress across runs.
+    run_id : str
+        Identifier for the current pipeline run, used in log context.
 
     Returns
     -------
@@ -91,8 +117,10 @@ def _fetch_and_store(repo: PaperRepository, tracker: ProgressTracker) -> bool:
         try:
             while True:
                 logger.debug(
-                    f"Fetching IEEE data for category '{category}', start_record={start_record}..."
+                    f"Fetching IEEE data for category '{category}', start_record={start_record}...",
+                    extra={"run_id": run_id},
                 )
+                api_start = time.monotonic()
                 df_raw = get_papers(
                     query=category,
                     api_key=cfg.IEEE_API_KEY,
@@ -100,12 +128,19 @@ def _fetch_and_store(repo: PaperRepository, tracker: ProgressTracker) -> bool:
                     start_record=start_record,
                     max_records=cfg.IEEE_API_MAX_RECORDS,
                 )
+                api_latency.labels(category=category).observe(time.monotonic() - api_start)
+                api_requests.labels(category=category, status="success").inc()
+
                 if df_raw.empty:
-                    logger.info(f"No new papers found for category: '{category}'")
+                    logger.info(
+                        f"No new papers found for category: '{category}'",
+                        extra={"run_id": run_id},
+                    )
                     break
 
                 new_papers = True
                 papers = process_papers(df_raw)
+                papers_fetched.labels(category=category).inc(len(papers))
 
                 for paper in papers:
                     repo.insert_full_paper(paper)
@@ -115,16 +150,23 @@ def _fetch_and_store(repo: PaperRepository, tracker: ProgressTracker) -> bool:
                 tracker.save(progress)
 
                 if len(df_raw) < cfg.IEEE_API_MAX_RECORDS:
-                    logger.info(f"Completed retrieval for category '{category}'.")
+                    logger.info(
+                        f"Completed retrieval for category '{category}'.",
+                        extra={"run_id": run_id},
+                    )
                     break
         except IEEEApiError as e:
-            logger.error(f"API error for category '{category}': {e}")
+            api_requests.labels(category=category, status="error").inc()
+            logger.error(
+                f"API error for category '{category}': {e}",
+                extra={"run_id": run_id},
+            )
             continue
 
     return new_papers
 
 
-def _classify_new_papers(repo: PaperRepository) -> None:
+def _classify_new_papers(repo: PaperRepository, run_id: str) -> None:
     """
     Retrieves unclassified papers and stores their classifications.
 
@@ -132,13 +174,18 @@ def _classify_new_papers(repo: PaperRepository) -> None:
     ----------
     repo : PaperRepository
         Repository used to query and persist classification records.
+    run_id : str
+        Identifier for the current pipeline run, used in log context.
     """
     df_unclassified = repo.get_unclassified_papers()
     if df_unclassified.empty:
         return
-    classifications = classify_all_papers(df_unclassified, timer=True)
+    classifications = classify_all_papers(df_unclassified)
     repo.insert_classifications(classifications)
-    logger.info(f"Classified and stored {len(classifications)} papers.")
+    logger.info(
+        f"Classified and stored {len(classifications)} papers.",
+        extra={"run_id": run_id},
+    )
 
 
 def load_progress(filename: str) -> dict:
