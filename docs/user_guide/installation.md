@@ -1,37 +1,22 @@
 # Installation Guide
 
-Follow these steps to set up and run the IEEE Papers Mapper on your local machine.
-
 ## Prerequisites
 
-Ensure you have the following installed:
-
 - Python 3.12 or later
-- Pip (Python package manager)
 - Git
+- An [IEEE Xplore API key](https://developer.ieee.org/)
 
-## Installation Steps (User)
-
-1. Create a working directory:
-
-```bash
-mkdir my_project
-```
-
-2. Create and activate a virtual environment:
+## Quick Start (Makefile)
 
 ```bash
-python -m venv venv
-source venv/bin/activate
+git clone https://github.com/alex-anast/ieee-papers-mapper.git
+cd ieee-papers-mapper
+cp .env.example .env        # add your IEEE_API_KEY
+make install                # creates venv and installs everything
+make check                  # lint + tests
 ```
 
-3. Install `ieee-papers-mapper` pip package:
-
-```bash
-pip install ieee-papers-mapper
-```
-
-## Installation Steps (Developer)
+## Manual Installation
 
 1. Clone the repository:
 
@@ -43,30 +28,32 @@ cd ieee-papers-mapper
 2. Create and activate a virtual environment:
 
 ```bash
-python -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-3. Install the required dependencies:
+3. Install dependencies (CPU-only PyTorch):
 
 ```bash
-pip install -r requirements.txt
-```
-
-4. Install the project in editable mode:
-
-```bash
+pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
 pip install -e .
 ```
 
-5. Open the web app for visualizing the results. At the start, it is going to be an empty page:
+4. Configure the API key:
 
 ```bash
-python ieee_papers_mapper/data/app/dash_webapp.py
+cp .env.example .env
+# Edit .env and set IEEE_API_KEY=your_key_here
 ```
 
-6. Initiate the sourcing of papers coming in from IEEE Xplore API:
+## Docker
+
+Build and start both services (dashboard + pipeline):
 
 ```bash
-python ieee_papers_mapper/data/main.py
+cp .env.example .env        # add your IEEE_API_KEY
+make docker-build
+make docker-up
 ```
+
+The dashboard will be available at `http://localhost:8050`.

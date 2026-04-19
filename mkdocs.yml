@@ -16,5 +16,6 @@ nav:
       - Usage: user_guide/usage.md
   - Developer Guide:
       - Code Structure: developer_guide/code_structure.md
+      - Testing Runbook: developer_guide/testing_runbook.md
       - API Reference: developer_guide/api_reference.md
   - About: about.md
