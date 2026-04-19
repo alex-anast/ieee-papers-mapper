@@ -1,0 +1,2288 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../testing_runbook/">
+      
+      
+        <link rel="next" href="../../about/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>API Reference - IEEE Papers Mapper</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="IEEE Papers Mapper" class="md-header__button md-logo" aria-label="IEEE Papers Mapper" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            IEEE Papers Mapper
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/alex-anast/ieee-papers-mapper" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="IEEE Papers Mapper" class="md-nav__button md-logo" aria-label="IEEE Papers Mapper" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    IEEE Papers Mapper
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/alex-anast/ieee-papers-mapper" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_guide/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_guide/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_guide/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_guide/observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing_runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing Runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#models-modelspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models (models.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Models (models.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#author" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Author
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processedpaper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ProcessedPaper
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classifiedpaper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClassifiedPaper
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exceptions-exceptionspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exceptions (exceptions.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exceptions (exceptions.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ieeepaperserror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IEEEPapersError
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ieeeapierror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IEEEApiError
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#papervalidationerror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PaperValidationError
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-clipy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI (cli.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI (cli.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cli-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cli (group)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#db-reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        db-reset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_papers()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process_papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        process_papers()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classify_text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        classify_text()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classify_all_papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        classify_all_papers()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-databasepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database (database.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database (database.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-repositorypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository (repository.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Repository (repository.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paperrepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PaperRepository
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-pipelinepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline (pipeline.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pipeline (pipeline.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run_pipeline()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progresstracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ProgressTracker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scheduler-configschedulerpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduler (config/scheduler.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduler (config/scheduler.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduler
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboard-appdash_webapppy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard (app/dash_webapp.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard (app/dash_webapp.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fetch_data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fetch_data()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update_graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        update_graph()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-configmetricspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics (config/metrics.py)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-endpoints-apphealthpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Endpoints (app/health.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Health Endpoints (app/health.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register_health_routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register_health_routes()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-configlogging_configpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging (config/logging_config.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Logging (config/logging_config.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup_logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        setup_logging()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#models-modelspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models (models.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Models (models.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#author" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Author
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processedpaper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ProcessedPaper
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classifiedpaper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClassifiedPaper
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exceptions-exceptionspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exceptions (exceptions.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exceptions (exceptions.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ieeepaperserror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IEEEPapersError
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ieeeapierror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IEEEApiError
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#papervalidationerror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PaperValidationError
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-clipy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI (cli.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI (cli.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cli-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cli (group)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#db-reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        db-reset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_papers()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process_papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        process_papers()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classify_text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        classify_text()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classify_all_papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        classify_all_papers()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-databasepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database (database.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database (database.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-repositorypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository (repository.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Repository (repository.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paperrepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PaperRepository
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-pipelinepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline (pipeline.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pipeline (pipeline.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run_pipeline()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progresstracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ProgressTracker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scheduler-configschedulerpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduler (config/scheduler.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduler (config/scheduler.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduler
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboard-appdash_webapppy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard (app/dash_webapp.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard (app/dash_webapp.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fetch_data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fetch_data()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update_graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        update_graph()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-configmetricspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics (config/metrics.py)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-endpoints-apphealthpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Endpoints (app/health.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Health Endpoints (app/health.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register_health_routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register_health_routes()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-configlogging_configpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging (config/logging_config.py)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Logging (config/logging_config.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup_logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        setup_logging()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-reference">API Reference</h1>
+<h2 id="models-modelspy">Models (<code>models.py</code>)</h2>
+<h3 id="author"><code>Author</code></h3>
+<p>Pydantic model representing a paper author.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Author</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">author_id</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">full_name</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">affiliation</span><span class="p">:</span> <span class="nb">str</span>
+</code></pre></div>
+<p>Used during processing to validate and structure author metadata extracted from the IEEE API response. Each <code>ProcessedPaper</code> contains a list of <code>Author</code> instances.</p>
+<hr />
+<h3 id="processedpaper"><code>ProcessedPaper</code></h3>
+<p>Validated paper record created at the processing boundary. Enforces data contracts before storage.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ProcessedPaper</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">is_number</span><span class="p">:</span> <span class="nb">str</span>                              <span class="c1"># IEEE article identifier</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">insert_date</span><span class="p">:</span> <span class="nb">str</span>                            <span class="c1"># ISO 8601 date (YYYY-MM-DD), validated by field_validator</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">publication_year</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">download_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>           <span class="c1"># Non-negative</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">citing_patent_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>      <span class="c1"># Non-negative</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>            <span class="c1"># Must not be empty</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">abstract</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">index_terms_ieee</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">index_terms_dynamic</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">authors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Author</span><span class="p">]</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span>                                 <span class="c1"># Constructed from title + abstract + terms</span>
+</code></pre></div>
+<p>The <code>insert_date</code> field has a custom validator that checks the date can be parsed as <code>%Y-%m-%d</code>. Created by <code>process_papers()</code> and consumed by <code>PaperRepository.insert_full_paper()</code>.</p>
+<hr />
+<h3 id="classifiedpaper"><code>ClassifiedPaper</code></h3>
+<p>Classification result for a single paper-category pair.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ClassifiedPaper</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">paper_id</span><span class="p">:</span> <span class="nb">int</span>                               <span class="c1"># Foreign key to papers table</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span>                               <span class="c1"># Classification label</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>   <span class="c1"># Score clamped to [0.0, 1.0]</span>
+</code></pre></div>
+<p>Created by <code>classify_all_papers()</code> and consumed by <code>PaperRepository.insert_classifications()</code>.</p>
+<hr />
+<h2 id="exceptions-exceptionspy">Exceptions (<code>exceptions.py</code>)</h2>
+<h3 id="ieeepaperserror"><code>IEEEPapersError</code></h3>
+<p>Base exception for the project. All custom exceptions inherit from this.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">IEEEPapersError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<hr />
+<h3 id="ieeeapierror"><code>IEEEApiError</code></h3>
+<p>Raised when an IEEE API request fails (network error, HTTP error, rate limit). Caught per-category in the pipeline so that one failing query does not abort the entire run.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">IEEEApiError</span><span class="p">(</span><span class="n">IEEEPapersError</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<p>Raised by: <code>get_papers()</code></p>
+<hr />
+<h3 id="papervalidationerror"><code>PaperValidationError</code></h3>
+<p>Raised when paper data fails Pydantic validation during processing. Always fatal for the affected record.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">PaperValidationError</span><span class="p">(</span><span class="n">IEEEPapersError</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<p>Raised by: <code>process_papers()</code>, <code>_parse_date()</code></p>
+<hr />
+<h2 id="cli-clipy">CLI (<code>cli.py</code>)</h2>
+<p>Click-based command group installed as the <code>ieee-papers</code> console script.</p>
+<h3 id="cli-group"><code>cli</code> (group)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@click</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">cli</span><span class="p">():</span> <span class="o">...</span>
+</code></pre></div>
+<p>Top-level group. All commands below are subcommands of this group.</p>
+<hr />
+<h3 id="run"><code>run</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--weeks&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--days&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--hours&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--minutes&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--seconds&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">weeks</span><span class="p">,</span> <span class="n">days</span><span class="p">,</span> <span class="n">hours</span><span class="p">,</span> <span class="n">minutes</span><span class="p">,</span> <span class="n">seconds</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<p>Runs the pipeline. If no interval flags are provided (or all are zero), executes a single pipeline run and exits. If any interval flag is non-zero, creates a <code>Scheduler</code> that runs the pipeline immediately and repeats at the configured interval.</p>
+<hr />
+<h3 id="dashboard"><code>dashboard</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--host&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--port&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8050</span><span class="p">)</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;--debug/--no-debug&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">dashboard</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">debug</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<p>Launches the Plotly Dash web application on the specified host and port.</p>
+<hr />
+<h3 id="verify"><code>verify</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">verify</span><span class="p">():</span> <span class="o">...</span>
+</code></pre></div>
+<p>Prints system health information: API key status, database path and table row counts, and whether the classifier module is importable. Does not load the transformer model.</p>
+<hr />
+<h3 id="db-reset"><code>db-reset</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@cli</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;db-reset&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nd">@click</span><span class="o">.</span><span class="n">confirmation_option</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s2">&quot;This will delete all data. Continue?&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">db_reset</span><span class="p">():</span> <span class="o">...</span>
+</code></pre></div>
+<p>Deletes the DuckDB file (and its WAL file if present), then creates a fresh database with all tables. Requires confirmation unless <code>--yes</code> is passed.</p>
+<hr />
+<h2 id="data-layer">Data Layer</h2>
+<h3 id="get_papers"><code>get_papers()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_papers</span><span class="p">(</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">start_year</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">max_records</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">start_record</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+</code></pre></div>
+<p>Fetches papers from the IEEE Xplore API for the given query. Sends a GET request to the IEEE search endpoint with parameterized query options (content type: Journals, sorted by article number ascending).</p>
+<p><strong>Returns:</strong> <code>pd.DataFrame</code> -- Normalized JSON response. Empty DataFrame if no results.</p>
+<p><strong>Raises:</strong> <code>IEEEApiError</code> -- On any <code>requests.exceptions.RequestException</code>.</p>
+<hr />
+<h3 id="process_papers"><code>process_papers()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_papers</span><span class="p">(</span><span class="n">df_raw</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProcessedPaper</span><span class="p">]</span>
+</code></pre></div>
+<p>Transforms raw API DataFrame rows into validated Pydantic models. For each row:</p>
+<ol>
+<li>Extracts author metadata from the nested <code>authors.authors</code> column into <code>Author</code> models.</li>
+<li>Parses IEEE and dynamic index terms (handles both list and string representations).</li>
+<li>Converts <code>insert_date</code> from <code>YYYYMMDD</code> to <code>YYYY-MM-DD</code>.</li>
+<li>Constructs a classification prompt from title, abstract, and terms.</li>
+</ol>
+<p><strong>Returns:</strong> <code>list[ProcessedPaper]</code> -- One model per valid row.</p>
+<p><strong>Raises:</strong> <code>PaperValidationError</code> -- If any row fails Pydantic validation or has a missing required field.</p>
+<hr />
+<h3 id="classify_text"><code>classify_text()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">classify_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
+</code></pre></div>
+<p>Classifies a single text against all configured categories using multi-label zero-shot classification. The DeBERTa classifier is lazy-loaded on first call.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>text</code></td>
+<td><code>str</code></td>
+<td>The input text to classify (typically a paper prompt).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>list[tuple[str, float]]</code> -- List of <code>(category, confidence_score)</code> tuples.</p>
+<hr />
+<h3 id="classify_all_papers"><code>classify_all_papers()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">classify_all_papers</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ClassifiedPaper</span><span class="p">]</span>
+</code></pre></div>
+<p>Classifies all papers in a DataFrame and returns validated models.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>df</code></td>
+<td><code>pd.DataFrame</code></td>
+<td>Must contain <code>paper_id</code> and <code>prompt_text</code> columns.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>list[ClassifiedPaper]</code> -- One <code>ClassifiedPaper</code> per paper-category pair.</p>
+<p><strong>Note:</strong> Classification latency is recorded automatically via Prometheus histogram (<code>classification_duration_seconds</code>).</p>
+<hr />
+<h2 id="database-databasepy">Database (<code>database.py</code>)</h2>
+<h3 id="database"><code>Database</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Database</span><span class="p">:</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<p>Connection lifecycle and schema manager for the DuckDB database. Creates the database file at <code>{filepath}/{name}.duckdb</code> (or <code>{name}.duckdb</code> in the current directory if <code>filepath</code> is <code>None</code>).</p>
+<p><strong>Methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>initialise()</code></td>
+<td><code>None</code></td>
+<td>Creates missing tables. Creates all tables from scratch if the DB file does not exist.</td>
+</tr>
+<tr>
+<td><code>create_all_tables()</code></td>
+<td><code>None</code></td>
+<td>Creates all five tables in foreign-key order.</td>
+</tr>
+<tr>
+<td><code>create_tables(tables, cursor=None)</code></td>
+<td><code>None</code></td>
+<td>Creates a specific subset of tables.</td>
+</tr>
+<tr>
+<td><code>connect()</code></td>
+<td><code>bool</code></td>
+<td>Opens a connection if not already connected. Returns <code>True</code> on success.</td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td><code>None</code></td>
+<td>Closes the active connection.</td>
+</tr>
+<tr>
+<td><code>get_existing_tables()</code></td>
+<td><code>list[str]</code></td>
+<td>Queries <code>information_schema.tables</code> for existing table names.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Properties:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>file_exists</code></td>
+<td><code>bool</code></td>
+<td>Whether the database file exists on disk.</td>
+</tr>
+<tr>
+<td><code>is_connected</code></td>
+<td><code>bool</code></td>
+<td>Whether the connection is currently open.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Schema (5 tables):</strong></p>
+<ul>
+<li><code>papers</code> -- Core paper metadata (PK: <code>paper_id</code>, auto-incremented via sequence).</li>
+<li><code>authors</code> -- Author records, FK to <code>papers</code>.</li>
+<li><code>index_terms</code> -- IEEE and dynamic index terms, FK to <code>papers</code>.</li>
+<li><code>prompts</code> -- Classification prompt text, FK to <code>papers</code>.</li>
+<li><code>classification</code> -- Classification results (category + confidence), FK to <code>papers</code>.</li>
+</ul>
+<hr />
+<h2 id="repository-repositorypy">Repository (<code>repository.py</code>)</h2>
+<h3 id="paperrepository"><code>PaperRepository</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">PaperRepository</span><span class="p">:</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">:</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">DuckDBPyConnection</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<p>Typed CRUD operations on the DuckDB database. Accepts and returns Pydantic models; executes parameterized SQL internally.</p>
+<p><strong>Methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>paper_exists()</code></td>
+<td><code>is_number: str</code></td>
+<td><code>bool</code></td>
+<td>Checks if a paper with the given IEEE number exists.</td>
+</tr>
+<tr>
+<td><code>insert_paper()</code></td>
+<td><code>paper: ProcessedPaper</code></td>
+<td><code>int</code></td>
+<td>Inserts core paper metadata. Returns the generated <code>paper_id</code>.</td>
+</tr>
+<tr>
+<td><code>insert_authors()</code></td>
+<td><code>paper_id: int, authors: list[Author]</code></td>
+<td><code>None</code></td>
+<td>Inserts author records linked to a paper.</td>
+</tr>
+<tr>
+<td><code>insert_index_terms()</code></td>
+<td><code>paper_id: int, term_type: str, terms: list[str]</code></td>
+<td><code>None</code></td>
+<td>Inserts index terms (IEEE or dynamic) linked to a paper.</td>
+</tr>
+<tr>
+<td><code>insert_prompt()</code></td>
+<td><code>paper_id: int, prompt: str</code></td>
+<td><code>None</code></td>
+<td>Inserts the classification prompt linked to a paper.</td>
+</tr>
+<tr>
+<td><code>insert_full_paper()</code></td>
+<td><code>paper: ProcessedPaper</code></td>
+<td><code>None</code></td>
+<td>Inserts a paper across all tables. Skips if the paper already exists (deduplication on <code>is_number</code>).</td>
+</tr>
+<tr>
+<td><code>get_unclassified_papers()</code></td>
+<td>--</td>
+<td><code>pd.DataFrame</code></td>
+<td>Returns papers that have no classification rows. DataFrame has columns <code>paper_id</code> and <code>prompt_text</code>.</td>
+</tr>
+<tr>
+<td><code>insert_classifications()</code></td>
+<td><code>classifications: list[ClassifiedPaper]</code></td>
+<td><code>None</code></td>
+<td>Bulk-inserts classification results via a registered DataFrame view.</td>
+</tr>
+<tr>
+<td><code>count_papers()</code></td>
+<td>—</td>
+<td><code>int</code></td>
+<td>Returns total number of papers in the database.</td>
+</tr>
+<tr>
+<td><code>count_unclassified()</code></td>
+<td>—</td>
+<td><code>int</code></td>
+<td>Returns count of papers without classification entries.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="pipeline-pipelinepy">Pipeline (<code>pipeline.py</code>)</h2>
+<h3 id="run_pipeline"><code>run_pipeline()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_pipeline</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span>
+</code></pre></div>
+<p>Orchestrates the full pipeline:</p>
+<ol>
+<li>Initialises the database (creates tables if needed).</li>
+<li>Fetches papers for each configured category with incremental pagination.</li>
+<li>Stores validated papers via the repository.</li>
+<li>Classifies any unclassified papers.</li>
+<li>Closes the database connection.</li>
+</ol>
+<p><strong>Returns:</strong> <code>bool</code> -- <code>True</code> if new papers were fetched and stored, <code>False</code> otherwise.</p>
+<hr />
+<h3 id="progresstracker"><code>ProgressTracker</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ProgressTracker</span><span class="p">:</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<p>Tracks per-category pagination state in a JSON file for incremental fetching. The JSON file maps category names to their last-fetched <code>start_record</code>.</p>
+<p><strong>Methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>load()</code></td>
+<td>--</td>
+<td><code>dict[str, int]</code></td>
+<td>Loads progress from the JSON file. Returns empty dict if the file does not exist.</td>
+</tr>
+<tr>
+<td><code>save()</code></td>
+<td><code>progress: dict[str, int]</code></td>
+<td><code>None</code></td>
+<td>Writes the current progress to the JSON file.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example JSON file (<code>progress.json</code>):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">{</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="nt">&quot;machine learning&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">151</span><span class="p">,</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="nt">&quot;power electronics&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">51</span><span class="p">,</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="nt">&quot;robotics&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="scheduler-configschedulerpy">Scheduler (<code>config/scheduler.py</code>)</h2>
+<h3 id="scheduler"><code>Scheduler</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Scheduler</span><span class="p">:</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">interval_kwargs</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<p>Wraps APScheduler's <code>BackgroundScheduler</code> to execute a callable at specified intervals. Accepts any callable via dependency injection.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>job</code></td>
+<td><code>Callable</code></td>
+<td>The function to execute on each trigger.</td>
+</tr>
+<tr>
+<td><code>**interval_kwargs</code></td>
+<td><code>dict</code></td>
+<td>Interval keyword arguments: <code>weeks</code>, <code>days</code>, <code>hours</code>, <code>minutes</code>, <code>seconds</code>. If all values are zero or none are provided, defaults to weekly.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Return Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start()</code></td>
+<td><code>None</code></td>
+<td>Adds the job to the scheduler, starts it, then runs the job immediately.</td>
+</tr>
+<tr>
+<td><code>stop()</code></td>
+<td><code>None</code></td>
+<td>Shuts down the scheduler gracefully.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="dashboard-appdash_webapppy">Dashboard (<code>app/dash_webapp.py</code>)</h2>
+<h3 id="fetch_data"><code>fetch_data()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">fetch_data</span><span class="p">(</span><span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+</code></pre></div>
+<p>Queries DuckDB for paper counts grouped by category, filtered by a minimum confidence threshold. Opens a read-only connection, executes a parameterized query, and returns the result.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>threshold</code></td>
+<td><code>float</code></td>
+<td><code>0.5</code></td>
+<td>Minimum classification confidence to include a paper.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>pd.DataFrame</code> -- Columns: <code>category</code>, <code>paper_count</code>.</p>
+<hr />
+<h3 id="update_graph"><code>update_graph()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">Output</span><span class="p">(</span><span class="s2">&quot;papers-bar-chart&quot;</span><span class="p">,</span> <span class="s2">&quot;figure&quot;</span><span class="p">),</span> <span class="p">[</span><span class="n">Input</span><span class="p">(</span><span class="s2">&quot;interval-component&quot;</span><span class="p">,</span> <span class="s2">&quot;n_intervals&quot;</span><span class="p">)])</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">update_graph</span><span class="p">(</span><span class="n">n_intervals</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span>
+</code></pre></div>
+<p>Dash callback that fires every 10 seconds (driven by <code>dcc.Interval</code>). Calls <code>fetch_data()</code> and renders a Plotly bar chart of paper counts by category.</p>
+<p><strong>Returns:</strong> <code>go.Figure</code> -- Updated bar chart with transition animation.</p>
+<hr />
+<h2 id="metrics-configmetricspy">Metrics (<code>config/metrics.py</code>)</h2>
+<p>Defines all Prometheus metrics as module-level singletons. Import individual metrics where needed.</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type</th>
+<th>Labels</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pipeline_runs</code></td>
+<td><code>Counter</code></td>
+<td><code>status</code></td>
+<td>Pipeline execution count (success/failure)</td>
+</tr>
+<tr>
+<td><code>pipeline_duration</code></td>
+<td><code>Histogram</code></td>
+<td>—</td>
+<td>Pipeline run wall time</td>
+</tr>
+<tr>
+<td><code>papers_fetched</code></td>
+<td><code>Counter</code></td>
+<td><code>category</code></td>
+<td>Papers fetched from IEEE API</td>
+</tr>
+<tr>
+<td><code>api_requests</code></td>
+<td><code>Counter</code></td>
+<td><code>category</code>, <code>status</code></td>
+<td>IEEE API request count</td>
+</tr>
+<tr>
+<td><code>api_latency</code></td>
+<td><code>Histogram</code></td>
+<td><code>category</code></td>
+<td>IEEE API request latency</td>
+</tr>
+<tr>
+<td><code>papers_classified</code></td>
+<td><code>Counter</code></td>
+<td><code>category</code></td>
+<td>Papers classified</td>
+</tr>
+<tr>
+<td><code>classification_latency</code></td>
+<td><code>Histogram</code></td>
+<td>—</td>
+<td>Per-paper classification time</td>
+</tr>
+<tr>
+<td><code>db_operations</code></td>
+<td><code>Histogram</code></td>
+<td><code>operation</code></td>
+<td>Database operation latency</td>
+</tr>
+<tr>
+<td><code>total_papers_gauge</code></td>
+<td><code>Gauge</code></td>
+<td>—</td>
+<td>Total papers in database</td>
+</tr>
+<tr>
+<td><code>unclassified_gauge</code></td>
+<td><code>Gauge</code></td>
+<td>—</td>
+<td>Papers awaiting classification</td>
+</tr>
+<tr>
+<td><code>last_successful_run</code></td>
+<td><code>Gauge</code></td>
+<td>—</td>
+<td>Unix timestamp of last successful run</td>
+</tr>
+<tr>
+<td><code>build_info</code></td>
+<td><code>Info</code></td>
+<td>—</td>
+<td>Application version metadata</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="health-endpoints-apphealthpy">Health Endpoints (<code>app/health.py</code>)</h2>
+<h3 id="register_health_routes"><code>register_health_routes()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">register_health_routes</span><span class="p">(</span><span class="n">server</span><span class="p">:</span> <span class="n">Flask</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+<p>Registers <code>/health</code> and <code>/ready</code> endpoints on the given Flask server instance.</p>
+<p><strong>Endpoints:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/health</code></td>
+<td>GET</td>
+<td>Liveness probe. Always returns <code>200 {"status": "healthy"}</code>.</td>
+</tr>
+<tr>
+<td><code>/ready</code></td>
+<td>GET</td>
+<td>Readiness probe. Returns <code>200</code> if database is queryable and API key is set, <code>503</code> otherwise.</td>
+</tr>
+<tr>
+<td><code>/metrics</code></td>
+<td>GET</td>
+<td>Prometheus metrics in text exposition format. Registered in <code>dash_webapp.py</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="logging-configlogging_configpy">Logging (<code>config/logging_config.py</code>)</h2>
+<h3 id="setup_logging"><code>setup_logging()</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">setup_logging</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span>
+</code></pre></div>
+<p>Configures and returns the shared <code>ieee_logger</code> with structured JSON output via <code>python-json-logger</code>. Log entries include fields: <code>timestamp</code>, <code>level</code>, <code>name</code>, <code>module</code>, <code>function</code>, <code>message</code>.</p>
+<p>Idempotent: if handlers are already attached, returns the existing logger without adding duplicates.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
