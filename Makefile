@@ -35,7 +35,7 @@ test-verbose: ## Run tests with full output
 	$(PYTHON) -m pytest tests/ -v --tb=long -s
 
 db-reset: ## Delete and recreate the SQLite database
-	rm -f src/ieee_papers_mapper/ieee_papers.db
+	rm -f src/ieee_papers_mapper/ieee_papers.duckdb
 	$(PYTHON) -c "from ieee_papers_mapper.data.database import Database; \
 		db = Database(name='ieee_papers', filepath='src/ieee_papers_mapper'); \
 		db.initialise(); db.close(); print('Database recreated.')"

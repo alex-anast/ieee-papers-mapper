@@ -33,11 +33,14 @@ Example:
 
 import dash
 import pandas as pd
-import sqlite3
+import duckdb
 import plotly.express as px
 from dash import dcc, html
 from dash.dependencies import Input, Output
 from ieee_papers_mapper.config import config as cfg
+from ieee_papers_mapper.config.logging_config import setup_logging
+
+setup_logging()
 
 
 # Initialise the Dash app
@@ -66,7 +69,7 @@ def fetch_data(threshold: float = 0.5) -> pd.DataFrame:
         WHERE c.confidence >= {threshold}  -- Filter rows before grouping
         GROUP BY c.category
     """
-    conn = sqlite3.connect(cfg.DB_PATH)
+    conn = duckdb.connect(cfg.DB_PATH, read_only=True)
     df = pd.read_sql_query(query, conn)
     conn.close()
     return df

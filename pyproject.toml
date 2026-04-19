@@ -19,6 +19,7 @@ classifiers = [
 ]
 dependencies = [
     "dash",
+    "duckdb",
     "pandas",
     "python-dotenv",
     "transformers",
@@ -31,6 +32,7 @@ dependencies = [
     "mpmath",
     "APScheduler",
     "requests",
+    "python-json-logger",
 ]
 
 [tool.setuptools.packages.find]

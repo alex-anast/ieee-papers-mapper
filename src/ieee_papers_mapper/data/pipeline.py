@@ -134,9 +134,13 @@ def _classify_new_unclassified_papers(db: Database) -> None:
         return
     else:
         df_classified = classify_all_papers(df_unclassified, timer=True)
-        df_classified.to_sql(
-            "classification", db.connection, if_exists="append", index=False
+        db.connection.register("df_classified_view", df_classified)
+        db.connection.execute(
+            "INSERT INTO classification (paper_id, category, confidence) "
+            "SELECT paper_id, category, confidence FROM df_classified_view"
         )
+        db.connection.unregister("df_classified_view")
+        db.connection.commit()
         logger.info(f"Classified and stored {len(df_classified)} papers.")
 
 

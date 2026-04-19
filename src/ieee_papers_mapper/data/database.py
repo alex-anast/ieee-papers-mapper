@@ -24,7 +24,7 @@ Functions:
 
 
 import os
-import sqlite3
+import duckdb
 import logging
 import pandas as pd
 from typing import Optional
@@ -39,10 +39,10 @@ class Database:
     def __init__(self, name: str, filepath: Optional[str] = None):  # TODO
         """TODO"""
         if filepath is None:
-            self.db_name = f"{name}.db"
+            self.db_name = f"{name}.duckdb"
         else:
-            self.db_name = os.path.join(filepath, f"{name}.db")
-        self.connection = sqlite3.connect(self.db_name)
+            self.db_name = os.path.join(filepath, f"{name}.duckdb")
+        self.connection = duckdb.connect(self.db_name)
         self.cursor = self.connection.cursor()
         self.expected_tables = cfg.DB_TABLES
 
@@ -59,9 +59,11 @@ class Database:
     def get_existing_tables(self):  # TODO
         if not self.file_exists:
             return []
-        conn = sqlite3.connect(self.db_name)
+        conn = duckdb.connect(self.db_name)
         cursor = conn.cursor()
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        cursor.execute(
+            "SELECT table_name FROM information_schema.tables WHERE table_schema = 'main'"
+        )
         existing_tables = [row[0] for row in cursor.fetchall()]
         conn.close()
         return existing_tables
@@ -82,7 +84,7 @@ class Database:
                 self.create_tables(missing_tables)
 
     def create_all_tables(self):  # TODO
-        conn = sqlite3.connect(self.db_name)
+        conn = duckdb.connect(self.db_name)
         cursor = conn.cursor()
 
         # Create all tables
@@ -93,17 +95,19 @@ class Database:
 
     def create_tables(self, tables, cursor=None):  # TODO
         if cursor is None:
-            conn = sqlite3.connect(self.db_name)
+            conn = duckdb.connect(self.db_name)
             cursor = conn.cursor()
         else:
             conn = None
 
-        for table in tables:
+        ordered_tables = [t for t in self.expected_tables if t in tables]
+        for table in ordered_tables:
             if table == "papers":
+                cursor.execute("CREATE SEQUENCE IF NOT EXISTS papers_id_seq")
                 cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS papers (
-                        paper_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        paper_id INTEGER PRIMARY KEY DEFAULT nextval('papers_id_seq'),
                         is_number TEXT,
                         insert_date DATE,
                         publication_year INTEGER,
@@ -115,10 +119,11 @@ class Database:
                 """
                 )
             elif table == "authors":
+                cursor.execute("CREATE SEQUENCE IF NOT EXISTS authors_id_seq")
                 cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS authors (
-                        author_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        author_id INTEGER PRIMARY KEY DEFAULT nextval('authors_id_seq'),
                         paper_id INTEGER,
                         name TEXT,
                         affiliation TEXT,
@@ -127,10 +132,11 @@ class Database:
                 """
                 )
             elif table == "index_terms":
+                cursor.execute("CREATE SEQUENCE IF NOT EXISTS index_terms_id_seq")
                 cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS index_terms (
-                        index_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        index_id INTEGER PRIMARY KEY DEFAULT nextval('index_terms_id_seq'),
                         paper_id INTEGER,
                         term_type TEXT,
                         term TEXT,
@@ -139,10 +145,11 @@ class Database:
                 """
                 )
             elif table == "prompts":
+                cursor.execute("CREATE SEQUENCE IF NOT EXISTS prompts_id_seq")
                 cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS prompts (
-                        prompt_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        prompt_id INTEGER PRIMARY KEY DEFAULT nextval('prompts_id_seq'),
                         paper_id INTEGER,
                         prompt_text TEXT,
                         FOREIGN KEY(paper_id) REFERENCES papers(paper_id)
@@ -150,10 +157,11 @@ class Database:
                 """
                 )
             elif table == "classification":
+                cursor.execute("CREATE SEQUENCE IF NOT EXISTS classification_id_seq")
                 cursor.execute(
                     """
                     CREATE TABLE IF NOT EXISTS classification (
-                        classification_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        classification_id INTEGER PRIMARY KEY DEFAULT nextval('classification_id_seq'),
                         paper_id INTEGER,
                         category TEXT,
                         confidence REAL,
@@ -179,7 +187,7 @@ class Database:
         Connect to the database if not already connected.
         """
         if not self.is_connected:
-            self.connection = sqlite3.connect(self.db_name)
+            self.connection = duckdb.connect(self.db_name)
         return self.connection is not None
 
     def close(self) -> None:
@@ -224,8 +232,9 @@ class Database:
         INSERT INTO papers (is_number, insert_date, publication_year, download_count,
                             citing_patent_count, title, abstract)
         VALUES (?, ?, ?, ?, ?, ?, ?)
+        RETURNING paper_id
         """
-        self.cursor.execute(
+        result = self.cursor.execute(
             query,
             (
                 paper_data["is_number"],
@@ -238,7 +247,7 @@ class Database:
             ),
         )
         self.connection.commit()
-        return self.cursor.lastrowid
+        return result.fetchone()[0]
 
     def insert_authors(self, paper_id: int, authors: list):  # TODO
         """

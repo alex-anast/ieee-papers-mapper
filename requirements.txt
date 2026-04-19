@@ -8,6 +8,7 @@ charset-normalizer==3.4.0
 click==8.1.7
 cryptography==44.0.0
 dash==2.18.2
+duckdb
 dash-core-components==2.0.0
 dash-html-components==2.0.0
 dash-table==5.0.0
@@ -87,3 +88,4 @@ urllib3==2.2.3
 watchdog==6.0.0
 Werkzeug==3.0.6
 zipp==3.21.0
+python-json-logger

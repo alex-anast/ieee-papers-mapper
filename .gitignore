@@ -5,6 +5,8 @@ bin/tmp
 ieee_papers_mapper/demo.ipynb
 src/ieee_papers_mapper/config/progress.json
 *.db
+*.duckdb
+*.duckdb.wal
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

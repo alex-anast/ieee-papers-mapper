@@ -2,7 +2,7 @@
 
 import os
 import json
-import sqlite3
+import duckdb
 import pytest
 import pandas as pd
 from unittest.mock import patch
@@ -70,8 +70,8 @@ def test_run_pipeline_with_new_papers(tmp_path, monkeypatch):
 
     assert result is True
 
-    db_path = str(tmp_path / "ieee_papers.db")
-    conn = sqlite3.connect(db_path)
+    db_path = str(tmp_path / "ieee_papers.duckdb")
+    conn = duckdb.connect(db_path, read_only=True)
     cursor = conn.cursor()
 
     paper_count = cursor.execute("SELECT COUNT(*) FROM papers").fetchone()[0]

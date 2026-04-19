@@ -23,7 +23,7 @@ ROOT_DIR = os.path.abspath(
 SRC_DIR = os.path.join(ROOT_DIR, "ieee_papers_mapper")
 CONFIG_DIR = os.path.join(SRC_DIR, "config")
 JSON_FILENAME = "progress.json"
-DB_PATH = os.path.join(SRC_DIR, "ieee_papers.db")
+DB_PATH = os.path.join(SRC_DIR, "ieee_papers.duckdb")
 
 # IEEE API Parameters
 IEEE_API_KEY = os.getenv("IEEE_API_KEY")
