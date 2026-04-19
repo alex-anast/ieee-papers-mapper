@@ -7,7 +7,7 @@ IEEE Papers Mapper is a comprehensive tool for retrieving, processing, classifyi
 ## Badges
 
 ![PyPI version](https://img.shields.io/pypi/v/ieee-papers-mapper)<br>
-![Build Status](https://img.shields.io/github/actions/workflow/status/alex-anast/ieee-papers-mapper/ci.yml)<br>
+![Tests](https://github.com/alex-anast/ieee-papers-mapper/actions/workflows/test.yml/badge.svg)<br>
 ![Code Coverage](https://img.shields.io/codecov/c/github/alex-anast/ieee-papers-mapper)<br>
 ![Issues](https://img.shields.io/github/issues/alex-anast/ieee-papers-mapper)<br>
 ![Last Commit](https://img.shields.io/github/last-commit/alex-anast/ieee-papers-mapper)
