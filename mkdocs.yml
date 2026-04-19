@@ -1,12 +1,40 @@
 site_name: IEEE Papers Mapper
 
 theme:
-  name: mkdocs
-  color_mode: dark
-  user_color_mode_toggle: true
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
 
 repo_url: https://github.com/alex-anast/ieee-papers-mapper
 # site_url: https://alex-anast.github.io/ieee-papers-mapper
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - tables
 
 nav:
   - Home: index.md

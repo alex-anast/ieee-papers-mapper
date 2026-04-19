@@ -6,6 +6,8 @@ Automated pipeline for fetching, classifying, and visualizing IEEE research pape
 ![License](https://img.shields.io/github/license/alex-anast/ieee-papers-mapper)
 ![Last Commit](https://img.shields.io/github/last-commit/alex-anast/ieee-papers-mapper)
 
+![Dashboard](docs/assets/dashboard_screenshot.png)
+
 ## Architecture
 
 ```mermaid
