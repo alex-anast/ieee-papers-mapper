@@ -31,18 +31,14 @@ layout = html.Div(
             [
                 dbc.Col(
                     dbc.Card(
-                        dbc.CardBody(
-                            dcc.Loading(dcc.Graph(id="category-bar-chart"))
-                        ),
+                        dbc.CardBody(dcc.Loading(dcc.Graph(id="category-bar-chart"))),
                         className="shadow-sm",
                     ),
                     md=6,
                 ),
                 dbc.Col(
                     dbc.Card(
-                        dbc.CardBody(
-                            dcc.Loading(dcc.Graph(id="confidence-box-plot"))
-                        ),
+                        dbc.CardBody(dcc.Loading(dcc.Graph(id="confidence-box-plot"))),
                         className="shadow-sm",
                     ),
                     md=6,

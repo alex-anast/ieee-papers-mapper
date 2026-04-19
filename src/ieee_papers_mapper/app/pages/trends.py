@@ -15,9 +15,7 @@ layout = html.Div(
             [
                 dbc.Col(
                     dbc.Card(
-                        dbc.CardBody(
-                            dcc.Loading(dcc.Graph(id="papers-over-time"))
-                        ),
+                        dbc.CardBody(dcc.Loading(dcc.Graph(id="papers-over-time"))),
                         className="shadow-sm",
                     ),
                     md=12,
@@ -57,12 +55,17 @@ def update_time_series(filters):
         fig.update_layout(
             xaxis_title="Month",
             yaxis_title="Papers",
-            annotations=[dict(
-                text="No data for current filters",
-                xref="paper", yref="paper",
-                x=0.5, y=0.5, showarrow=False,
-                font=dict(size=16, color="gray"),
-            )],
+            annotations=[
+                dict(
+                    text="No data for current filters",
+                    xref="paper",
+                    yref="paper",
+                    x=0.5,
+                    y=0.5,
+                    showarrow=False,
+                    font=dict(size=16, color="gray"),
+                )
+            ],
         )
         return fig
 
@@ -95,12 +98,17 @@ def update_scatter(filters):
     if df.empty:
         fig = px.scatter(title="Downloads vs Patent Citations")
         fig.update_layout(
-            annotations=[dict(
-                text="No data for current filters",
-                xref="paper", yref="paper",
-                x=0.5, y=0.5, showarrow=False,
-                font=dict(size=16, color="gray"),
-            )],
+            annotations=[
+                dict(
+                    text="No data for current filters",
+                    xref="paper",
+                    yref="paper",
+                    x=0.5,
+                    y=0.5,
+                    showarrow=False,
+                    font=dict(size=16, color="gray"),
+                )
+            ],
         )
         return fig
 

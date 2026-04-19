@@ -126,8 +126,12 @@ def toggle_detail(selected_rows, table_data, close_clicks):
 
     body = html.Div(
         [
-            dbc.Badge(detail["category"].title(), color="primary", className="mb-2 me-2"),
-            dbc.Badge(f"Confidence: {detail['confidence']}", color="info", className="mb-2"),
+            dbc.Badge(
+                detail["category"].title(), color="primary", className="mb-2 me-2"
+            ),
+            dbc.Badge(
+                f"Confidence: {detail['confidence']}", color="info", className="mb-2"
+            ),
             html.H6("Abstract", className="mt-3"),
             html.P(detail["abstract"], className="text-muted"),
             dbc.Row(
@@ -142,7 +146,9 @@ def toggle_detail(selected_rows, table_data, close_clicks):
                     dbc.Col(
                         [
                             html.Small("Downloads", className="text-muted"),
-                            html.P(f"{detail['download_count']:,}", className="fw-bold"),
+                            html.P(
+                                f"{detail['download_count']:,}", className="fw-bold"
+                            ),
                         ],
                         md=4,
                     ),

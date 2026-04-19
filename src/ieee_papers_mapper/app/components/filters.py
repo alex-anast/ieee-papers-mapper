@@ -31,8 +31,13 @@ def build_filter_bar() -> dbc.Card:
                                 max=1,
                                 step=0.05,
                                 value=0.5,
-                                marks={v: f"{v:.1f}" for v in [0, 0.25, 0.5, 0.75, 1.0]},
-                                tooltip={"placement": "bottom", "always_visible": False},
+                                marks={
+                                    v: f"{v:.1f}" for v in [0, 0.25, 0.5, 0.75, 1.0]
+                                },
+                                tooltip={
+                                    "placement": "bottom",
+                                    "always_visible": False,
+                                },
                             ),
                         ],
                         md=4,
@@ -42,7 +47,9 @@ def build_filter_bar() -> dbc.Card:
                             html.Label("Categories", className="fw-bold small"),
                             dcc.Dropdown(
                                 id="category-dropdown",
-                                options=[{"label": c.title(), "value": c} for c in categories],
+                                options=[
+                                    {"label": c.title(), "value": c} for c in categories
+                                ],
                                 value=[],
                                 multi=True,
                                 placeholder="All categories",
@@ -59,8 +66,13 @@ def build_filter_bar() -> dbc.Card:
                                 max=max_year,
                                 step=1,
                                 value=[min_year, max_year],
-                                marks={y: str(y) for y in range(min_year, max_year + 1)},
-                                tooltip={"placement": "bottom", "always_visible": False},
+                                marks={
+                                    y: str(y) for y in range(min_year, max_year + 1)
+                                },
+                                tooltip={
+                                    "placement": "bottom",
+                                    "always_visible": False,
+                                },
                             ),
                         ],
                         md=4,

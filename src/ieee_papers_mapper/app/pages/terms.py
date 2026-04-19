@@ -70,12 +70,17 @@ def update_terms(filters, term_type, top_n):
     if df.empty:
         fig = px.bar(title="Top Index Terms")
         fig.update_layout(
-            annotations=[dict(
-                text="No data for current filters",
-                xref="paper", yref="paper",
-                x=0.5, y=0.5, showarrow=False,
-                font=dict(size=16, color="gray"),
-            )],
+            annotations=[
+                dict(
+                    text="No data for current filters",
+                    xref="paper",
+                    yref="paper",
+                    x=0.5,
+                    y=0.5,
+                    showarrow=False,
+                    font=dict(size=16, color="gray"),
+                )
+            ],
         )
         return fig
 

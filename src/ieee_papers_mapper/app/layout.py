@@ -43,11 +43,14 @@ def build_layout() -> html.Div:
             build_navbar(),
             dbc.Container(
                 [
-                    dcc.Store(id="filter-store", data={
-                        "confidence": 0.5,
-                        "categories": [],
-                        "year_range": [min_year, max_year],
-                    }),
+                    dcc.Store(
+                        id="filter-store",
+                        data={
+                            "confidence": 0.5,
+                            "categories": [],
+                            "year_range": [min_year, max_year],
+                        },
+                    ),
                     build_filter_bar(),
                     dash.page_container,
                 ],

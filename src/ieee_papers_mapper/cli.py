@@ -56,7 +56,9 @@ def run(weeks, days, hours, minutes, seconds):
 @click.option("--debug/--no-debug", default=True, help="Enable debug mode.")
 def dashboard(host, port, debug):
     """Launch the Dash dashboard."""
-    from ieee_papers_mapper.app import dash_webapp  # noqa: F401 — triggers layout + callback registration
+    from ieee_papers_mapper.app import (
+        dash_webapp,
+    )  # noqa: F401 — triggers layout + callback registration
     from ieee_papers_mapper.app.app import app
 
     click.echo(f"Starting dashboard at http://{host}:{port}")
