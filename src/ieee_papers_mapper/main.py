@@ -56,12 +56,12 @@ def main():
 
     try:
         scheduler.start()
-        print("Scheduler is running. Press Ctrl+C to stop.")
+        logger.info("Scheduler is running. Press Ctrl+C to stop.")
         while True:
-            time.sleep(1)  # Keeps the main thread alive
+            time.sleep(1)
     except (KeyboardInterrupt, SystemExit):
         scheduler.stop()
-        print("Scheduler stopped gracefully.")
+        logger.info("Scheduler stopped gracefully.")
 
 
 if __name__ == "__main__":
